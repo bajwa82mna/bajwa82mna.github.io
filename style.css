@@ -1,7 +1,37 @@
-:root{--bg:#fafaf7;--fg:#1d2a24;--muted:#5b6b63;--accent:#2f6b3f;--line:#dde3dc}
-@media(prefers-color-scheme:dark){:root{--bg:#121a15;--fg:#e6ede8;--muted:#9baba2;--accent:#7fc58f;--line:#2a3830}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 Georgia,"Times New Roman",serif}
-main{max-width:42rem;margin:0 auto;padding:3rem 1rem}
-h1{font-size:2rem;margin:0 0 .25rem}h2{font-size:1.15rem;margin:2rem 0 .5rem;color:var(--accent)}
-p.sub{color:var(--muted);margin:.1rem 0}a{color:var(--accent)}ul{padding-left:1.2rem}
-footer{border-top:1px solid var(--line);margin-top:3rem;padding-top:1rem;color:var(--muted);font-size:.9rem}
+:root{--bg:#f7f8f4;--card:#fff;--fg:#17261d;--muted:#58695f;--accent:#2f6b3f;--accent2:#d9482b;--soft:#e8f0e4;--line:#dfe6dc;--shadow:0 1px 2px rgba(20,40,25,.06),0 8px 24px rgba(20,40,25,.06)}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1712;--card:#16221a;--fg:#e8efe9;--muted:#9fb0a5;--accent:#86d098;--accent2:#ff7a5c;--soft:#1b2c21;--line:#27382d;--shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px rgba(0,0,0,.3)}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.65 "Iowan Old Style",Georgia,serif}
+.wrap{max-width:60rem;margin:0 auto;padding:0 1.25rem}
+a{color:var(--accent)}
+h1,h2,h3,.sans{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#1f4d2e 0%,#2f6b3f 55%,#3f8a4f 100%);color:#fff}
+.hero svg.bg{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.3fr .9fr;gap:2rem;align-items:center;padding-top:4.5rem;padding-bottom:4.5rem}
+.eyebrow{letter-spacing:.14em;text-transform:uppercase;font-size:.78rem;opacity:.85;margin:0 0 .6rem}
+.hero h1{font-size:clamp(2.2rem,5vw,3.4rem);line-height:1.08;margin:0 0 .6rem;letter-spacing:-.02em}
+.hero p{margin:.15rem 0;max-width:34rem;opacity:.95}
+.badges{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.4rem}
+.badges a{font:600 .85rem -apple-system,Segoe UI,sans-serif;text-decoration:none;color:#fff;border:1px solid rgba(255,255,255,.45);padding:.45rem .85rem;border-radius:999px;background:rgba(255,255,255,.1)}
+.badges a:hover{background:rgba(255,255,255,.22)}
+.art{display:flex;justify-content:center}
+.art svg{width:min(100%,19rem);height:auto;filter:drop-shadow(0 14px 22px rgba(0,0,0,.28))}
+section{padding:3.2rem 0 0}
+h2{font-size:1.5rem;letter-spacing:-.01em;margin:0 0 .4rem}
+h2::after{content:"";display:block;width:2.6rem;height:3px;border-radius:3px;background:var(--accent2);margin-top:.45rem}
+.lead{color:var(--muted);max-width:40rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(13.5rem,1fr));gap:1rem;margin-top:1.4rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.2rem 1.15rem;box-shadow:var(--shadow);transition:transform .2s}
+.card:hover{transform:translateY(-3px)}
+.card svg{width:2.6rem;height:2.6rem;margin-bottom:.5rem}
+.card h3{margin:0 0 .25rem;font-size:1.02rem}
+.card p{margin:0;color:var(--muted);font-size:.95rem;line-height:1.5}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:1rem;margin-top:1.2rem}
+.fact{background:var(--soft);border-radius:14px;padding:1rem 1.1rem}
+.fact b{display:block;font:700 .78rem -apple-system,Segoe UI,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:.15rem}
+footer{margin-top:4rem;border-top:1px solid var(--line);padding:1.6rem 0 3rem;color:var(--muted);font-size:.9rem}
+.doc{max-width:42rem;margin:0 auto;padding:2.5rem 1.25rem}
+.doc h1{font-size:2rem;margin:0 0 .25rem}.doc h2{font-size:1.15rem;margin-top:2rem;color:var(--accent)}.doc h2::after{display:none}
+.doc .sub{color:var(--muted)}
+@media(max-width:44rem){.hero .wrap{grid-template-columns:1fr;padding-top:3rem;padding-bottom:3rem}.art{order:-1}.art svg{width:11rem}}
+@media(prefers-reduced-motion:no-preference){.pulse{animation:p 3.2s ease-in-out infinite;transform-origin:center}@keyframes p{50%{transform:scale(1.08);opacity:.75}}}
