@@ -7,7 +7,7 @@ import { provenanceRecord, renderProvenance } from '../_shared/js/provenance.js'
 import { createPrivacyNotice, confirmLookup } from '../_shared/js/privacy.js';
 import { copyText, downloadText } from '../_shared/js/download.js';
 import { safeTextElement } from '../_shared/js/dom.js';
-import { safeUrl } from '../_shared/js/safe-url.js';
+import { safeUrl } from '../_shared/js/safe-link.js';
 
 const $ = id => document.getElementById(id);
 const state = { items: [], records: [] };

@@ -8,7 +8,7 @@ import { formatMoney } from './src/currency.js';
 import { toCsv, toJson } from './src/export.js';
 import { readCache, writeCache, clearCache } from './src/cache.js';
 import { safeTextElement } from '../_shared/js/dom.js';
-import { safeUrl } from '../_shared/js/safe-url.js';
+import { safeUrl } from '../_shared/js/safe-link.js';
 
 const $ = id => document.getElementById(id);
 const state = {journals: [], compared: [], fuse: null};

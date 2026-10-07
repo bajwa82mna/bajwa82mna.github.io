@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { safeUrl } from '../tools/_shared/js/safe-url.js';
+import { safeUrl } from '../tools/_shared/js/safe-link.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 

@@ -8,7 +8,7 @@ import { dossierFilename, dossierJson } from './src/export.js';
 import { createCache } from './src/cache.js';
 import { downloadText } from '../_shared/js/download.js';
 import { safeTextElement } from '../_shared/js/dom.js';
-import { safeUrl } from '../_shared/js/safe-url.js';
+import { safeUrl } from '../_shared/js/safe-link.js';
 
 const $ = id => document.getElementById(id);
 const query = $('journal-query'), suggestions = $('suggestions'), status = $('status');

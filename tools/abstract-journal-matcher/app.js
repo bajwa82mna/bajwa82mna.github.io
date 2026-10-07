@@ -3,7 +3,7 @@ import {createSearch} from "./src/search.js";
 import {toCsv,download} from "./src/export.js";
 import {lookupEvidence,clearEvidenceCache} from "./src/api.js";
 import {safeTextElement} from "../_shared/js/dom.js";
-import {safeUrl} from "../_shared/js/safe-url.js";
+import {safeUrl} from "../_shared/js/safe-link.js";
 
 const $=id=>document.getElementById(id), form=$("matcher"), resultBox=$("results"), status=$("status"), exportsBox=document.querySelector(".exports");
 let profiles=[], results=[], lastPrepared=null;

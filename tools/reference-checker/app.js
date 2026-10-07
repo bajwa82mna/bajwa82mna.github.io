@@ -10,7 +10,7 @@ import { provenanceRecord } from '../_shared/js/provenance.js';
 import { downloadText } from '../_shared/js/download.js';
 import { loadLocale, applyLocale } from '../_shared/js/locale.js';
 import { safeTextElement } from '../_shared/js/dom.js';
-import { safeUrl } from '../_shared/js/safe-url.js';
+import { safeUrl } from '../_shared/js/safe-link.js';
 
 const $ = id => document.getElementById(id), cache = createEvidenceCache();
 const state = { report: null };
