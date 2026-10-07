@@ -1,7 +1,136 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f8f4"><link rel="icon" href="/favicon.svg"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.crossref.org https://api.openalex.org https://doaj.org; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'"><title>Identifier &amp; Citation Toolkit | Shoaib Munir</title><meta name="description" content="Validate DOI, ISSN and ORCID identifiers, retrieve open metadata, and export citations locally."><link rel="canonical" href="https://smbajwa.com/tools/identifier-toolkit/"><link rel="stylesheet" href="/style.css?v=4"><link rel="stylesheet" href="../_shared/css/tool-shell.css?v=1"><link rel="stylesheet" href="styles.css?v=1"><script src="/theme.js"></script><script src="../_shared/vendor/citation-js/0.9.0/dist/citation.min.js"></script><script src="../_shared/vendor/citation-js/0.9.0/citation-loader.js"></script></head>
-<body><header class="tool-hero"><div class="wrap toolwrap"><nav aria-label="Breadcrumb"><a href="/">smbajwa.com</a> / <a href="/tools/">All tools</a></nav><p class="eyebrow">Open research tool · local-first</p><h1>Identifier &amp; Citation Toolkit</h1><p class="tool-intro">Clean up and validate DOI, ISSN, and ORCID strings in a mixed batch. Retrieve selected public metadata, compare evidence, and turn records into reusable citation formats.</p><span class="experimental">Experimental release</span></div></header>
-<main class="wrap toolwrap tool-main"><div class="tool-grid"><section class="tool-panel" aria-labelledby="input-heading"><p class="kicker">Step 1 · local analysis</p><h2 id="input-heading">Paste identifiers or citation data</h2><label for="identifier-input">Mixed input<textarea id="identifier-input" placeholder="DOI: 10.1038/s41586-020-2649-2&#10;ISSN 2049-3630&#10;ORCID 0000-0002-1825-0097" spellcheck="false"></textarea></label><p class="field-help">Detection, normalization and checksums run locally. Your original text is kept unchanged.</p><div class="button-row"><button id="analyze" class="primary" type="button">Analyse locally</button><button id="example" type="button">Load example</button><button id="clear" type="button">Clear</button></div><p id="status" class="live-status" role="status" aria-live="polite"></p></section><div><div id="privacy-slot"></div><section class="tool-panel lookup-panel" aria-labelledby="lookup-heading"><p class="kicker">Step 2 · optional network lookup</p><h2 id="lookup-heading">Choose data sources</h2><div class="provider-list"><label><input id="use-crossref" type="checkbox" checked><span><b>Crossref</b><br>DOI and journal metadata</span></label><label><input id="use-openalex" type="checkbox"><span><b>OpenAlex</b><br>Optional DOI/ISSN cross-check</span></label><label><input id="use-doaj" type="checkbox"><span><b>DOAJ</b><br>Optional ISSN journal lookup</span></label></div><div class="button-row"><button id="lookup" class="primary" type="button" disabled>Look up valid identifiers</button><button id="clear-cache" type="button">Clear lookup cache</button></div><p class="field-help">Before the first request, the tool lists the exact domains and asks for confirmation.</p></section></div></div>
-<section aria-labelledby="results-heading"><div class="result-head"><div><p class="kicker">Evidence and outputs</p><h2 id="results-heading">Results</h2></div><div class="export-controls"><label for="export-format">Citation / export format<select id="export-format"><option value="apa">APA citation</option><option value="vancouver">Vancouver citation</option><option value="bibtex">BibTeX</option><option value="ris">RIS</option><option value="json">CSL-JSON</option></select></label><div class="button-row"><button id="copy-all" type="button" disabled>Copy all</button><button id="download-all" type="button" disabled>Download</button></div></div></div><div id="results" class="result-list"><div class="empty-state">Paste identifiers and choose “Analyse locally” to begin.</div></div></section>
-<aside class="credits" aria-labelledby="credit-heading"><h2 id="credit-heading">Credits, scope and limits</h2><p><strong>Identifier &amp; Citation Toolkit by Shoaib Munir, <a href="/">smbajwa.com</a>.</strong> Built on <a href="https://citation.js.org/" target="_blank" rel="noopener noreferrer">Citation.js 0.9.0</a> (MIT) by Lars Willighagen and contributors. Metadata from <a href="https://www.crossref.org/" target="_blank" rel="noopener noreferrer">Crossref</a> and, when selected, <a href="https://openalex.org/" target="_blank" rel="noopener noreferrer">OpenAlex</a>/<a href="https://doaj.org/" target="_blank" rel="noopener noreferrer">DOAJ</a>.</p><p>ORCID is a trademark of ORCID, Inc.; this independent tool is not affiliated with or endorsed by ORCID. An ORCID lookup opens the public record—no API credentials or secrets are used. Metadata may be incomplete or conflicting; follow the source links before relying on it.</p><p><a href="README.md">Methods and privacy</a> · <a href="NOTICE">Tool notice</a> · <a href="../../CREDITS.md">Site credits</a></p></aside></main>
-<footer><div class="wrap"><p class="disclaimer">No identifier database can prove a record is complete or correct. Verify against the linked primary source.</p><p class="credit">Shoaib Munir · <a href="/">smbajwa.com</a></p></div></footer><script type="module" src="app.js?v=3"></script></body></html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f8f4">
+<link rel="icon" href="/favicon.svg">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.crossref.org https://api.openalex.org https://doaj.org; img-src 'self' data:; style-src 'self'; script-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Identifier &amp; Citation Toolkit | Shoaib Munir</title>
+<meta name="description" content="Validate DOI, ISSN and ORCID identifiers, retrieve open metadata, and export citations locally.">
+<link rel="canonical" href="https://smbajwa.com/tools/identifier-toolkit/">
+<meta property="og:title" content="Identifier &amp; Citation Toolkit"><meta property="og:description" content="Validate DOI, ISSN and ORCID identifiers and export citations locally."><meta property="og:type" content="website"><meta property="og:url" content="https://smbajwa.com/tools/identifier-toolkit/"><meta property="og:image" content="https://smbajwa.com/assets/og/identifier-toolkit.png?v=1"><meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index,follow,max-image-preview:large"><meta name="author" content="Dr. Shoaib Munir"><meta name="keywords" content="DOI, ISSN, ORCID, citations"><meta name="applicable-device" content="pc,mobile"><meta name="mobile-agent" content="format=html5;url=https://smbajwa.com/tools/identifier-toolkit/"><meta name="format-detection" content="telephone=no,email=no,address=no"><meta property="og:site_name" content="smbajwa.com"><meta property="og:locale" content="en_US"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Identifier and Citation Toolkit"><meta name="twitter:title" content="Identifier &amp; Citation Toolkit"><meta name="twitter:description" content="Validate DOI, ISSN and ORCID identifiers and export citations locally."><meta name="twitter:image" content="https://smbajwa.com/assets/og/identifier-toolkit.png?v=1"><meta name="twitter:image:alt" content="Identifier and Citation Toolkit"><meta itemprop="name" content="Identifier &amp; Citation Toolkit"><meta itemprop="description" content="Validate DOI, ISSN and ORCID identifiers and export citations locally."><meta itemprop="image" content="https://smbajwa.com/assets/og/wechat-thumb.png?v=1"><link rel="alternate" hreflang="en" href="https://smbajwa.com/tools/identifier-toolkit/"><link rel="manifest" href="/site.webmanifest?v=1"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=1"><link rel="icon" href="/favicon-32x32.png?v=1" type="image/png"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Identifier & Citation Toolkit","applicationCategory":"EducationalApplication","isAccessibleForFree":true,"creator":{"@type":"Person","name":"Dr. Shoaib Munir"},"url":"https://smbajwa.com/tools/identifier-toolkit/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://smbajwa.com/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://smbajwa.com/tools/"},{"@type":"ListItem","position":3,"name":"Identifier and Citation Toolkit","item":"https://smbajwa.com/tools/identifier-toolkit/"}]}]}</script>
+<link rel="stylesheet" href="/style.css?v=5">
+<link rel="stylesheet" href="../_shared/css/tool-shell.css?v=1">
+<link rel="stylesheet" href="styles.css?v=1">
+<link rel="stylesheet" href="/tools/_shared/css/share.css?v=1">
+<script src="/theme.js?v=2">
+</script>
+<script src="../_shared/vendor/citation-js/0.9.0/dist/citation.min.js">
+</script>
+<script src="../_shared/vendor/citation-js/0.9.0/citation-loader.js">
+</script>
+</head>
+<body>
+<header class="tool-hero">
+<div class="wrap toolwrap">
+<nav aria-label="Breadcrumb">
+<a href="/">smbajwa.com</a> / <a href="/tools/">All tools</a>
+</nav>
+<p class="eyebrow">Open research tool · local-first</p>
+<h1>Identifier &amp; Citation Toolkit</h1>
+<p class="share-line"><button type="button" data-share data-share-url="https://smbajwa.com/tools/identifier-toolkit/" data-share-title="Identifier &amp; Citation Toolkit" data-share-text="Free, open tool for students and researchers: Identifier &amp; Citation Toolkit — smbajwa.com">Share</button></p>
+<p class="tool-intro">Clean up and validate DOI, ISSN, and ORCID strings in a mixed batch. Retrieve selected public metadata, compare evidence, and turn records into reusable citation formats.</p>
+<span class="experimental">Experimental release</span>
+</div>
+</header>
+<main class="wrap toolwrap tool-main">
+<div class="tool-grid">
+<section class="tool-panel" aria-labelledby="input-heading">
+<p class="kicker">Step 1 · local analysis</p>
+<h2 id="input-heading">Paste identifiers or citation data</h2>
+<label for="identifier-input">Mixed input<textarea id="identifier-input" placeholder="DOI: 10.1038/s41586-020-2649-2&#10;ISSN 2049-3630&#10;ORCID 0000-0002-1825-0097" spellcheck="false">
+</textarea>
+</label>
+<p class="field-help">Detection, normalization and checksums run locally. Your original text is kept unchanged.</p>
+<div class="button-row">
+<button id="analyze" class="primary" type="button">Analyse locally</button>
+<button id="example" type="button">Load example</button>
+<button id="clear" type="button">Clear</button>
+</div>
+<p id="status" class="live-status" role="status" aria-live="polite">
+</p>
+</section>
+<div>
+<div id="privacy-slot">
+</div>
+<section class="tool-panel lookup-panel" aria-labelledby="lookup-heading">
+<p class="kicker">Step 2 · optional network lookup</p>
+<h2 id="lookup-heading">Choose data sources</h2>
+<div class="provider-list">
+<label>
+<input id="use-crossref" type="checkbox" checked>
+<span>
+<b>Crossref</b>
+<br>DOI and journal metadata</span>
+</label>
+<label>
+<input id="use-openalex" type="checkbox">
+<span>
+<b>OpenAlex</b>
+<br>Optional DOI/ISSN cross-check</span>
+</label>
+<label>
+<input id="use-doaj" type="checkbox">
+<span>
+<b>DOAJ</b>
+<br>Optional ISSN journal lookup</span>
+</label>
+</div>
+<div class="button-row">
+<button id="lookup" class="primary" type="button" disabled>Look up valid identifiers</button>
+<button id="clear-cache" type="button">Clear lookup cache</button>
+</div>
+<p class="field-help">Before the first request, the tool lists the exact domains and asks for confirmation.</p>
+</section>
+</div>
+</div>
+<section aria-labelledby="results-heading">
+<div class="result-head">
+<div>
+<p class="kicker">Evidence and outputs</p>
+<h2 id="results-heading">Results</h2>
+</div>
+<div class="export-controls">
+<label for="export-format">Citation / export format<select id="export-format">
+<option value="apa">APA citation</option>
+<option value="vancouver">Vancouver citation</option>
+<option value="bibtex">BibTeX</option>
+<option value="ris">RIS</option>
+<option value="json">CSL-JSON</option>
+</select>
+</label>
+<div class="button-row">
+<button id="copy-all" type="button" disabled>Copy all</button>
+<button id="download-all" type="button" disabled>Download</button>
+</div>
+</div>
+</div>
+<div id="results" class="result-list">
+<div class="empty-state">Paste identifiers and choose “Analyse locally” to begin.</div>
+</div>
+</section>
+<aside class="credits" aria-labelledby="credit-heading">
+<h2 id="credit-heading">Credits, scope and limits</h2>
+<p>
+<strong>Identifier &amp; Citation Toolkit by Shoaib Munir, <a href="/">smbajwa.com</a>.</strong> Built on <a href="https://citation.js.org/" target="_blank" rel="noopener noreferrer">Citation.js 0.9.0</a> (MIT) by Lars Willighagen and contributors. Metadata from <a href="https://www.crossref.org/" target="_blank" rel="noopener noreferrer">Crossref</a> and, when selected, <a href="https://openalex.org/" target="_blank" rel="noopener noreferrer">OpenAlex</a>/<a href="https://doaj.org/" target="_blank" rel="noopener noreferrer">DOAJ</a>.</p>
+<p>ORCID is a trademark of ORCID, Inc.; this independent tool is not affiliated with or endorsed by ORCID. An ORCID lookup opens the public record—no API credentials or secrets are used. Metadata may be incomplete or conflicting; follow the source links before relying on it.</p>
+<p>
+<a href="README.md">Methods and privacy</a> · <a href="NOTICE">Tool notice</a> · <a href="../../CREDITS.md">Site credits</a>
+</p>
+</aside>
+</main>
+<footer>
+<div class="wrap">
+<p class="disclaimer">No identifier database can prove a record is complete or correct. Verify against the linked primary source.</p>
+<p class="credit">Shoaib Munir · <a href="/">smbajwa.com</a>
+</p>
+<p class="share-line">Share this tool: <button type="button" data-share data-share-url="https://smbajwa.com/tools/identifier-toolkit/" data-share-title="Identifier &amp; Citation Toolkit" data-share-text="Free, open tool for students and researchers: Identifier &amp; Citation Toolkit — smbajwa.com">Share</button></p>
+</div>
+</footer>
+<script src="/tools/_shared/vendor/qrcode-generator/1.4.4/qrcode.js?v=1"></script><script type="module" src="/tools/_shared/js/share.js?v=2"></script>
+<script type="module" src="app.js?v=3">
+</script>
+</body>
+</html>

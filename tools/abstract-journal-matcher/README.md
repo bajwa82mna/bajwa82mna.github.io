@@ -1,5 +1,9 @@
 # Abstract-to-Journal Matcher
 
+## Sharing
+
+The shared privacy-first dialog shares only this tool's public URL and fixed descriptive text. Manuscript titles, abstracts, keywords, filters, and results are never placed in share URLs. QR codes are generated locally.
+
 A static, browser-only plant-science discovery tool by Shoaib Munir / smbajwa.com. It ranks a compact set of journal profiles with MiniSearch and explains matched topics and terms. It is not an acceptance predictor, quality ranking, or endorsement.
 
 ## Privacy and network behavior

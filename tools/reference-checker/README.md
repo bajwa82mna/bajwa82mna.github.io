@@ -1,5 +1,9 @@
 # Reference Integrity Checker
 
+## Sharing
+
+The shared privacy-first dialog shares only this tool's public URL and fixed descriptive text. Pasted references, DOI lists, identifiers, checks, and results are never placed in share URLs. QR codes are generated locally.
+
 Experimental, local-first reference audit by Shoaib Munir for smbajwa.com. It accepts DOI lists, BibTeX, RIS, CSL-JSON, formatted references, and local text files. Local parsing, DOI normalization, duplicate detection, plant-science review hints, report rendering, and exports stay in the browser.
 
 ## Online evidence and privacy

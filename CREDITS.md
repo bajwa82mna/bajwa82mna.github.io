@@ -2,6 +2,17 @@
 
 This file records third-party software and public metadata services used by the research tools at smbajwa.com. Names are factual attribution and do not imply affiliation or endorsement.
 
+## qrcode-generator
+
+- Original author: Kazuhiko Arase
+- Repository: https://github.com/kazuhikoarase/qrcode-generator
+- Version: 1.4.4
+- Package artifact and SHA-256 checksum: recorded in `tools/_shared/vendor/qrcode-generator/1.4.4/UPSTREAM.json`
+- License: MIT (`tools/_shared/vendor/qrcode-generator/1.4.4/LICENSE`)
+- Used by: the shared, browser-local share dialog to draw downloadable QR codes
+- Vendored material: unmodified `qrcode.js`; no remote QR service is contacted
+- Retrieved: 2026-10-07
+
 ## Emerging Journals Database 2026
 
 - Implementation and English presentation: Shoaib Munir, smbajwa.com

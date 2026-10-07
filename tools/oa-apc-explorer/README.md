@@ -1,5 +1,9 @@
 # OA & APC Explorer
 
+## Sharing
+
+The shared privacy-first dialog shares only this tool's public URL and fixed descriptive text. Searches, budgets, filters, and comparisons are never placed in share URLs. QR codes are generated locally.
+
 A static, browser-only research tool by Shoaib Munir / smbajwa.com for comparing open-access fee declarations, waiver information, licences, and publication context. It is not a fee quote, journal ranking, endorsement, or submission recommendation.
 
 ## Sources and refresh behavior

@@ -1,5 +1,9 @@
 # Journal Trust Profile
 
+## Sharing
+
+The shared privacy-first dialog shares only this tool's public URL and fixed descriptive text. Searches and generated evidence profiles are not placed in share URLs. QR codes are generated locally.
+
 An experimental, client-side evidence dossier for journal identity, open-access declarations, preservation, publication signals, and source conflicts. It deliberately produces no trust score, blacklist label, or submission endorsement.
 
 ## Sources and privacy

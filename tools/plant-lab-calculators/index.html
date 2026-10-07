@@ -8,22 +8,197 @@
   <title>Plant Lab Calculator Suite | Shoaib Munir</title>
   <meta name="description" content="Transparent offline calculators for qPCR, dilutions, molarity and primer melting temperature.">
   <link rel="canonical" href="https://smbajwa.com/tools/plant-lab-calculators/">
-  <link rel="stylesheet" href="/style.css?v=4">
+<meta property="og:title" content="Plant Lab Calculator Suite"><meta property="og:description" content="Transparent offline qPCR, dilution, molarity and primer-Tm calculators."><meta property="og:type" content="website"><meta property="og:url" content="https://smbajwa.com/tools/plant-lab-calculators/"><meta property="og:image" content="https://smbajwa.com/assets/og/plant-lab-calculators.png?v=1"><meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index,follow,max-image-preview:large"><meta name="author" content="Dr. Shoaib Munir"><meta name="keywords" content="qPCR calculator, dilution calculator, molarity, primer Tm"><meta name="applicable-device" content="pc,mobile"><meta name="mobile-agent" content="format=html5;url=https://smbajwa.com/tools/plant-lab-calculators/"><meta name="format-detection" content="telephone=no,email=no,address=no"><meta property="og:site_name" content="smbajwa.com"><meta property="og:locale" content="en_US"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Plant Lab Calculator Suite"><meta name="twitter:title" content="Plant Lab Calculator Suite"><meta name="twitter:description" content="Transparent offline qPCR, dilution, molarity and primer-Tm calculators."><meta name="twitter:image" content="https://smbajwa.com/assets/og/plant-lab-calculators.png?v=1"><meta name="twitter:image:alt" content="Plant Lab Calculator Suite"><meta itemprop="name" content="Plant Lab Calculator Suite"><meta itemprop="description" content="Transparent offline qPCR, dilution, molarity and primer-Tm calculators."><meta itemprop="image" content="https://smbajwa.com/assets/og/wechat-thumb.png?v=1"><link rel="alternate" hreflang="en" href="https://smbajwa.com/tools/plant-lab-calculators/"><link rel="manifest" href="/site.webmanifest?v=1"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=1"><link rel="icon" href="/favicon-32x32.png?v=1" type="image/png"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebApplication","name":"Plant Lab Calculator Suite","applicationCategory":"EducationalApplication","isAccessibleForFree":true,"creator":{"@type":"Person","name":"Dr. Shoaib Munir"},"url":"https://smbajwa.com/tools/plant-lab-calculators/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://smbajwa.com/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://smbajwa.com/tools/"},{"@type":"ListItem","position":3,"name":"Plant Lab Calculator Suite","item":"https://smbajwa.com/tools/plant-lab-calculators/"}]}]}</script>
+  <link rel="stylesheet" href="/style.css?v=5">
   <link rel="stylesheet" href="styles.css?v=1">
-  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/tools/_shared/css/share.css?v=1">
+  <script src="/theme.js?v=2">
+</script>
 </head>
 <body>
-<header class="tool-hero"><div class="wrap toolwrap"><nav aria-label="Breadcrumb"><a href="/">smbajwa.com</a> / <a href="/tools/">All tools</a></nav><p class="eyebrow">Experimental · offline-first</p><h1>Plant Lab Calculator Suite</h1><p class="intro">Transparent qPCR, dilution, molarity and primer Tm calculations. OD→ng/µL conversion is not included in this version. See each formula, assumption and intermediate result; export a methods record without sending lab data anywhere.</p><div class="stats"><span>4 calculators</span><span>Local calculations</span><span>No tracking</span><span>Published formulas</span></div></div></header>
+<header class="tool-hero">
+<div class="wrap toolwrap">
+<nav aria-label="Breadcrumb">
+<a href="/">smbajwa.com</a> / <a href="/tools/">All tools</a>
+</nav>
+<p class="eyebrow">Experimental · offline-first</p>
+<h1>Plant Lab Calculator Suite</h1>
+<p class="share-line"><button type="button" data-share data-share-url="https://smbajwa.com/tools/plant-lab-calculators/" data-share-title="Plant Lab Calculator Suite" data-share-text="Free, open tool for students and researchers: Plant Lab Calculator Suite — smbajwa.com">Share</button></p>
+<p class="intro">Transparent qPCR, dilution, molarity and primer Tm calculations. OD→ng/µL conversion is not included in this version. See each formula, assumption and intermediate result; export a methods record without sending lab data anywhere.</p>
+<div class="stats">
+<span>4 calculators</span>
+<span>Local calculations</span>
+<span>No tracking</span>
+<span>Published formulas</span>
+</div>
+</div>
+</header>
 <main class="wrap toolwrap">
-  <div class="toolbar"><div class="tabs" role="tablist" aria-label="Calculators"><button id="tab-qpcr" class="active" role="tab" aria-selected="true" aria-controls="qpcr" tabindex="0" data-tab="qpcr">qPCR</button><button id="tab-dilution" role="tab" aria-selected="false" aria-controls="dilution" tabindex="-1" data-tab="dilution">Dilution</button><button id="tab-molarity" role="tab" aria-selected="false" aria-controls="molarity" tabindex="-1" data-tab="molarity">Molarity</button><button id="tab-tm" role="tab" aria-selected="false" aria-controls="tm" tabindex="-1" data-tab="tm">Primer Tm</button></div><div><button id="language" class="quiet" type="button">اردو</button> <button id="clear" class="quiet" type="button">Clear all</button></div></div>
+  <div class="toolbar">
+<div class="tabs" role="tablist" aria-label="Calculators">
+<button id="tab-qpcr" class="active" role="tab" aria-selected="true" aria-controls="qpcr" tabindex="0" data-tab="qpcr">qPCR</button>
+<button id="tab-dilution" role="tab" aria-selected="false" aria-controls="dilution" tabindex="-1" data-tab="dilution">Dilution</button>
+<button id="tab-molarity" role="tab" aria-selected="false" aria-controls="molarity" tabindex="-1" data-tab="molarity">Molarity</button>
+<button id="tab-tm" role="tab" aria-selected="false" aria-controls="tm" tabindex="-1" data-tab="tm">Primer Tm</button>
+</div>
+<div>
+<button id="language" class="quiet" type="button">اردو</button> <button id="clear" class="quiet" type="button">Clear all</button>
+</div>
+</div>
   <p id="privacy" class="privacy">Everything entered here stays in this browser tab. No calculation requires a network request.</p>
-  <section class="calculator active" id="qpcr" role="tabpanel" aria-labelledby="tab-qpcr" tabindex="0"><div class="calc-copy"><p class="kicker">Relative expression</p><h2>2<sup>−ΔΔCq</sup> qPCR</h2><p>Enter comma-separated technical replicates. The equal-efficiency case follows Livak &amp; Schmittgen; differing efficiencies use an explicit efficiency ratio. “Undetermined” is never coerced.</p></div><form><div class="form-grid"><label>Sample · target Cq<input name="sampleTarget" value="22, 22.2, 21.8" required></label><label>Sample · reference Cq<input name="sampleReference" value="19, 19.1, 18.9" required></label><label>Control · target Cq<input name="controlTarget" value="25, 25.2, 24.8" required></label><label>Control · reference Cq<input name="controlReference" value="20, 20.1, 19.9" required></label><label>Target efficiency factor<input name="targetEfficiency" type="number" value="2" min="1.01" step="0.01"></label><label>Reference efficiency factor<input name="referenceEfficiency" type="number" value="2" min="1.01" step="0.01"></label></div><button class="primary">Calculate expression</button></form><div class="result" aria-live="polite"></div></section>
-  <section class="calculator" id="dilution" role="tabpanel" aria-labelledby="tab-dilution" tabindex="0" hidden><div class="calc-copy"><p class="kicker">Bench planner</p><h2>Dilution planner</h2><p>Uses C₁V₁ = C₂V₂. Concentrations must use the same unit; volumes are reported in your entered unit.</p></div><form><div class="mode-row"><label><input type="radio" name="mode" value="single" checked> Single</label><label><input type="radio" name="mode" value="serial"> Serial</label></div><div class="form-grid single-fields"><label>Stock concentration<input name="stock" type="number" value="100" min="0" step="any"></label><label>Target concentration<input name="target" type="number" value="10" min="0" step="any"></label><label>Final volume<input name="finalVolume" type="number" value="1000" min="0" step="any"></label></div><div class="form-grid serial-fields" hidden><label>Starting concentration<input name="start" type="number" value="100" min="0" step="any"></label><label>Dilution factor<input name="factor" type="number" value="10" min="1" step="any"></label><label>Number of steps<input name="steps" type="number" value="5" min="1" step="1"></label><label>Final volume per tube<input name="volumePerTube" type="number" value="900" min="0" step="any"><small>Intermediate tubes retain this volume after transfer; the last tube is prepared to exactly this volume. Overage scales each retained/final volume.</small></label></div><div class="form-grid"><label>Overage (%)<input name="overagePercent" type="number" value="10" min="0" step="any"></label><label>Minimum pipetting volume<input name="minPipette" type="number" value="2" min="0" step="any"></label></div><button class="primary">Plan dilution</button></form><div class="result" aria-live="polite"></div></section>
-  <section class="calculator" id="molarity" role="tabpanel" aria-labelledby="tab-molarity" tabindex="0" hidden><div class="calc-copy"><p class="kicker">Solution preparation</p><h2>Molarity &amp; mass</h2><p>Formula weight, purity and hydrate factor remain visible. A hydrate factor of 1 means the entered molecular weight already matches the weighed form.</p></div><form><div class="mode-row"><label><input type="radio" name="mode" value="fromMass" checked> Find molarity</label><label><input type="radio" name="mode" value="toMass"> Find mass</label></div><div class="form-grid"><label class="mass-input">Mass<input name="mass" type="number" value="5.844" min="0" step="any"><select name="massPrefix" aria-label="Mass unit"><option value="m">mg</option><option value="">g</option></select></label><label class="molarity-input" hidden>Target molarity (mol/L)<input name="molarity" type="number" value="0.1" min="0" step="any"></label><label>Molecular weight (g/mol)<input name="molecularWeight" type="number" value="58.44" min="0" step="any"></label><label>Volume<input name="volume" type="number" value="1" min="0" step="any"><select name="volumePrefix" aria-label="Volume unit"><option value="m">mL</option><option value="">L</option><option value="u">µL</option></select></label><label>Purity (%)<input name="purityPercent" type="number" value="100" min="0" max="100" step="any"></label><label>Hydrate factor<input name="hydrateFactor" type="number" value="1" min="0" step="any"></label></div><button class="primary">Calculate solution</button></form><div class="result" aria-live="polite"></div></section>
-  <section class="calculator" id="tm" role="tabpanel" aria-labelledby="tab-tm" tabindex="0" hidden><div class="calc-copy"><p class="kicker">Primer screening</p><h2>Primer melting temperature</h2><p>Wallace is a rough short-oligo screen. The nearest-neighbor mode uses SantaLucia 1998 DNA/DNA parameters with explicit monovalent salt and strand concentration. This is not primer design or specificity analysis.</p></div><form><label>Primer sequence<textarea name="sequence" rows="3">AGCTGACCTGATCGTACGTA</textarea></label><div class="form-grid"><label>Method<select name="method"><option value="nn">SantaLucia nearest-neighbor</option><option value="wallace">Wallace estimate</option></select></label><label>Monovalent Na⁺ (mM)<input name="sodiumMm" type="number" value="50" min="0" step="any"></label><label>Primer concentration (nM)<input name="primerNm" type="number" value="250" min="0" step="any"></label><label class="check"><input name="selfComplementary" type="checkbox"> Self-complementary</label></div><button class="primary">Calculate Tm</button></form><div class="result" aria-live="polite"></div></section>
-  <aside class="source-note"><h2>Methods, scope and credits</h2><p>Plant Lab Calculator Suite by Shoaib Munir, <a href="/">smbajwa.com</a>. Built on independently implemented published equations; no Primer3 code is included. Read <a href="METHODS.md">formula details and citations</a>. For research planning only—verify assumptions and laboratory protocols before use.</p></aside>
+  <section class="calculator active" id="qpcr" role="tabpanel" aria-labelledby="tab-qpcr" tabindex="0">
+<div class="calc-copy">
+<p class="kicker">Relative expression</p>
+<h2>2<sup>−ΔΔCq</sup> qPCR</h2>
+<p>Enter comma-separated technical replicates. The equal-efficiency case follows Livak &amp; Schmittgen; differing efficiencies use an explicit efficiency ratio. “Undetermined” is never coerced.</p>
+</div>
+<form>
+<div class="form-grid">
+<label>Sample · target Cq<input name="sampleTarget" value="22, 22.2, 21.8" required>
+</label>
+<label>Sample · reference Cq<input name="sampleReference" value="19, 19.1, 18.9" required>
+</label>
+<label>Control · target Cq<input name="controlTarget" value="25, 25.2, 24.8" required>
+</label>
+<label>Control · reference Cq<input name="controlReference" value="20, 20.1, 19.9" required>
+</label>
+<label>Target efficiency factor<input name="targetEfficiency" type="number" value="2" min="1.01" step="0.01">
+</label>
+<label>Reference efficiency factor<input name="referenceEfficiency" type="number" value="2" min="1.01" step="0.01">
+</label>
+</div>
+<button class="primary">Calculate expression</button>
+</form>
+<div class="result" aria-live="polite">
+</div>
+</section>
+  <section class="calculator" id="dilution" role="tabpanel" aria-labelledby="tab-dilution" tabindex="0" hidden>
+<div class="calc-copy">
+<p class="kicker">Bench planner</p>
+<h2>Dilution planner</h2>
+<p>Uses C₁V₁ = C₂V₂. Concentrations must use the same unit; volumes are reported in your entered unit.</p>
+</div>
+<form>
+<div class="mode-row">
+<label>
+<input type="radio" name="mode" value="single" checked> Single</label>
+<label>
+<input type="radio" name="mode" value="serial"> Serial</label>
+</div>
+<div class="form-grid single-fields">
+<label>Stock concentration<input name="stock" type="number" value="100" min="0" step="any">
+</label>
+<label>Target concentration<input name="target" type="number" value="10" min="0" step="any">
+</label>
+<label>Final volume<input name="finalVolume" type="number" value="1000" min="0" step="any">
+</label>
+</div>
+<div class="form-grid serial-fields" hidden>
+<label>Starting concentration<input name="start" type="number" value="100" min="0" step="any">
+</label>
+<label>Dilution factor<input name="factor" type="number" value="10" min="1" step="any">
+</label>
+<label>Number of steps<input name="steps" type="number" value="5" min="1" step="1">
+</label>
+<label>Final volume per tube<input name="volumePerTube" type="number" value="900" min="0" step="any">
+<small>Intermediate tubes retain this volume after transfer; the last tube is prepared to exactly this volume. Overage scales each retained/final volume.</small>
+</label>
+</div>
+<div class="form-grid">
+<label>Overage (%)<input name="overagePercent" type="number" value="10" min="0" step="any">
+</label>
+<label>Minimum pipetting volume<input name="minPipette" type="number" value="2" min="0" step="any">
+</label>
+</div>
+<button class="primary">Plan dilution</button>
+</form>
+<div class="result" aria-live="polite">
+</div>
+</section>
+  <section class="calculator" id="molarity" role="tabpanel" aria-labelledby="tab-molarity" tabindex="0" hidden>
+<div class="calc-copy">
+<p class="kicker">Solution preparation</p>
+<h2>Molarity &amp; mass</h2>
+<p>Formula weight, purity and hydrate factor remain visible. A hydrate factor of 1 means the entered molecular weight already matches the weighed form.</p>
+</div>
+<form>
+<div class="mode-row">
+<label>
+<input type="radio" name="mode" value="fromMass" checked> Find molarity</label>
+<label>
+<input type="radio" name="mode" value="toMass"> Find mass</label>
+</div>
+<div class="form-grid">
+<label class="mass-input">Mass<input name="mass" type="number" value="5.844" min="0" step="any">
+<select name="massPrefix" aria-label="Mass unit">
+<option value="m">mg</option>
+<option value="">g</option>
+</select>
+</label>
+<label class="molarity-input" hidden>Target molarity (mol/L)<input name="molarity" type="number" value="0.1" min="0" step="any">
+</label>
+<label>Molecular weight (g/mol)<input name="molecularWeight" type="number" value="58.44" min="0" step="any">
+</label>
+<label>Volume<input name="volume" type="number" value="1" min="0" step="any">
+<select name="volumePrefix" aria-label="Volume unit">
+<option value="m">mL</option>
+<option value="">L</option>
+<option value="u">µL</option>
+</select>
+</label>
+<label>Purity (%)<input name="purityPercent" type="number" value="100" min="0" max="100" step="any">
+</label>
+<label>Hydrate factor<input name="hydrateFactor" type="number" value="1" min="0" step="any">
+</label>
+</div>
+<button class="primary">Calculate solution</button>
+</form>
+<div class="result" aria-live="polite">
+</div>
+</section>
+  <section class="calculator" id="tm" role="tabpanel" aria-labelledby="tab-tm" tabindex="0" hidden>
+<div class="calc-copy">
+<p class="kicker">Primer screening</p>
+<h2>Primer melting temperature</h2>
+<p>Wallace is a rough short-oligo screen. The nearest-neighbor mode uses SantaLucia 1998 DNA/DNA parameters with explicit monovalent salt and strand concentration. This is not primer design or specificity analysis.</p>
+</div>
+<form>
+<label>Primer sequence<textarea name="sequence" rows="3">AGCTGACCTGATCGTACGTA</textarea>
+</label>
+<div class="form-grid">
+<label>Method<select name="method">
+<option value="nn">SantaLucia nearest-neighbor</option>
+<option value="wallace">Wallace estimate</option>
+</select>
+</label>
+<label>Monovalent Na⁺ (mM)<input name="sodiumMm" type="number" value="50" min="0" step="any">
+</label>
+<label>Primer concentration (nM)<input name="primerNm" type="number" value="250" min="0" step="any">
+</label>
+<label class="check">
+<input name="selfComplementary" type="checkbox"> Self-complementary</label>
+</div>
+<button class="primary">Calculate Tm</button>
+</form>
+<div class="result" aria-live="polite">
+</div>
+</section>
+  <aside class="source-note">
+<h2>Methods, scope and credits</h2>
+<p>Plant Lab Calculator Suite by Shoaib Munir, <a href="/">smbajwa.com</a>. Built on independently implemented published equations; no Primer3 code is included. Read <a href="METHODS.md">formula details and citations</a>. For research planning only—verify assumptions and laboratory protocols before use.</p>
+</aside>
 </main>
-<footer><div class="wrap"><p>Calculations stay local. Exports are created in your browser.</p><p>Developed by Shoaib Munir · <a href="/">smbajwa.com</a></p></div></footer>
-<script type="module" src="app.js?v=3"></script>
+<footer>
+<div class="wrap">
+<p>Calculations stay local. Exports are created in your browser.</p>
+<p>Developed by Shoaib Munir · <a href="/">smbajwa.com</a>
+</p>
+<p class="share-line">Share this tool: <button type="button" data-share data-share-url="https://smbajwa.com/tools/plant-lab-calculators/" data-share-title="Plant Lab Calculator Suite" data-share-text="Free, open tool for students and researchers: Plant Lab Calculator Suite — smbajwa.com">Share</button></p>
+</div>
+</footer>
+<script src="/tools/_shared/vendor/qrcode-generator/1.4.4/qrcode.js?v=1"></script><script type="module" src="/tools/_shared/js/share.js?v=2"></script>
+<script type="module" src="app.js?v=3">
+</script>
 </body>
 </html>

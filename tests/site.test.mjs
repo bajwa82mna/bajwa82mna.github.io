@@ -13,7 +13,7 @@ test('every HTML page has resolvable local scripts and styles',()=>{
 });
 
 test('every inline classic script parses',()=>{
-  for(const page of pages){const html=fs.readFileSync(path.join(root,page),'utf8');for(const match of html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi)){if(/type=["']module["']/i.test(match[0]))continue;assert.doesNotThrow(()=>new vm.Script(match[1],{filename:page}),page)}}
+  for(const page of pages){const html=fs.readFileSync(path.join(root,page),'utf8');for(const match of html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi)){if(/type=["'](?:module|application\/ld\+json)["']/i.test(match[0]))continue;assert.doesNotThrow(()=>new vm.Script(match[1],{filename:page}),page)}}
 });
 
 test('external links use safe new-tab attributes',()=>{

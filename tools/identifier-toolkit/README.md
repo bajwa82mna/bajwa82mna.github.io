@@ -1,5 +1,9 @@
 # Identifier & Citation Toolkit
 
+## Sharing
+
+The shared privacy-first dialog shares only this tool's public URL and fixed descriptive text. Entered identifiers, citation data, metadata, and results are never placed in share URLs. QR codes are generated locally.
+
 An experimental, static-browser workbench by Shoaib Munir / smbajwa.com for DOI, ISSN and ORCID recognition, checksum validation, public metadata lookup and citation export.
 
 ## Privacy and data flow

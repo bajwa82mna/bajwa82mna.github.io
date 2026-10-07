@@ -1,5 +1,9 @@
 # Emerging Journals Database 2026
 
+## Sharing
+
+The shared privacy-first dialog offers page and journal-record deep links. Journal shares may include the public journal name, ISSN, quartile, category, OpenAlex citation score, h-index, and `?q=` link; no private input is included. Citation-style references and summaries can be copied, and QR codes are generated locally.
+
 This static browser tool combines the rank-aligned journal list in `data.js` with bulk, openly licensed enrichment data. `data-extra.js` supplies card metrics and filters; 24 balanced files under `trends/` are lazy-loaded by journal row index only when details are opened. The live OpenAlex refresh is an optional freshness check and is not a replacement for the bulk dataset.
 
 ## Rebuild the enrichment

@@ -48,7 +48,7 @@ test('top-level pages use the site-only CSP without inline scripts', () => {
   for (const page of sitePages) {
     const html = fs.readFileSync(path.join(root, page), 'utf8');
     assert.equal(html.match(/http-equiv="Content-Security-Policy" content="([^"]+)"/)?.[1], expected, page);
-    assert.doesNotMatch(html, /<script(?![^>]*\bsrc=)[^>]*>[\s\S]*?<\/script>/i, `${page}: inline script`);
+    assert.doesNotMatch(html, /<script(?![^>]*\b(?:src=|type="application\/ld\+json"))[^>]*>[\s\S]*?<\/script>/i, `${page}: inline executable script`);
   }
 });
 
@@ -66,7 +66,7 @@ test('tool CSPs are strict, enumerate exact connect hosts, and allow every local
     assert.match(csp, /form-action 'self'/);
     const connect = csp.match(/connect-src ([^;]+)/)?.[1].split(/\s+/).filter(Boolean) || [];
     assert.deepEqual(connect.sort(), hosts.map(host => host === "'self'" ? host : `https://${host}`).sort(), `${page}: connect-src`);
-    assert.doesNotMatch(html, /<script(?![^>]*\bsrc=)[^>]*>[\s\S]*?<\/script>/i, `${page}: inline script`);
+    assert.doesNotMatch(html, /<script(?![^>]*\b(?:src=|type="application\/ld\+json"))[^>]*>[\s\S]*?<\/script>/i, `${page}: inline executable script`);
     for (const [, src] of html.matchAll(/<script[^>]+src="([^"]+)"[^>]*>/g)) {
       assert.ok(!/^https?:/.test(src), `${page}: remote script ${src}`);
       const clean = src.split('?')[0], target = clean.startsWith('/') ? path.join(root, clean) : path.resolve(path.dirname(absolute), clean);

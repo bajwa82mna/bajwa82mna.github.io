@@ -12,10 +12,10 @@
   window.__setTheme=function(m){try{m==='auto'?localStorage.removeItem(KEY):localStorage.setItem(KEY,m)}catch(e){}apply(m);mark(m)};
   function mark(m){document.querySelectorAll('.theme-switch button').forEach(function(b){var on=b.dataset.mode===m;b.setAttribute('aria-pressed',on);b.classList.toggle('on',on)})}
   document.addEventListener('DOMContentLoaded',function(){
-    var d=document.createElement('div');d.className='theme-switch';d.setAttribute('role','group');d.setAttribute('aria-label','Colour theme');
-    d.innerHTML='<button type="button" data-mode="auto" title="Match system">Auto</button><button type="button" data-mode="light" title="Light mode">Light</button><button type="button" data-mode="dark" title="Dark mode">Dark</button>';
+    var bar=document.createElement('div'),inner=document.createElement('div'),d=document.createElement('div');bar.className='site-bar';inner.className='site-bar-inner';d.className='theme-switch';d.setAttribute('role','group');d.setAttribute('aria-label','Colour theme');
+    d.innerHTML='<span class="theme-state" aria-live="polite">Theme</span><button type="button" data-mode="auto" aria-label="Use automatic colour theme" title="Match system">Auto</button><button type="button" data-mode="light" aria-label="Use light colour theme" title="Light mode">Light</button><button type="button" data-mode="dark" aria-label="Use dark colour theme" title="Dark mode">Dark</button>';
     d.addEventListener('click',function(e){var b=e.target.closest('button');if(b)window.__setTheme(b.dataset.mode)});
-    document.body.appendChild(d);mark(get());
+    var home=document.createElement('a');home.className='site-brand';home.href='/';home.textContent='smbajwa.com';inner.append(home,d);bar.append(inner);document.body.prepend(bar);mark(get());
   });
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){if(get()==='auto')apply('auto')});
 })();
