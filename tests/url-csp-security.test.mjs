@@ -23,7 +23,7 @@ test('metadata link renderers reuse the shared URL gate', () => {
     'tools/abstract-journal-matcher/app.js',
     'tools/identifier-toolkit/app.js',
     'tools/reference-checker/app.js'
-  ]) assert.match(fs.readFileSync(path.join(root, file), 'utf8'), /safe-url\.js/);
+  ]) assert.match(fs.readFileSync(path.join(root, file), 'utf8'), /safe-link\.js/);
 });
 
 test('journal suggestion listbox exposes full keyboard and active-option state', () => {
