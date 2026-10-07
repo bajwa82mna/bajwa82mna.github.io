@@ -1,0 +1,6 @@
+import test from 'node:test'; import assert from 'node:assert/strict';
+import { reconcile, titleSimilarity, subjectFit } from '../../src/reconcile.js';
+const date='2026-10-07T00:00:00Z', rec=(source,title,publisher,issns)=>({source,title,publisher,issns,url:'https://example.test',retrievedAt:date});
+test('reconciles equivalent titles and shared ISSN',()=>{const out=reconcile([rec('DOAJ','Plant Physiology','Oxford University Press',['0032-0889']),rec('OpenAlex','Plant physiology','Oxford University Press',['0032-0889'])],{issns:['0032-0889']});assert.equal(out.conflicts.length,0);assert.equal(out.claims[0].status,'confirmed')});
+test('surfaces title and ISSN mismatch without accusation',()=>{const out=reconcile([rec('OpenAlex','Unrelated Medical Review','Other Press',['1111-1119'])],{issns:['0032-0889'],title:'Plant Physiology'});assert.equal(out.claims[1].status,'conflicting');assert.match(out.conflicts.join(' '),/mismatch/i);assert.ok(!JSON.stringify(out).includes('predatory'))});
+test('title similarity and plant context support Unicode-normalized matching',()=>{assert.ok(titleSimilarity('Revista de Botánica','Revista de Botanica')>.9);assert.deepEqual(subjectFit({subjects:['Plant breeding']}),['plant','breeding'])});

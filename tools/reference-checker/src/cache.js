@@ -1,0 +1,6 @@
+export function createEvidenceCache(name = 'reference-checker-v1', ttl = 30 * 864e5) {
+  let dbPromise;
+  function db() { if (!('indexedDB' in globalThis)) return Promise.resolve(null); return dbPromise ||= new Promise((resolve, reject) => { const req = indexedDB.open(name, 1); req.onupgradeneeded = () => req.result.createObjectStore('responses'); req.onsuccess = () => resolve(req.result); req.onerror = () => reject(req.error); }); }
+  async function run(mode, action) { const database = await db(); if (!database) return null; return new Promise((resolve, reject) => { const store = database.transaction('responses', mode).objectStore('responses'); const req = action(store); req.onsuccess = () => resolve(req.result); req.onerror = () => reject(req.error); }); }
+  return { async get(key) { try { const item = await run('readwrite', s => s.get(key)); if (!item || Date.now() - item.savedAt > ttl) { if (item) await run('readwrite', s => s.delete(key)); return null; } return item.value; } catch { return null; } }, async set(key, value) { try { await run('readwrite', s => s.put({ savedAt: Date.now(), value }, key)); } catch {} }, async clear() { try { await run('readwrite', s => s.clear()); } catch {} } };
+}

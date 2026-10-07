@@ -1,0 +1,2 @@
+export function download(name,data,type='application/json'){const blob=new Blob([data],{type:`${type};charset=utf-8`}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),0)}
+export function auditRecord(calculator,input,result){return {tool:'Plant Lab Calculator Suite',brand:'Shoaib Munir / smbajwa.com',calculator,created:new Date().toISOString(),input,result,notice:'Research planning only; verify assumptions and laboratory protocols.'}}

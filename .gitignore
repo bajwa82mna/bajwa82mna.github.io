@@ -1,0 +1,7 @@
+tools/emerging-journals-2026/build/cache/
+build/cache/
+*.log
+build_stages.log
+audit*.log
+stage_*.log
+__pycache__/

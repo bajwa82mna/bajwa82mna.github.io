@@ -1,0 +1,10 @@
+Reference Integrity Checker by Shoaib Munir, smbajwa.com
+
+This tool loads the shared, unmodified Citation.js 0.9.0 browser bundle:
+  ../_shared/vendor/citation-js/0.9.0/dist/citation.min.js
+  ../_shared/vendor/citation-js/0.9.0/citation-loader.js
+
+Citation.js — Copyright (c) 2015-2022 Lars Willighagen and contributors — MIT License.
+The complete license, citation metadata, exact artifact checksum, repository, version, and commit are in ../_shared/vendor/citation-js/0.9.0/.
+
+Live bibliographic metadata: Crossref. Retraction Watch metadata is accessed via Crossref (CC0). Optional secondary metadata: OpenAlex (CC0). No affiliation or endorsement is implied.

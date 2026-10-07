@@ -1,0 +1,14 @@
+{
+  "name": "Citation.js",
+  "authors": ["Lars Willighagen", "contributors"],
+  "repository": "https://github.com/citation-js/citation-js",
+  "version": "0.9.0",
+  "commit": "51a37ce28fd3508e5cc2957b7d17794cdbad8ed0",
+  "license": "MIT",
+  "source_files": ["npm:citation-js@0.9.0/build/citation.min.js"],
+  "vendored_files": ["dist/citation.min.js"],
+  "retrieved": "2026-10-07",
+  "sha256": {"dist/citation.min.js": "b12f99a7476e5511b05131c4e2969ac95fee0888c72e0246b24863a1d2ce1cff"},
+  "npm_integrity": "sha512-btXi2yVOn3M5BwRmCm2LrwI4jCVQwFQrBwjqMVxICtoMOt4cyUiU1kEkv7tb/zT52K59s3zRau0CJyjFMl5FmA==",
+  "local_modifications": "Upstream distribution is unmodified. citation-loader.js is a separate local two-line browser adapter following the upstream README."
+}

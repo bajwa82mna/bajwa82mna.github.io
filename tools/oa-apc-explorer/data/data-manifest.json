@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "generated": "2026-10-07",
+  "records": 0,
+  "description": "No bulk journal records are bundled. The browser retrieves selected DOAJ CC0 metadata on demand and caches it locally.",
+  "sources": [
+    {"name": "DOAJ", "url": "https://doaj.org/api/v3/search/journals/", "license": "CC0"},
+    {"name": "OpenAlex", "url": "https://api.openalex.org/sources", "license": "CC0"}
+  ],
+  "excluded": ["OpenAPC", "Clarivate", "Scopus", "CAS", "Journal Impact Factor"]
+}

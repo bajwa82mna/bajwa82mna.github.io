@@ -1,0 +1,1 @@
+{"type":"module","scripts":{"test":"node --test tests/unit/*.test.mjs tests/relevance/*.test.mjs tests/bias/*.test.mjs tests/e2e/*.test.mjs","validate":"node pipeline/validate-index.mjs"}}

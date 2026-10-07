@@ -1,0 +1,12 @@
+Identifier & Citation Toolkit
+Copyright (c) Shoaib Munir
+
+Loads the shared, unmodified Citation.js 0.9.0 browser distribution:
+  ../_shared/vendor/citation-js/0.9.0/dist/citation.min.js
+and a local adapter:
+  ../_shared/vendor/citation-js/0.9.0/citation-loader.js
+
+Citation.js — Copyright (c) 2015-2022 Lars Willighagen — MIT License.
+The complete license, CITATION.cff, checksums and upstream metadata are beside the shared distribution.
+
+Metadata may be requested from Crossref, OpenAlex and DOAJ. ORCID is a trademark of ORCID, Inc. No affiliation or endorsement is implied.

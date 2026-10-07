@@ -1,0 +1,3 @@
+export function mean(values){if(!values.length)throw new RangeError('At least one value is required.');return values.reduce((a,b)=>a+b,0)/values.length}
+export function sd(values){if(values.length<2)return 0;const m=mean(values);return Math.sqrt(values.reduce((s,x)=>s+(x-m)**2,0)/(values.length-1))}
+export function numbers(text,{allowUndetermined=false}={}){const out=[];for(const raw of String(text).split(/[\s,;]+/).filter(Boolean)){if(/^(undetermined|undet|na|n\/a)$/i.test(raw)){if(allowUndetermined)continue;throw new TypeError('Undetermined values require an explicit policy.')}const n=Number(raw);if(!Number.isFinite(n))throw new TypeError(`Invalid number: ${raw}`);out.push(n)}return out}

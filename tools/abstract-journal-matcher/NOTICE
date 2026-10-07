@@ -1,0 +1,8 @@
+Abstract-to-Journal Matcher
+Copyright (c) 2026 Shoaib Munir / smbajwa.com
+
+Built on MiniSearch 7.2.0 by Luca Ongaro and contributors, licensed under the MIT License.
+The unmodified browser distribution, license, checksums, and upstream metadata are in third_party/minisearch/7.2.0/.
+
+Journal evidence is derived from smbajwa.com's curated journal data and live CC0 metadata from DOAJ and OpenAlex. Crossref journal metadata is retrieved live. No Crossref abstracts, publisher scope prose, Clarivate, Scopus, CAS, or Journal Impact Factor data are included.
+Names are factual attribution and do not imply affiliation or endorsement.

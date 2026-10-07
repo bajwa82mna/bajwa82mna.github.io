@@ -1,0 +1,19 @@
+smbajwa.com research tools
+Copyright (c) Shoaib Munir
+
+This distribution contains third-party software and uses third-party public metadata services.
+See CREDITS.md for versions, source URLs, licenses, modifications and data provenance.
+
+Citation.js 0.9.0 — Copyright (c) 2015-2022 Lars Willighagen — MIT License
+Fuse.js 7.5.0 — Copyright Kiro Risk and contributors — Apache License 2.0
+MiniSearch 7.2.0 — Copyright Luca Ongaro and contributors — MIT License
+
+Data attribution: Crossref; Retraction Watch via Crossref; OpenAlex; Directory of Open Access Journals (DOAJ).
+SCImago is linked as an external ISSN lookup only; no SCImago or Scopus-derived values are distributed.
+The OA & APC Explorer contains no OpenAPC data; it links to OpenAPC only as a separate resource.
+ORCID is a trademark of ORCID, Inc.
+No affiliation or endorsement by these projects or organizations is implied.
+
+Plant Lab Calculator Suite — original calculation code by Shoaib Munir.
+Published formula sources are cited in tools/plant-lab-calculators/METHODS.md.
+No Primer3 or other third-party calculation code is included.

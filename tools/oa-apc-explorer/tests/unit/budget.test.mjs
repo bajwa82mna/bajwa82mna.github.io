@@ -1,0 +1,3 @@
+import test from 'node:test'; import assert from 'node:assert/strict'; import {calculateBudget} from '../../src/budget.js'; import {formatMoney,convert} from '../../src/currency.js';
+test('calculates waiver, tax, uncertainty and manual conversion',()=>{const b=calculateBudget({amount:1000,articles:2,waiverPercent:25,taxPercent:10,uncertaintyPercent:10,rate:2});assert.equal(b.base,1500);assert.equal(b.expected,1650.0000000000002);assert.ok(Math.abs(b.converted.low-2970)<1e-9);assert.ok(Math.abs(b.converted.high-3630)<1e-9)});
+test('preserves original currency and rejects invalid rates',()=>{assert.match(formatMoney(100,'USD'),/100/);assert.equal(convert(25,1.5),37.5);assert.throws(()=>calculateBudget({amount:1,articles:1,rate:0}),/positive/)});

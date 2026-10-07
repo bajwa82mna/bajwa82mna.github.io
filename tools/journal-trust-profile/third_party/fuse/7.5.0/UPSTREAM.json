@@ -1,0 +1,18 @@
+{
+  "name": "Fuse.js",
+  "authors": ["Kiro Risk", "contributors"],
+  "repository": "https://github.com/krisk/Fuse",
+  "version": "7.5.0",
+  "commit": "45bac9fe2e71fe8c680c861a35a8b226c4ae6d5a",
+  "license": "Apache-2.0",
+  "package_url": "https://registry.npmjs.org/fuse.js/-/fuse.js-7.5.0.tgz",
+  "package_sha256": "076e7375510cd2f40b86108cd7d87534cf3b32682e80df23cd2ba6f25737f168",
+  "source_files": ["dist/fuse.min.mjs", "LICENSE"],
+  "vendored_files": ["fuse.min.mjs", "LICENSE"],
+  "retrieved": "2026-10-07",
+  "sha256": {
+    "fuse.min.mjs": "5ab524d12492bb233568e9600046e1aaa9623d36ebe689589144f7dc9b1da6f7",
+    "LICENSE": "cc807e3caa26cdee316bab2ff6fdb508a2f619b74959fe59e513ef6e61635ebe"
+  },
+  "local_modifications": "None"
+}

@@ -1,0 +1,2 @@
+import test from "node:test";import assert from "node:assert/strict";import {toCsv} from "../../src/export.js";
+test("CSV escapes fields and omits manuscript text",()=>{const csv=toCsv([{score:2,profile:{title:'A, "Plant" Journal',issn:"1234-567X",publisher:"P",category:"C",oa:true,apc:false},explanation:{direct:["drought"]}}],{retrieved:"2026-10-07"});assert.match(csv,/"A, ""Plant"" Journal"/);assert.doesNotMatch(csv,/secret abstract/) });

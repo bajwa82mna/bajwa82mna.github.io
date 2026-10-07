@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f8f4">
+  <title>Journal Trust Profile | Shoaib Munir</title>
+  <meta name="description" content="Build a neutral, source-linked evidence profile for a journal from public metadata.">
+  <link rel="canonical" href="https://smbajwa.com/tools/journal-trust-profile/"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://api.openalex.org https://api.crossref.org https://doaj.org; base-uri 'self'; form-action 'self'">
+  <link rel="stylesheet" href="/style.css?v=4"><link rel="stylesheet" href="../_shared/css/tool-shell.css?v=1"><link rel="stylesheet" href="styles.css?v=1">
+  <script src="/theme.js"></script>
+</head>
+<body>
+  <header class="tool-hero"><div class="wrap toolwrap"><nav aria-label="Breadcrumb"><a href="/">smbajwa.com</a> / <a href="/tools/">All tools</a> / Journal Trust Profile</nav><p class="eyebrow">Open research tool · experimental</p><h1>Journal Trust Profile</h1><p class="tool-intro">Build a source-linked evidence card for a journal. Compare identity, open-access declarations, preservation, recent output, and conflicts without reducing them to a trust score or verdict.</p><span class="experimental">Evidence aid · not an endorsement</span></div></header>
+  <main class="wrap toolwrap tool-main">
+    <section class="tool-grid" aria-labelledby="search-heading">
+      <div class="tool-panel search-panel"><p class="kicker">Local search</p><h2 id="search-heading">Find a journal</h2><label for="journal-query">Title or ISSN<input id="journal-query" type="search" autocomplete="off" placeholder="e.g. Plant Physiology or 0032-0889" aria-describedby="query-help" aria-controls="suggestions" aria-autocomplete="list"></label><p id="query-help" class="field-help">Suggestions come from the smbajwa.com Emerging Journals 2026 dataset. A valid ISSN can be looked up even if it is not in the local seed.</p><div id="suggestions" class="suggestions" role="listbox" aria-label="Journal suggestions"></div><div class="button-row"><button id="lookup" class="primary" type="button">Build live profile</button><button id="clear" type="button">Clear</button><button id="clear-cache" type="button">Clear API cache</button></div><p id="status" class="live-status" role="status" aria-live="polite"></p></div>
+      <aside class="privacy-card" aria-labelledby="privacy-heading"><h2 id="privacy-heading">Privacy and network use</h2><p>Local suggestions and checklist notes stay in this browser. When you choose <strong>Build live profile</strong>, only the selected title/ISSN is sent to:</p><ul><li>doaj.org</li><li>api.openalex.org</li><li>api.crossref.org</li></ul><p>Responses are cached locally for 30 days. No manuscript, editor names, email addresses, API keys, or analytics are used.</p></aside>
+    </section>
+
+    <section id="profile" class="profile-section hidden" aria-labelledby="profile-title">
+      <div class="profile-head"><div><p class="kicker">Evidence profile</p><h2 id="profile-title">Journal</h2><p id="profile-meta" class="profile-meta"></p></div><div class="button-row"><button id="download" type="button">Download JSON</button><button id="print" type="button">Print dossier</button></div></div>
+      <div id="conflicts" class="conflict-box hidden" role="alert"></div>
+      <div id="identity" class="identity-grid"></div>
+      <section aria-labelledby="evidence-heading"><h3 id="evidence-heading" class="section-heading">Evidence, status, and provenance</h3><p class="section-intro">“Absent” means the named source did not return an affirmative field; it never means “No” unless a source explicitly says so.</p><div id="claims" class="claim-grid"></div></section>
+      <section aria-labelledby="works-heading"><h3 id="works-heading" class="section-heading">Recent plant-related output examples</h3><p class="section-intro">OpenAlex search examples are topical context, not proof of scope, quality, or editorial interest.</p><div id="works" class="works-list"></div></section>
+      <section class="checklist" aria-labelledby="checklist-heading"><p class="kicker">Complete manually</p><h3 id="checklist-heading">Submission due-diligence checklist</h3><p>These checks require the current journal website or direct confirmation. Notes remain in session memory and appear in the downloaded dossier.</p><div id="checklist-items"></div></section>
+      <aside class="source-links" aria-labelledby="source-links-heading"><h3 id="source-links-heading">Verify at source</h3><div id="source-links-list"></div><p><a href="https://portal.issn.org/" target="_blank" rel="noopener noreferrer">Open the ISSN Portal</a> for independent identifier verification; its records are not copied into this tool.</p></aside>
+    </section>
+
+    <aside class="credits" aria-labelledby="credits-heading"><h2 id="credits-heading">Credits and limits</h2><p><strong>Journal Trust Profile by Shoaib Munir, <a href="/">smbajwa.com</a>.</strong> Built on <a href="https://github.com/krisk/Fuse" target="_blank" rel="noopener noreferrer">Fuse.js</a> (Apache-2.0) by Kiro Risk and contributors. Evidence uses CC0 metadata from <a href="https://doaj.org/" target="_blank" rel="noopener noreferrer">DOAJ</a> and <a href="https://openalex.org/" target="_blank" rel="noopener noreferrer">OpenAlex</a> plus Crossref metadata and the locally curated smbajwa.com journal source.</p><p>This profile is not an endorsement, blacklist, legal finding, or substitute for checking the journal’s current policies. Missing metadata is not evidence of misconduct. No Clarivate, Scopus, CAS, JIF, blacklist, or watchlist data are included.</p></aside>
+  </main>
+  <footer><div class="wrap"><p>Evidence can be incomplete or stale. Review linked primary sources before submitting.</p><p>Developed by Shoaib Munir · <a href="/">smbajwa.com</a></p></div></footer>
+  <script type="module" src="app.js?v=1"></script>
+</body></html>

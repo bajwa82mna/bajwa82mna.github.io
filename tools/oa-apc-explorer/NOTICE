@@ -1,0 +1,12 @@
+OA & APC Explorer
+Copyright (c) Shoaib Munir
+
+This tool contains Fuse.js 7.5.0, Copyright Kiro Risk and contributors,
+licensed under the Apache License 2.0. The unmodified browser module and full
+license are in third_party/fuse/7.5.0/. See UPSTREAM.json for its pinned source,
+version, commit, package checksum and file checksums.
+
+Journal and fee declarations are retrieved from DOAJ metadata (CC0).
+Scholarly context is retrieved from OpenAlex data (CC0).
+OpenAPC data are not included or integrated. No affiliation or endorsement by
+Fuse.js, DOAJ, OpenAlex, or OpenAPC is implied.

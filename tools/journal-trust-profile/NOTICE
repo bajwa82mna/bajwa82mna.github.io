@@ -1,0 +1,5 @@
+Journal Trust Profile by Shoaib Munir, smbajwa.com
+
+This tool contains Fuse.js 7.5.0 by Kiro Risk and contributors, licensed under the Apache License 2.0. The complete license is at third_party/fuse/7.5.0/LICENSE. The vendored distribution is unmodified; exact source and checksums are recorded in UPSTREAM.json.
+
+Public metadata is requested on demand from DOAJ (journal metadata CC0), OpenAlex (CC0), and Crossref. The local search seed is derived from smbajwa.com's Emerging Journals 2026 dataset and is explicitly labeled in the interface. No affiliation or endorsement is implied.

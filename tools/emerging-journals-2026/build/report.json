@@ -1,0 +1,47 @@
+{
+  "total": 22281,
+  "matched": 21345,
+  "unmatched": 936,
+  "match_rate": 95.8,
+  "missing": {
+    "homepage_url": 2481,
+    "2yr_mean_citedness": 0,
+    "h_index": 0,
+    "works_count": 0,
+    "is_oa": 0,
+    "is_in_doaj": 0,
+    "apc_usd": 11008,
+    "host_organization_name": 1806,
+    "openalex_id": 0,
+    "country_code": 753,
+    "warning_year": 21345
+  },
+  "sources": {
+    "openalex": {
+      "matched": 21345,
+      "match_rate": 95.8,
+      "missing": {
+        "homepage_url": 2481,
+        "2yr_mean_citedness": 0,
+        "h_index": 0,
+        "works_count": 0,
+        "is_oa": 0,
+        "is_in_doaj": 0,
+        "apc_usd": 11008,
+        "host_organization_name": 1806,
+        "openalex_id": 0,
+        "country_code": 753
+      }
+    },
+    "warning_list": {
+      "enabled": false,
+      "matched": 0,
+      "match_rate": 0.0,
+      "status": "disabled: source data redistribution licence is not explicit"
+    }
+  },
+  "trends": {
+    "openalex": 21231
+  },
+  "errors": {}
+}

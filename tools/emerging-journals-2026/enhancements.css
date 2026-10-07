@@ -1,0 +1,26 @@
+.tool-tabs{display:flex;gap:.25rem;margin:-.25rem 0 1rem;border-bottom:1px solid var(--line)}
+.tool-tabs button{padding:.55rem .75rem;border:0;border-bottom:3px solid transparent;background:none;color:var(--muted);font:750 .82rem sans-serif;cursor:pointer}
+.tool-tabs button.active{color:var(--accent);border-color:var(--accent)}
+.lookup-row{display:grid;grid-template-columns:minmax(14rem,2fr) minmax(12rem,1fr);gap:.8rem;align-items:end;margin-top:1rem}
+.lookup-row>label{color:var(--muted);font:750 .72rem sans-serif;letter-spacing:.04em;text-transform:uppercase}
+.hot-search{display:flex;align-items:center;flex-wrap:wrap;gap:.4rem;margin-top:.65rem;color:var(--muted);font:700 .75rem sans-serif}
+.hot-chip{padding:.28rem .6rem;border:1px solid var(--line);border-radius:99px;background:var(--soft);color:var(--accent);font:700 .75rem sans-serif;cursor:pointer}
+#filter-drawer{margin-top:.8rem;border-top:1px solid var(--line)}
+#filter-drawer summary{width:max-content;padding:.65rem 0 0;color:var(--accent);font:750 .82rem sans-serif;cursor:pointer}
+#filter-drawer .fields{grid-template-columns:minmax(11rem,1.2fr) auto minmax(13rem,1fr) minmax(12rem,1fr);margin-top:.7rem}
+#filter-drawer .fields fieldset{margin:0}
+.score-range>div{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
+.score-range label{color:var(--muted);font:650 .65rem sans-serif}
+.card-actions{align-items:center}
+.card-actions button{padding:0;border:0;background:none;color:var(--accent);font:inherit;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.detail-panel{margin-top:.75rem;padding-top:.7rem;border-top:1px solid var(--line)}
+.trend h4{margin:0 0 .35rem;font:750 .78rem sans-serif}
+.trend svg{display:block;width:100%;height:76px;color:var(--accent);background:var(--soft);border-radius:8px}
+.trend-caption,.trend-empty{margin:.35rem 0 0;color:var(--muted);font:650 .7rem sans-serif}
+.disclaimer{max-width:46rem;margin:0 auto .35rem}
+.credit{margin-top:0}
+.status.warning{color:#8a3200;background:#fff0e6}
+.source-note ul{margin:.5rem 0;padding-left:1.2rem;color:var(--muted);font-size:.9rem}
+.source-note li+li{margin-top:.35rem}
+@media(max-width:68rem){#filter-drawer .fields{grid-template-columns:1fr 1fr}}
+@media(max-width:44rem){.lookup-row,#filter-drawer .fields{grid-template-columns:1fr}}
