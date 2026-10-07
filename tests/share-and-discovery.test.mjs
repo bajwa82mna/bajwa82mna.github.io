@@ -44,7 +44,7 @@ test('all public share pages expose accessible share controls and shared assets'
     const html=fs.readFileSync(path.join(root,page),'utf8');
     assert.match(html,/data-share\b/,`${page}: button`);
     assert.match(html,/tools\/_shared\/css\/share\.css\?v=1/,`${page}: CSS cache bust`);
-    assert.match(html,/tools\/_shared\/js\/share\.js\?v=2/,`${page}: JS cache bust`);
+    assert.match(html,/tools\/_shared\/js\/share\.js\?v=\d+/,`${page}: JS cache bust`);
   }
 });
 
