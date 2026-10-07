@@ -57,3 +57,11 @@ test('privacy policy documents local processing, optional lookups, caches, and p
 });
 
 function walk(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(x=>x.isDirectory()?walk(path.join(dir,x.name)):[path.join(dir,x.name)])}
+
+import { readFileSync as _rf } from 'node:fs';
+import { test as _t } from 'node:test';
+import _assert from 'node:assert/strict';
+_t('Emerging Journals live OpenAlex lookup sends a hyphenated ISSN', () => {
+  const src = _rf(new URL('../tools/emerging-journals-2026/app.js', import.meta.url), 'utf8');
+  _assert.match(src, /issn\.slice\(0,4\)\+'-'\+issn\.slice\(4\)/);
+});
