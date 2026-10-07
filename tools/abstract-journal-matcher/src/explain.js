@@ -1,4 +1,4 @@
-import {normalizeText} from "./preprocess.js?v=8";
+import {normalizeText} from "./preprocess.js?v=9";
 export function explain(profile, prepared) {
   const searchable=normalizeText([profile.title,profile.category,...profile.topics,...profile.terms].join(" "));
   const direct=[...new Set([...prepared.titleTokens,...prepared.keywordTokens,...prepared.tokens])].filter(t=>searchable.includes(t)).slice(0,10);

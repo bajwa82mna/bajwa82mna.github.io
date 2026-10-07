@@ -28,6 +28,8 @@ Run both before every push.
 ## Data and licensing
 OpenAlex (CC0), DOAJ and Crossref are used. SJR/SCImago data is not bundled (outbound link only). No Clarivate, Scopus, CAS or JIF data. See `CREDITS.md` and `NOTICE`.
 
+User-facing credits, data provenance, licences, and scope notes live only on `/credits/`; tool pages link there instead of repeating them.
+
 ## Known gaps
 - Not tested on real social platforms, a phone share sheet, Safari/Firefox, a screen reader or a WeChat preview.
 - About 540 journals are unmatched (wrong source ISSNs); a name-based lookup could fix some.

@@ -1,14 +1,14 @@
-import Fuse from './third_party/fuse/7.5.0/fuse.min.mjs?v=8';
-import { extractIssns, isValidIssn, normalizeIssn } from './src/issn.js?v=8';
-import { emptyProfile } from './src/schema.js?v=8';
-import { reconcile, exactTitleMatch, recordsForIdentity } from './src/reconcile.js?v=8';
-import { lookupDoaj, lookupOpenAlex, lookupCrossref, lookupPlantWorks } from './src/evidence.js?v=8';
-import { buildEvidenceClaims, statusExplanation } from './src/explain.js?v=8';
-import { dossierFilename, dossierJson, dossierCsv } from './src/export.js?v=8';
-import { createCache } from './src/cache.js?v=8';
-import { downloadText } from '../_shared/js/download.js?v=8';
-import { safeTextElement } from '../_shared/js/dom.js?v=8';
-import { safeUrl } from '../_shared/js/safe-link.js?v=8';
+import Fuse from './third_party/fuse/7.5.0/fuse.min.mjs?v=9';
+import { extractIssns, isValidIssn, normalizeIssn } from './src/issn.js?v=9';
+import { emptyProfile } from './src/schema.js?v=9';
+import { reconcile, exactTitleMatch, recordsForIdentity } from './src/reconcile.js?v=9';
+import { lookupDoaj, lookupOpenAlex, lookupCrossref, lookupPlantWorks } from './src/evidence.js?v=9';
+import { buildEvidenceClaims, statusExplanation } from './src/explain.js?v=9';
+import { dossierFilename, dossierJson, dossierCsv } from './src/export.js?v=9';
+import { createCache } from './src/cache.js?v=9';
+import { downloadText } from '../_shared/js/download.js?v=9';
+import { safeTextElement } from '../_shared/js/dom.js?v=9';
+import { safeUrl } from '../_shared/js/safe-link.js?v=9';
 
 const $ = id => document.getElementById(id);
 const query = $('journal-query'), suggestions = $('suggestions'), status = $('status');

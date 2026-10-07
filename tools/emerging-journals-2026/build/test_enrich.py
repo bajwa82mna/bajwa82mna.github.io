@@ -103,14 +103,13 @@ class StaticUiContractTests(unittest.TestCase):
             "Share",
             "OpenAlex citations per paper",
             "trends/trends-",
-            "for study only",
             "SJR on SCImago ↗",
-            "SJR is published by SCImago; follow the link to view it at the source.",
-            "warning-list field remains disabled",
-            "Data sources and credits",
-            "No Clarivate, Scopus-derived, CAS, or cover-image data",
+            'href="/credits/">Credits and data sources',
+            "not a Journal Impact Factor",
         ):
             self.assertIn(required, page)
+        for removed in ("Data sources and credits", "Built on", "warning-list field remains disabled"):
+            self.assertNotIn(removed, page)
 
     def test_data_js_remains_parseable(self):
         text = (BUILD.parent / "data.js").read_text()

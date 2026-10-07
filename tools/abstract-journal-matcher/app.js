@@ -1,9 +1,9 @@
-import {prepareQuery,signalStatus} from "./src/preprocess.js?v=8";
-import {createSearch} from "./src/search.js?v=8";
-import {toCsv,download} from "./src/export.js?v=8";
-import {lookupEvidence,clearEvidenceCache} from "./src/api.js?v=8";
-import {safeTextElement} from "../_shared/js/dom.js?v=8";
-import {safeUrl} from "../_shared/js/safe-link.js?v=8";
+import {prepareQuery,signalStatus} from "./src/preprocess.js?v=9";
+import {createSearch} from "./src/search.js?v=9";
+import {toCsv,download} from "./src/export.js?v=9";
+import {lookupEvidence,clearEvidenceCache} from "./src/api.js?v=9";
+import {safeTextElement} from "../_shared/js/dom.js?v=9";
+import {safeUrl} from "../_shared/js/safe-link.js?v=9";
 
 const $=id=>document.getElementById(id), form=$("matcher"), resultBox=$("results"), status=$("status"), exportsBox=document.querySelector(".exports");
 let profiles=[], results=[], lastPrepared=null;

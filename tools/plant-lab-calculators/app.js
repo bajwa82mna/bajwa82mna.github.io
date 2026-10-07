@@ -1,11 +1,11 @@
-import {numbers} from './src/validation.js?v=8';
-import {ddCq} from './src/qpcr.js?v=8';
-import {singleDilution,serialDilution} from './src/dilution.js?v=8';
-import {molarityFromMass,massForMolarity} from './src/molarity.js?v=8';
-import {wallace,nearestNeighbor} from './src/tm.js?v=8';
-import {auditRecord,auditCsv,download} from './src/export.js?v=8';
-import {sig} from './src/units.js?v=8';
-import {safeTextElement} from '../_shared/js/dom.js?v=8';
+import {numbers} from './src/validation.js?v=9';
+import {ddCq} from './src/qpcr.js?v=9';
+import {singleDilution,serialDilution} from './src/dilution.js?v=9';
+import {molarityFromMass,massForMolarity} from './src/molarity.js?v=9';
+import {wallace,nearestNeighbor} from './src/tm.js?v=9';
+import {auditRecord,auditCsv,download} from './src/export.js?v=9';
+import {sig} from './src/units.js?v=9';
+import {safeTextElement} from '../_shared/js/dom.js?v=9';
 
 const $=selector=>document.querySelector(selector),$$=selector=>[...document.querySelectorAll(selector)];
 const node=(tag,value,className='')=>safeTextElement(document,tag,value,className);

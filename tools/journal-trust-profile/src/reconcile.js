@@ -1,5 +1,5 @@
-import { normalizeIssn } from './issn.js?v=8';
-import { STATUS, claim, sourceEvidence } from './schema.js?v=8';
+import { normalizeIssn } from './issn.js?v=9';
+import { STATUS, claim, sourceEvidence } from './schema.js?v=9';
 
 export const normalizeText = value => String(value || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, ' ').trim();
 const values = (records, key) => records.map(r => r[key]).filter(Boolean);

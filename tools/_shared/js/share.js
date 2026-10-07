@@ -1,11 +1,12 @@
-import {safeUrl} from './safe-link.js?v=8';
-import {safeTextElement} from './dom.js?v=8';
+import {safeUrl} from './safe-link.js?v=9';
+import {safeTextElement} from './dom.js?v=9';
 
 const SITE_HOST='smbajwa.com';
 const APPROVED=new Map([
   ['/', ['Shoaib Munir, Plant Molecular Biology','Plant molecular biology research and free, open tools for students and researchers — smbajwa.com']],
   ['/tools/', ['Open research tools','Seven free, open tools for students and researchers — smbajwa.com']],
   ['/privacy.html', ['Privacy Policy, Shoaib Munir','Privacy information for smbajwa.com and its browser-based research tools.']],
+  ['/credits/', ['Credits and data sources','Credits, open-data sources and software licences for smbajwa.com research tools']],
   ['/tools/emerging-journals-2026/', ['Emerging Journals Database 2026','Free, open tool for students and researchers: Emerging Journals Database 2026 — smbajwa.com']],
   ['/tools/reference-checker/', ['Reference Integrity Checker','Free, open tool for students and researchers: Reference Integrity Checker — smbajwa.com']],
   ['/tools/identifier-toolkit/', ['Identifier & Citation Toolkit','Free, open tool for students and researchers: Identifier & Citation Toolkit — smbajwa.com']],
