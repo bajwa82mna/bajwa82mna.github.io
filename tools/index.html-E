@@ -26,37 +26,37 @@
 <article class="tool">
 <h2>Emerging Journals Database 2026</h2>
 <p>Find journals in the translated 2026 quartile list and inspect open citation context.</p><dl><dt>Best for</dt><dd>Broad journal discovery</dd><dt>Input</dt><dd>Journal title, ISSN, or filters</dd><dt>Output</dt><dd>Sortable matching records</dd></dl>
-<div class="card-actions"><a class="open" href="emerging-journals-2026/">Open database →</a><button type="button" data-share data-share-url="https://smbajwa.com/tools/emerging-journals-2026/" data-share-title="Emerging Journals Database 2026" data-share-text="Free, open tool for students and researchers: Emerging Journals Database 2026 — smbajwa.com">Share</button></div>
+<div class="card-actions"><a class="open" href="emerging-journals-2026/">Open database →</a><a class="try" href="emerging-journals-2026/?example=1">Try example</a><button type="button" data-share data-share-url="https://smbajwa.com/tools/emerging-journals-2026/" data-share-title="Emerging Journals Database 2026" data-share-text="Free, open tool for students and researchers: Emerging Journals Database 2026 — smbajwa.com">Share</button></div>
 </article>
 <article class="tool">
 <h2>Reference Integrity Checker</h2>
 <p>Check a reference list for duplicates, mismatched metadata, and public update notices.</p><dl><dt>Best for</dt><dd>Pre-submission reference checks</dd><dt>Input</dt><dd>DOIs, references, BibTeX, RIS, or CSV</dd><dt>Output</dt><dd>Evidence report and CSV</dd></dl>
-<div class="card-actions"><a class="open" href="reference-checker/">Open checker →</a><button type="button" data-share data-share-url="https://smbajwa.com/tools/reference-checker/" data-share-title="Reference Integrity Checker" data-share-text="Free, open tool for students and researchers: Reference Integrity Checker — smbajwa.com">Share</button></div>
+<div class="card-actions"><a class="open" href="reference-checker/">Open checker →</a><a class="try" href="reference-checker/?example=1">Try example</a><button type="button" data-share data-share-url="https://smbajwa.com/tools/reference-checker/" data-share-title="Reference Integrity Checker" data-share-text="Free, open tool for students and researchers: Reference Integrity Checker — smbajwa.com">Share</button></div>
 </article>
 <article class="tool">
 <h2>Identifier &amp; Citation Toolkit</h2>
 <p>Clean and validate common scholarly identifiers, then retrieve selected public metadata.</p><dl><dt>Best for</dt><dd>Mixed identifier cleanup</dd><dt>Input</dt><dd>DOI, ISSN, ISBN, ORCID, or citations</dd><dt>Output</dt><dd>Validation and citation exports</dd></dl>
-<div class="card-actions"><a class="open" href="identifier-toolkit/">Open toolkit →</a><button type="button" data-share data-share-url="https://smbajwa.com/tools/identifier-toolkit/" data-share-title="Identifier &amp; Citation Toolkit" data-share-text="Free, open tool for students and researchers: Identifier &amp; Citation Toolkit — smbajwa.com">Share</button></div>
+<div class="card-actions"><a class="open" href="identifier-toolkit/">Open toolkit →</a><a class="try" href="identifier-toolkit/?example=1">Try example</a><button type="button" data-share data-share-url="https://smbajwa.com/tools/identifier-toolkit/" data-share-title="Identifier &amp; Citation Toolkit" data-share-text="Free, open tool for students and researchers: Identifier &amp; Citation Toolkit — smbajwa.com">Share</button></div>
 </article>
 <article class="tool">
 <h2>Journal Trust Profile</h2>
 <p>Gather source-linked journal identity, access, preservation, and output evidence.</p><dl><dt>Best for</dt><dd>Submission due diligence</dd><dt>Input</dt><dd>Journal title or ISSN</dd><dt>Output</dt><dd>Evidence dossier, not a score</dd></dl>
-<div class="card-actions"><a class="open" href="journal-trust-profile/">Open profile →</a><button type="button" data-share data-share-url="https://smbajwa.com/tools/journal-trust-profile/" data-share-title="Journal Trust Profile" data-share-text="Free, open tool for students and researchers: Journal Trust Profile — smbajwa.com">Share</button></div>
+<div class="card-actions"><a class="open" href="journal-trust-profile/">Open profile →</a><a class="try" href="journal-trust-profile/?example=1">Try example</a><button type="button" data-share data-share-url="https://smbajwa.com/tools/journal-trust-profile/" data-share-title="Journal Trust Profile" data-share-text="Free, open tool for students and researchers: Journal Trust Profile — smbajwa.com">Share</button></div>
 </article>
 <article class="tool">
 <h2>OA &amp; APC Explorer</h2>
 <p>Compare open-access fee declarations, waivers, licences, and budget scenarios.</p><dl><dt>Best for</dt><dd>OA cost planning</dd><dt>Input</dt><dd>Journal, subject, or ISSN</dd><dt>Output</dt><dd>Comparison table and budget range</dd></dl>
-<div class="card-actions"><a class="open" href="oa-apc-explorer/">Open explorer →</a><button type="button" data-share data-share-url="https://smbajwa.com/tools/oa-apc-explorer/" data-share-title="OA &amp; APC Explorer" data-share-text="Free, open tool for students and researchers: OA &amp; APC Explorer — smbajwa.com">Share</button></div>
+<div class="card-actions"><a class="open" href="oa-apc-explorer/">Open explorer →</a><a class="try" href="oa-apc-explorer/?example=1">Try example</a><button type="button" data-share data-share-url="https://smbajwa.com/tools/oa-apc-explorer/" data-share-title="OA &amp; APC Explorer" data-share-text="Free, open tool for students and researchers: OA &amp; APC Explorer — smbajwa.com">Share</button></div>
 </article>
 <article class="tool">
 <h2>Plant Lab Calculator Suite</h2>
 <p>Run transparent qPCR, dilution, molarity, and primer-Tm calculations offline.</p><dl><dt>Best for</dt><dd>Bench planning and methods records</dd><dt>Input</dt><dd>Ct values, concentrations, mass, or sequence</dd><dt>Output</dt><dd>Calculated values and formulas</dd></dl>
-<div class="card-actions"><a class="open" href="plant-lab-calculators/">Open calculators →</a><button type="button" data-share data-share-url="https://smbajwa.com/tools/plant-lab-calculators/" data-share-title="Plant Lab Calculator Suite" data-share-text="Free, open tool for students and researchers: Plant Lab Calculator Suite — smbajwa.com">Share</button></div>
+<div class="card-actions"><a class="open" href="plant-lab-calculators/">Open calculators →</a><a class="try" href="plant-lab-calculators/?example=1">Try example</a><button type="button" data-share data-share-url="https://smbajwa.com/tools/plant-lab-calculators/" data-share-title="Plant Lab Calculator Suite" data-share-text="Free, open tool for students and researchers: Plant Lab Calculator Suite — smbajwa.com">Share</button></div>
 </article>
 <article class="tool">
 <h2>Abstract-to-Journal Matcher</h2>
 <p>Turn plant-science manuscript signals into a private, explainable journal shortlist.</p><dl><dt>Best for</dt><dd>Early journal discovery</dd><dt>Input</dt><dd>Title, abstract, and keywords</dd><dt>Output</dt><dd>Ranked lexical-fit shortlist</dd></dl>
-<div class="card-actions"><a class="open" href="abstract-journal-matcher/">Open matcher →</a><button type="button" data-share data-share-url="https://smbajwa.com/tools/abstract-journal-matcher/" data-share-title="Abstract-to-Journal Matcher" data-share-text="Free, open tool for students and researchers: Abstract-to-Journal Matcher — smbajwa.com">Share</button></div>
+<div class="card-actions"><a class="open" href="abstract-journal-matcher/">Open matcher →</a><a class="try" href="abstract-journal-matcher/?example=1">Try example</a><button type="button" data-share data-share-url="https://smbajwa.com/tools/abstract-journal-matcher/" data-share-title="Abstract-to-Journal Matcher" data-share-text="Free, open tool for students and researchers: Abstract-to-Journal Matcher — smbajwa.com">Share</button></div>
 </article>
 </div>
 <p class="site-links">
