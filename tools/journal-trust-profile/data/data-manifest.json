@@ -3,8 +3,14 @@
   "generated": "2026-10-07",
   "source": "tools/emerging-journals-2026/data.js",
   "records": 22279,
-  "sha256": "fa33e25e8e951f2b7c5ec3d962cca9c2319d501dab3b7813b43296617504023f",
-  "fields": ["id", "title", "category", "quartile", "issns"],
+  "sha256": "a2593d2645015a7275e03a1501c58b05919587df8aa62e92b1bdf27c526d831d",
+  "fields": [
+    "id",
+    "title",
+    "category",
+    "quartile",
+    "issns"
+  ],
   "purpose": "Browser-local title and ISSN suggestions only",
   "limitations": "Category and quartile are labeled as smbajwa.com local-source context. They are not a trust score, endorsement, or live indexing claim. Online evidence is retrieved independently and does not depend on data-extra.js."
 }

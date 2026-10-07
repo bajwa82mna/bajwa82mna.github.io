@@ -8,6 +8,7 @@ const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const html=fs.readFileSync(path.join(root,'index.html'),'utf8');
 const app=fs.readFileSync(path.join(root,'app.js'),'utf8');
 const metrics=fs.readFileSync(path.join(root,'metrics.js'),'utf8');
+const openalex=await import('../src/openalex.js');
 
 test('bulk enrichment and lazy trends remain wired into the page',()=>{
   assert.match(html,/src="data-extra\.js/);
@@ -50,6 +51,13 @@ test('details retain live OpenAlex refresh with cache and rate-limit fallback',(
   assert.match(app,/localStorage/);
   assert.match(app,/429/);
   assert.match(app,/cached/i);
+});
+
+test('live refresh prefers ISSN and falls back to the row OpenAlex source ID',()=>{
+  assert.equal(openalex.openAlexSourceTarget(['x',1,2,3,'0036-8075','1095-9203'],['',0,0,0,0,0,0,'','S3880285']),'issn:0036-8075');
+  assert.equal(openalex.openAlexSourceTarget(['x',1,2,3,'',''],['',0,0,0,0,0,0,'','S3880285']),'S3880285');
+  assert.equal(openalex.openAlexSourceUrl('issn:0036-8075'),'https://api.openalex.org/sources/issn:0036-8075');
+  assert.equal(openalex.openAlexSourceUrl('S3880285'),'https://api.openalex.org/sources/S3880285');
 });
 
 test('citation trend avoids misleading year-over-year percentage',()=>{

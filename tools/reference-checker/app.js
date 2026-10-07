@@ -1,16 +1,16 @@
-import { parseInput } from './src/parse.js?v=9';
-import { compareRecords, plantWarnings } from './src/compare.js?v=9';
-import { findDuplicates } from './src/duplicates.js?v=9';
-import { classifyUpdates } from './src/updates.js?v=9';
-import { exportReport } from './src/export.js?v=9';
-import { createEvidenceCache } from './src/cache.js?v=9';
-import { normalizeDoi, normalizeText, yearOf } from './src/normalize.js?v=9';
-import { createPrivacyNotice, confirmLookup } from '../_shared/js/privacy.js?v=9';
-import { provenanceRecord } from '../_shared/js/provenance.js?v=9';
-import { downloadText } from '../_shared/js/download.js?v=9';
-import { loadLocale, applyLocale } from '../_shared/js/locale.js?v=9';
-import { safeTextElement } from '../_shared/js/dom.js?v=9';
-import { safeUrl } from '../_shared/js/safe-link.js?v=9';
+import { parseInput } from './src/parse.js?v=10';
+import { compareRecords, plantWarnings } from './src/compare.js?v=10';
+import { findDuplicates } from './src/duplicates.js?v=10';
+import { classifyUpdates } from './src/updates.js?v=10';
+import { exportReport } from './src/export.js?v=10';
+import { createEvidenceCache } from './src/cache.js?v=10';
+import { normalizeDoi, normalizeText, yearOf } from './src/normalize.js?v=10';
+import { createPrivacyNotice, confirmLookup } from '../_shared/js/privacy.js?v=10';
+import { provenanceRecord } from '../_shared/js/provenance.js?v=10';
+import { downloadText } from '../_shared/js/download.js?v=10';
+import { loadLocale, applyLocale } from '../_shared/js/locale.js?v=10';
+import { safeTextElement } from '../_shared/js/dom.js?v=10';
+import { safeUrl } from '../_shared/js/safe-link.js?v=10';
 
 const $ = id => document.getElementById(id), cache = createEvidenceCache();
 const state = { report: null };
@@ -36,24 +36,24 @@ function render() {
   if (!state.report?.records?.length) { results.append(el('div', 'No records to show.', 'empty-state')); return; }
   state.report.records.forEach((entry, index) => {
     setRecordStatus(entry); const card = el('article', null, 'result-card record-card'), header = document.createElement('header'), heading = el('h3', entry.local.title || entry.remote?.title || entry.local.DOI || 'Untitled record'); header.append(heading, el('span', `Reference ${index + 1}`, 'record-number')); card.append(header, el('p', entry.status, `status-pill ${entry.status.startsWith('Hard') ? 'invalid' : 'valid'}`));
-    const details = [entry.local.DOI ? `DOI ${entry.local.DOI}` : 'No DOI supplied', yearOf(entry.local), (entry.local.author || []).map(a => a.family || a.literal).filter(Boolean).join(', ')].filter(Boolean).join(' · '); card.append(el('p', details));
+    const details = [entry.local.DOI ? `DOI ${entry.local.DOI}` : 'No identifier supplied', yearOf(entry.local), (entry.local.author || []).map(a => a.family || a.literal).filter(Boolean).join(', ')].filter(Boolean).join(' · '); card.append(el('p', details));
     const findings = [...entry.updates.map(u => ({ ...u, message: `${u.label}${u.doi ? ` (${u.doi})` : ''} — ${u.source}` })), ...entry.findings];
     if (!findings.length && entry.sources.length) findings.push({ severity: 'advisory', message: 'No matching update alert was returned. This is absence of a match, not proof of integrity.' });
     if (findings.length) { const list = el('ul', null, 'finding-list'); findings.forEach(f => { const item = el('li', f.message, `finding ${f.severity}`); if (f.expected != null || f.returned != null) item.append(el('small', `Local: ${f.expected ?? 'missing'} · Source: ${f.returned ?? 'missing'}`)); list.append(item); }); card.append(list); }
     const sources = el('div', null, 'source-strip'); entry.sources.forEach(source => { const chip = el('span', null, 'source-chip'); chip.append(link(`${source.name} · ${source.status}`, source.url)); sources.append(chip); }); if (entry.local.DOI) sources.append(link('Resolve DOI', `https://doi.org/${encodeURIComponent(entry.local.DOI)}`)); card.append(sources); results.append(card);
-  }); $('download').disabled = false;
+  }); if (state.report.couldNotParse?.length) { const box=el('section',null,'result-card'); box.append(el('h3','Could not parse')); const list=el('ul'); state.report.couldNotParse.forEach(item=>list.append(el('li',`Line ${item.line}: ${item.text}`))); box.append(list); results.append(box); } $('download').disabled = false;
 }
 
 function analyse() {
   const parsed = parseInput($('reference-input').value, window.Cite), duplicates = findDuplicates(parsed.records);
-  state.report = { schema: 'smbajwa-reference-audit-v1', generatedAt: new Date().toISOString(), mode: 'local', records: parsed.records.map(emptyEntry), parseWarnings: parsed.warnings, duplicateGroups: duplicates, limitations: ['No alert found is not proof of integrity.', 'Metadata can be incomplete, delayed, or conflicting.'] };
+  state.report = { schema: 'smbajwa-reference-audit-v1', generatedAt: new Date().toISOString(), mode: 'local', records: parsed.records.map(emptyEntry), couldNotParse: parsed.couldNotParse, parseWarnings: parsed.warnings, duplicateGroups: duplicates, limitations: ['No alert found is not proof of integrity.', 'Metadata can be incomplete, delayed, or conflicting.'] };
   duplicates.forEach(group => group.indexes.forEach(index => state.report.records[index].findings.push({ severity: 'discrepancy', field: 'duplicate', message: `Possible duplicate: reference ${group.indexes.find(i => i !== index) + 1}. ${group.reason}.` })));
   render(); saveReport(); $('online').disabled = !parsed.records.length; status(`${parsed.records.length} record${parsed.records.length === 1 ? '' : 's'} analysed locally. ${duplicates.length} possible duplicate pair${duplicates.length === 1 ? '' : 's'} found.${parsed.warnings.length ? ` ${parsed.warnings.join(' ')}` : ''}`);
 }
 
 function crossrefUrl(record) {
   if (record.DOI) return `https://api.crossref.org/works/${encodeURIComponent(normalizeDoi(record.DOI))}?mailto=${encodeURIComponent(MAILTO)}`;
-  const params = new URLSearchParams({ 'query.bibliographic': record.title || '', rows: '1', mailto: MAILTO });
+  const params = new URLSearchParams({ 'query.bibliographic': [record.title, yearOf(record)].filter(Boolean).join(' '), rows: '1', mailto: MAILTO });
   const author = record.author?.[0]?.family; if (author) params.set('query.author', author); return `https://api.crossref.org/works?${params}`;
 }
 function openAlexUrl(record) { const target = record.DOI ? `https://doi.org/${record.DOI}` : null; return target ? `https://api.openalex.org/works/${encodeURIComponent(target)}?mailto=${encodeURIComponent(MAILTO)}` : `https://api.openalex.org/works?search=${encodeURIComponent(record.title || '')}&per-page=1&mailto=${encodeURIComponent(MAILTO)}`; }

@@ -63,5 +63,7 @@ import { test as _t } from 'node:test';
 import _assert from 'node:assert/strict';
 _t('Emerging Journals live OpenAlex lookup sends a hyphenated ISSN', () => {
   const src = _rf(new URL('../tools/emerging-journals-2026/app.js', import.meta.url), 'utf8');
-  _assert.match(src, /issn\.slice\(0,4\)\+'-'\+issn\.slice\(4\)/);
+  const target = _rf(new URL('../tools/emerging-journals-2026/src/openalex.js', import.meta.url), 'utf8');
+  _assert.match(src, /openAlexSourceTarget/);
+  _assert.match(target, /compact\.slice\(0, 4\).*compact\.slice\(4\)/);
 });

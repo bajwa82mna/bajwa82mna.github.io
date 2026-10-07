@@ -28,9 +28,9 @@ test('identifier example contains normalized checksum-valid public identifiers',
 
 test('reference DOI example detects its exact duplicate and discrepancy logic', () => {
   const parsed = parseInput(read('./reference-checker/examples/references.txt'), class { constructor(){ throw new Error('plain DOI mode'); } });
-  assert.equal(parsed.records.length, 2);
-  assert.deepEqual(parsed.records.map(x => x.DOI), ['10.1038/nature12373','10.1371/journal.pone.0000308']);
-  assert.deepEqual(findDuplicates([...parsed.records, {...parsed.records[0], id:'duplicate'}]), [{indexes:[0,2],reason:'Same normalized DOI'}]);
+  assert.equal(parsed.records.length, 3);
+  assert.deepEqual(parsed.records.map(x => x.DOI), ['10.1038/nature12373','10.1038/nature12373','10.1371/journal.pone.0000308']);
+  assert.deepEqual(findDuplicates(parsed.records), [{indexes:[0,1],reason:'Same normalized DOI'}]);
   const findings = compareRecords({title:'Molecular Structure of Nucleic Acids',author:[{family:'Watson'}],year:1953,DOI:'10.1038/171737a0'},{title:'Unrelated maize study',author:[{family:'Smith'}],year:1956});
   assert.deepEqual(findings.map(x => [x.field,x.severity]), [['title','failure'],['year','discrepancy'],['authors','discrepancy']]);
 });
