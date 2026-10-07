@@ -2,6 +2,10 @@
 
 This file records third-party software and public metadata services used by the research tools at smbajwa.com. Names are factual attribution and do not imply affiliation or endorsement.
 
+## Logo
+
+- Original artwork by the site owner; all rights reserved, © Dr. Shoaib Munir
+
 ## qrcode-generator
 
 - Original author: Kazuhiko Arase

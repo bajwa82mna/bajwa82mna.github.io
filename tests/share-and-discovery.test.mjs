@@ -60,7 +60,7 @@ test('OG, Twitter, canonical metadata use absolute local assets on every share p
     for(const property of ['og:url','og:image'])assert.match(html,new RegExp(`<meta property=["']${property}["'] content=["']https://`),`${page}: absolute ${property}`);
     assert.match(html,/<meta name="twitter:card" content="summary_large_image">/,`${page}: twitter card`);
     assert.match(html,/<link rel="canonical" href="https:\/\/smbajwa\.com\//,`${page}: canonical`);
-    const image=html.match(/<meta property="og:image" content="https:\/\/smbajwa\.com(\/assets\/og\/[^"?]+\.png)\?v=1">/)?.[1];
+    const image=html.match(/<meta property="og:image" content="https:\/\/smbajwa\.com(\/assets\/og\/[^"?]+\.png)\?v=2">/)?.[1];
     assert.ok(image,`${page}: cache-busted local OG image`);
     const file=path.join(root,image); assert.ok(fs.existsSync(file),`${page}: ${image}`); assert.ok(fs.statSync(file).size<150_000,`${image}: under 150KB`);
     const png=fs.readFileSync(file);assert.equal(png.readUInt32BE(16),1200,`${image}: width`);assert.equal(png.readUInt32BE(20),630,`${image}: height`);
@@ -101,17 +101,30 @@ test('every indexable page has complete discovery metadata and valid JSON-LD',()
   }
 });
 
-test('shared WeChat, favicon, manifest, sitemap, and 404 assets are complete',()=>{
-  for(const [file,minW,minH,max] of [['assets/og/wechat-thumb.png',300,300,100_000],['apple-touch-icon.png',180,180,100_000],['favicon-32x32.png',32,32,30_000]]){const png=fs.readFileSync(path.join(root,file));assert.equal(png.toString('ascii',1,4),'PNG',file);assert.ok(png.readUInt32BE(16)>=minW,file);assert.ok(png.readUInt32BE(20)>=minH,file);assert.ok(png.length<max,file)}
-  assert.doesNotThrow(()=>JSON.parse(fs.readFileSync(path.join(root,'site.webmanifest'),'utf8')));
+test('shared WeChat, logo icons, manifest, sitemap, and 404 assets are complete',()=>{
+  for(const [file,minW,minH,max] of [['assets/og/wechat-thumb.png',512,512,100_000],['assets/logo/favicon-32.png',32,32,30_000],['assets/logo/favicon-180.png',180,180,100_000],['assets/logo/favicon-192.png',192,192,100_000],['assets/logo/favicon-512.png',512,512,150_000]]){const png=fs.readFileSync(path.join(root,file));assert.equal(png.toString('ascii',1,4),'PNG',file);assert.equal(png.readUInt32BE(16),minW,file);assert.equal(png.readUInt32BE(20),minH,file);assert.ok(png.length<max,file)}
+  const manifest=JSON.parse(fs.readFileSync(path.join(root,'site.webmanifest'),'utf8'));
+  assert.deepEqual(manifest.icons.map(icon=>icon.sizes),['192x192','512x512']);
+  for(const icon of manifest.icons)assert.ok(fs.existsSync(path.join(root,icon.src.split('?')[0])),icon.src);
   const notFound=fs.readFileSync(path.join(root,'404.html'),'utf8');assert.match(notFound,/noindex/);assert.match(notFound,/href="\/tools\/"/);
   const xml=fs.readFileSync(path.join(root,'sitemap.xml'),'utf8');assert.match(xml,/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/);assert.match(xml,/<image:image>/);assert.doesNotMatch(xml,/404/);
+});
+
+test('every HTML page references the versioned logo icon set',()=>{
+  const allPages=['404.html','privacy.html',...pages];
+  for(const page of allPages){
+    const html=fs.readFileSync(path.join(root,page),'utf8');
+    assert.match(html,/<link rel="manifest" href="\/site\.webmanifest\?v=2">/,`${page}: manifest`);
+    assert.match(html,/<link rel="apple-touch-icon" href="\/assets\/logo\/favicon-180\.png\?v=2">/,`${page}: apple icon`);
+    assert.match(html,/<link rel="icon" href="\/assets\/logo\/favicon-32\.png\?v=2" sizes="32x32" type="image\/png">/,`${page}: favicon`);
+  }
 });
 
 test('theme control is shared, sticky, stateful, and no floating control remains',()=>{
   const js=fs.readFileSync(path.join(root,'theme.js'),'utf8'),css=fs.readFileSync(path.join(root,'style.css'),'utf8');
   for(const token of ['localStorage','try','prefers-color-scheme','aria-pressed','theme-state','site-bar'])assert.match(js,new RegExp(token));
   assert.match(css,/\.site-bar\{[^}]*position:sticky/);assert.doesNotMatch(css,/\.theme-switch\{[^}]*position:fixed/);
+  for(const asset of ['logo-horizontal.svg','logo-dark.svg']){assert.ok(fs.existsSync(path.join(root,'assets/logo',asset)),asset);assert.match(js,new RegExp(asset.replace('.','\\.')))}
   for(const page of [...pages,'privacy.html']){const html=fs.readFileSync(path.join(root,page),'utf8');assert.match(html,/theme\.js\?v=\d+/);assert.match(html,/style\.css\?v=\d+/)}
 });
 

@@ -5,6 +5,7 @@ import { detectIdentifiers } from '../src/detect.js';
 import { normalizeDoi, validateDoi } from '../src/doi.js';
 import { normalizeIssn, validateIssn } from '../src/issn.js';
 import { normalizeOrcid, validateOrcid } from '../src/orcid.js';
+import { normalizeIsbn, validateIsbn } from '../src/isbn.js';
 import { buildLookupUrls } from '../src/lookup.js';
 import { crossrefToCsl, openAlexToCsl, compareMetadata } from '../src/format.js';
 import { exportRecords } from '../src/export.js';
@@ -32,6 +33,13 @@ test('validates ORCID using ISO 7064 MOD 11-2', () => {
   assert.equal(normalizeOrcid('https://orcid.org/0000-0002-1825-0097'), '0000-0002-1825-0097');
   assert.equal(validateOrcid('0000-0002-1825-0097').valid, true);
   assert.equal(validateOrcid('0000-0002-1825-0098').valid, false);
+});
+
+test('validates ISBN-10 and ISBN-13 check digits', () => {
+  assert.equal(normalizeIsbn('ISBN 978-0-306-40615-7'), '978-0-306-40615-7');
+  assert.equal(validateIsbn('978-0-306-40615-7').valid, true);
+  assert.equal(validateIsbn('0-306-40615-2').valid, true);
+  assert.equal(validateIsbn('978-0-306-40615-8').valid, false);
 });
 
 test('detects mixed identifiers without silently dropping source text', () => {
@@ -65,4 +73,8 @@ test('exports deterministic JSON without abstract fields', () => {
   const output = exportRecords([{ id: 'x', title: 'Safe', abstract: '<script>x</script>' }], 'json');
   assert.equal(output.includes('abstract'), false);
   assert.equal(output, '[\n  {\n    "id": "x",\n    "title": "Safe"\n  }\n]\n');
+});
+
+test('exports CSV with escaped cells', () => {
+  assert.equal(exportRecords([{DOI:'10.1/x',title:'A, title',publisher:'Lab "One"'}], 'csv'), 'DOI,title,publisher,year\r\n10.1/x,"A, title","Lab ""One""",\r\n');
 });

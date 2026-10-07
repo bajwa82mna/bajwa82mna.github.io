@@ -1,0 +1,7 @@
+qPCR treated target: 22.0, 22.2, 21.8
+qPCR treated reference: 19.0, 19.1, 18.9
+qPCR control target: 25.0, 25.2, 24.8
+qPCR control reference: 20.0, 20.1, 19.9
+Dilution: 100 to 10, final volume 1000, 10% overage
+Molarity: 5.844 mg NaCl (58.44 g/mol) in 1 mL
+Primer: AGCTGACCTGATCGTACGTA; 50 mM Na+; 250 nM

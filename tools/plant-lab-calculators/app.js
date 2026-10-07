@@ -3,7 +3,7 @@ import {ddCq} from './src/qpcr.js';
 import {singleDilution,serialDilution} from './src/dilution.js';
 import {molarityFromMass,massForMolarity} from './src/molarity.js';
 import {wallace,nearestNeighbor} from './src/tm.js';
-import {auditRecord,download} from './src/export.js';
+import {auditRecord,auditCsv,download} from './src/export.js';
 import {sig} from './src/units.js';
 import {safeTextElement} from '../_shared/js/dom.js';
 
@@ -18,7 +18,8 @@ function render(element,title,content,record){
   const exportButton=node('button','Download JSON record','export');exportButton.type='button';exportButton.dataset.export='';
   const printButton=node('button','Print methods record','export');printButton.type='button';
   exportButton.addEventListener('click',()=>download(`plant-lab-${record.calculator}-${Date.now()}.json`,JSON.stringify(record,null,2)));
-  printButton.addEventListener('click',()=>window.print());actions.append(exportButton,printButton);
+  const csvButton=node('button','Download CSV','export');csvButton.type='button';csvButton.addEventListener('click',()=>download(`plant-lab-${record.calculator}-${Date.now()}.csv`,auditCsv(record),'text/csv'));
+  printButton.addEventListener('click',()=>window.print());actions.append(exportButton,csvButton,printButton);
   element.replaceChildren(node('h3',title),...content,actions);last=record;
 }
 function fail(element,error){const message=document.createElement('p');message.className='error';message.append(node('b','Check the inputs: '),document.createTextNode(String(error?.message||error)));element.replaceChildren(message)}

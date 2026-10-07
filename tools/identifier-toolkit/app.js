@@ -23,7 +23,7 @@ $('privacy-slot').append(createPrivacyNotice({
 
 function setStatus(message) { $('status').textContent = message; }
 function updateActions() {
-  $('lookup').disabled = !state.items.some(item => item.valid);
+  $('lookup').disabled = !state.items.some(item => item.valid && (item.type === 'doi' || item.type === 'issn'));
   const noRecords = state.records.length === 0;
   $('copy-all').disabled = noRecords;
   $('download-all').disabled = noRecords;
@@ -58,7 +58,7 @@ function analyse() {
       if (!state.records.length) throw new Error('No supported citation records found.');
       results.append(...state.records.map((record, index) => recordCard(record, `Imported record ${index + 1}`)));
       setStatus(`${state.records.length} citation record${state.records.length === 1 ? '' : 's'} parsed locally.`);
-    } catch { results.append(text('div', 'No DOI, ISSN, ORCID, BibTeX, RIS or supported citation record was detected.', 'empty-state')); setStatus('Nothing recognized. Check the example and input format.'); }
+    } catch { results.append(text('div', 'No DOI, ISSN, ISBN, ORCID, BibTeX, RIS or supported citation record was detected.', 'empty-state')); setStatus('Nothing recognized. Check the example and input format.'); }
   } else {
     results.append(...state.items.map(identifierCard));
     const valid = state.items.filter(item => item.valid).length;
@@ -131,7 +131,7 @@ async function lookup() {
   if (!domains.length) { setStatus('Choose at least one provider.'); return; }
   if (!confirmLookup(domains)) { setStatus('Online lookup cancelled. Local results remain available.'); return; }
   $('lookup').disabled = true; state.records = [];
-  const valid = state.items.filter(item => item.valid && item.type !== 'orcid');
+  const valid = state.items.filter(item => item.valid && (item.type === 'doi' || item.type === 'issn'));
   for (let index = 0; index < valid.length; index++) { setStatus(`Looking up ${index + 1} of ${valid.length}…`); await lookupItem(valid[index], providers); }
   setStatus(`Lookup finished. ${state.records.length} citation record${state.records.length === 1 ? '' : 's'} ready to export.`); updateActions();
 }
@@ -139,9 +139,9 @@ async function lookup() {
 function renderedExport() { return exportRecords(state.records, $('export-format').value, window.Cite); }
 $('analyze').addEventListener('click', analyse);
 $('lookup').addEventListener('click', lookup);
-$('example').addEventListener('click', () => { $('identifier-input').value = 'DOI: 10.1038/s41586-020-2649-2\nISSN 2049-3630\nORCID 0000-0002-1825-0097'; analyse(); });
+$('example').addEventListener('click', () => { $('identifier-input').value = 'DOI: 10.1038/nature12373\nISSN 0028-0836\nORCID 0000-0002-1825-0097\nISBN 978-0-306-40615-7'; analyse(); });
 $('clear').addEventListener('click', () => { $('identifier-input').value = ''; state.items = []; state.records = []; $('results').replaceChildren(text('div', 'Paste identifiers and choose “Analyse locally” to begin.', 'empty-state')); setStatus('Cleared.'); updateActions(); });
 $('clear-cache').addEventListener('click', () => { cache.clear(); setStatus('Lookup cache cleared.'); });
 $('copy-all').addEventListener('click', async () => { try { await copyText(renderedExport()); setStatus('Export copied to the clipboard.'); } catch (error) { setStatus(error.message); } });
-$('download-all').addEventListener('click', () => { const format = $('export-format').value, extension = { json: 'json', bibtex: 'bib', ris: 'ris' }[format] || 'txt'; downloadText(`identifier-toolkit-export.${extension}`, renderedExport(), format === 'json' ? 'application/json' : 'text/plain'); setStatus('Export downloaded.'); });
+$('download-all').addEventListener('click', () => { const format = $('export-format').value, extension = { json: 'json', csv: 'csv', bibtex: 'bib', ris: 'ris' }[format] || 'txt'; downloadText(`identifier-toolkit-export.${extension}`, renderedExport(), format === 'json' ? 'application/json' : format === 'csv' ? 'text/csv' : 'text/plain'); setStatus('Export downloaded.'); });
 updateActions();
