@@ -14,7 +14,7 @@ Technical notes for maintaining smbajwa.com. No credentials or personal contact 
 Only allow-listed canonical `https://smbajwa.com` URLs and fixed approved titles/text are shared. Query and hash are stripped, except a validated journal deep link `?q=<title>` that must match a dataset journal. User-entered text is never shared. WeChat uses a locally generated QR code.
 
 ## Cache and deploy procedure
-1. Bump the `?v=N` on every changed asset reference (css, js, logo, icons, manifest).
+1. Bump the `?v=N` on every changed asset reference (css, js, logo, icons, manifest). Every relative ESM import in a tool's `app.js` and nested `src/*.js` must also carry the same `?v=N` used by that tool; never leave a module-graph edge unversioned.
 2. Commit and push to `main`.
 3. Wait until the Pages build for that commit is finished before requesting any new `?v=` URL, otherwise Cloudflare caches the stale file under the new version:
    `gh api repos/bajwa82mna/bajwa82mna.github.io/pages/builds/latest --jq '.status, .commit'` (status `built`, commit equal to `git rev-parse HEAD`).

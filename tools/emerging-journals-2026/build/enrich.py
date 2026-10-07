@@ -58,6 +58,31 @@ def normalize_issn(value: object) -> str | None:
     return f"{compact[:4]}-{compact[4:]}"
 
 
+def valid_issn(value: object) -> bool:
+    normalized = normalize_issn(value)
+    if not normalized:
+        return False
+    compact = normalized.replace("-", "")
+    total = sum((8 - index) * (10 if digit == "X" else int(digit)) for index, digit in enumerate(compact))
+    return total % 11 == 0
+
+
+def blank_unvalidated_issns(raw: dict, extras: list[list | None]) -> dict[str, int]:
+    """Blank ISSNs unless checksum-valid and confirmed by the title-guarded OpenAlex join."""
+    corrected = blanked = invalid = unmatched = 0
+    for index, row in enumerate(raw["rows"]):
+        values = [value for value in row[4:6] if value]
+        bad_checksum = any(not valid_issn(value) for value in values)
+        title_confirmed = index < len(extras) and extras[index] is not None and bool(extras[index][8])
+        if values and (bad_checksum or not title_confirmed):
+            corrected += 1
+            blanked += len(values)
+            invalid += int(bad_checksum)
+            unmatched += int(not title_confirmed)
+            row[4:6] = [""] * len(row[4:6])
+    return {"records_corrected": corrected, "issns_blanked": blanked, "invalid_checksum": invalid, "title_mismatch_or_unmatched": unmatched}
+
+
 def load_raw(path: pathlib.Path = DATA_PATH) -> dict:
     text = path.read_text(encoding="utf-8")
     match = re.fullmatch(r"\s*const RAW=(.*);\s*", text, re.DOTALL)
@@ -294,6 +319,9 @@ def build(refresh: bool = False) -> dict:
         if openalex_trend:
             trends[str(index)] = openalex_trend
 
+    corrections = blank_unvalidated_issns(raw, extras)
+    DATA_PATH.write_text("const RAW=" + json.dumps(raw, ensure_ascii=False, separators=(",", ":")) + ";\n", encoding="utf-8")
+
     metadata = {
         "fields": list(FIELD_NAMES),
         "sources": ["OpenAlex Sources (CC0)"],
@@ -309,6 +337,7 @@ def build(refresh: bool = False) -> dict:
     report = make_report(extras)
     report["trends"] = {"openalex": len(trends)}
     report["errors"] = errors
+    report["issn_corrections"] = corrections
     REPORT_PATH.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     return report
 

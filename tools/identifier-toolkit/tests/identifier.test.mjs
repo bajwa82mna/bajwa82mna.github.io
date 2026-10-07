@@ -48,6 +48,15 @@ test('detects mixed identifiers without silently dropping source text', () => {
   assert.equal(result[0].raw, '10.1038/s41586-020-2649-2');
 });
 
+test('detects labelled and bare ISBN-10 and ISBN-13 values', () => {
+  for (const input of ['ISBN 978-0-306-40615-7', '978-0-306-40615-7', 'ISBN 0-306-40615-2']) {
+    const result = detectIdentifiers(input);
+    assert.equal(result.length, 1, input);
+    assert.equal(result[0].type, 'isbn', input);
+    assert.equal(result[0].valid, true, input);
+  }
+});
+
 test('builds only documented public lookup URLs and includes the OpenAlex mailto', () => {
   const urls = buildLookupUrls({ type: 'doi', normalized: '10.1038/s41586-020-2649-2' });
   assert.match(urls.crossref, /^https:\/\/api\.crossref\.org\/works\//);

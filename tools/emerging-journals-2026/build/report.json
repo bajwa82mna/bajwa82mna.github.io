@@ -43,5 +43,11 @@
   "trends": {
     "openalex": 21231
   },
-  "errors": {}
+  "errors": {},
+  "issn_corrections": {
+    "records_corrected": 938,
+    "issns_blanked": 1498,
+    "invalid_checksum": 4,
+    "title_mismatch_or_unmatched": 934
+  }
 }

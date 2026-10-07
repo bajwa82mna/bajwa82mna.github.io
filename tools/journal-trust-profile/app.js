@@ -1,14 +1,14 @@
-import Fuse from './third_party/fuse/7.5.0/fuse.min.mjs';
-import { extractIssns, isValidIssn, normalizeIssn } from './src/issn.js';
-import { emptyProfile } from './src/schema.js';
-import { reconcile } from './src/reconcile.js';
-import { lookupDoaj, lookupOpenAlex, lookupCrossref, lookupPlantWorks } from './src/evidence.js';
-import { buildEvidenceClaims, statusExplanation } from './src/explain.js';
-import { dossierFilename, dossierJson, dossierCsv } from './src/export.js';
-import { createCache } from './src/cache.js';
-import { downloadText } from '../_shared/js/download.js';
-import { safeTextElement } from '../_shared/js/dom.js';
-import { safeUrl } from '../_shared/js/safe-link.js';
+import Fuse from './third_party/fuse/7.5.0/fuse.min.mjs?v=8';
+import { extractIssns, isValidIssn, normalizeIssn } from './src/issn.js?v=8';
+import { emptyProfile } from './src/schema.js?v=8';
+import { reconcile, exactTitleMatch, recordsForIdentity } from './src/reconcile.js?v=8';
+import { lookupDoaj, lookupOpenAlex, lookupCrossref, lookupPlantWorks } from './src/evidence.js?v=8';
+import { buildEvidenceClaims, statusExplanation } from './src/explain.js?v=8';
+import { dossierFilename, dossierJson, dossierCsv } from './src/export.js?v=8';
+import { createCache } from './src/cache.js?v=8';
+import { downloadText } from '../_shared/js/download.js?v=8';
+import { safeTextElement } from '../_shared/js/dom.js?v=8';
+import { safeUrl } from '../_shared/js/safe-link.js?v=8';
 
 const $ = id => document.getElementById(id);
 const query = $('journal-query'), suggestions = $('suggestions'), status = $('status');
@@ -27,7 +27,8 @@ function showSuggestions() {
   clearTimeout(timer); timer = setTimeout(() => {
     const value = query.value.trim(); suggestions.replaceChildren(); selected = null; activeSuggestion = -1; query.removeAttribute('aria-activedescendant');
     if (!fuse || value.length < 2) return;
-    fuse.search(value, { limit: 8 }).forEach(({item}, index) => { const button = document.createElement('button'); button.type = 'button'; button.id = `journal-suggestion-${index}`; button.className = 'suggestion'; button.setAttribute('role','option'); button.setAttribute('aria-selected','false'); const label = document.createElement('span'); label.append(text('strong',item.title), text('small',[item.category, item.issns.join(' · ')].filter(Boolean).join(' · '))); button.append(label,text('span',`Q${item.quartile}`,'quartile')); button.onclick = () => chooseSuggestion(item); suggestions.append(button); });
+    const matches = fuse.search(value, { limit: 8 }).map(result => result.item); const exact = exactTitleMatch(matches, value); if (exact) matches.splice(matches.indexOf(exact), 1), matches.unshift(exact);
+    matches.forEach((item, index) => { const button = document.createElement('button'); button.type = 'button'; button.id = `journal-suggestion-${index}`; button.className = 'suggestion'; button.setAttribute('role','option'); button.setAttribute('aria-selected','false'); const label = document.createElement('span'); label.append(text('strong',item.title), text('small',[item.publisher || 'Publisher not reported locally', item.issns.join(' · ')].filter(Boolean).join(' · '))); button.append(label,text('span',`Q${item.quartile}`,'quartile')); button.onclick = () => chooseSuggestion(item); suggestions.append(button); });
   }, 120);
 }
 function chooseSuggestion(item) { selected = item; query.value = item.issns[0] || item.title; suggestions.replaceChildren(); activeSuggestion = -1; query.removeAttribute('aria-activedescendant'); status.textContent = `${item.title} selected from the local smbajwa.com source.`; }
@@ -35,13 +36,14 @@ function setActiveSuggestion(index) { const options = [...suggestions.querySelec
 async function cached(name, key, task) { const cacheKey = `${name}:${key}`; const prior = cache.get(cacheKey); if (prior) return { value: prior, cached: true }; const value = await task(); if (value) cache.set(cacheKey, value); return { value, cached: false }; }
 async function lookup() {
   const entered = query.value.trim(); if (!entered) { status.textContent = 'Enter a journal title or ISSN.'; query.focus(); return; }
+  if (!selected && !extractIssns(entered).length) selected = exactTitleMatch(seed, entered);
   const issnMatches = extractIssns(entered); const issn = selected?.issns?.[0] || issnMatches[0] || ''; const title = selected?.title || (!issn ? entered : '');
   if (issn && !isValidIssn(issn)) { status.textContent = `${normalizeIssn(issn)} does not pass the ISSN checksum.`; return; }
   if (!confirm(`This lookup sends only ${issn || title} to DOAJ, OpenAlex, and Crossref. Continue?`)) return;
   $('lookup').disabled = true; status.textContent = 'Requesting public metadata from DOAJ, OpenAlex, and Crossref…';
   const key = issn || title.toLowerCase(); const tasks = [ ['DOAJ', () => lookupDoaj({issn,title})], ['OpenAlex', () => lookupOpenAlex({issn,title})], ['Crossref', () => lookupCrossref({issn,title})], ['OpenAlex works', () => lookupPlantWorks({issn,title})] ];
   const settled = await Promise.allSettled(tasks.map(([name, task]) => cached(name,key,task)));
-  const records = settled.slice(0,3).map(x => x.status === 'fulfilled' ? x.value.value : null).filter(Boolean); const works = settled[3].status === 'fulfilled' ? settled[3].value.value : [];
+  const returned = settled.slice(0,3).map(x => x.status === 'fulfilled' ? x.value.value : null).filter(Boolean); const records = recordsForIdentity(returned, {title,issns:issn?[issn]:[]}); const works = settled[3].status === 'fulfilled' ? settled[3].value.value : [];
   const failures = settled.map((x,i) => x.status === 'rejected' ? `${tasks[i][0]}: ${x.reason.message}` : null).filter(Boolean);
   profile = emptyProfile({ entered, issns: issn ? [issn] : [], title, localSelection: selected }); const merged = reconcile(records, profile.query); profile.identity = merged.identity; profile.claims = [...merged.claims, ...buildEvidenceClaims(records, works)]; profile.conflicts = merged.conflicts; profile.works = works; profile.sources = records.map(r => ({source:r.source,url:r.url,retrievedAt:r.retrievedAt})); profile.errors = failures; profile.checklist = readChecklist();
   renderProfile(); $('lookup').disabled = false; const cacheCount = settled.filter(x => x.status === 'fulfilled' && x.value.cached).length; status.textContent = `Profile built from ${records.length} source response${records.length===1?'':'s'}${cacheCount ? ` (${cacheCount} cached)` : ''}.${failures.length ? ` ${failures.length} request${failures.length===1?'':'s'} could not be completed.` : ''}`;

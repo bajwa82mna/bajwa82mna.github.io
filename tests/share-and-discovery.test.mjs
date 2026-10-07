@@ -43,7 +43,7 @@ test('all public share pages expose accessible share controls and shared assets'
   for(const page of pages){
     const html=fs.readFileSync(path.join(root,page),'utf8');
     assert.match(html,/data-share\b/,`${page}: button`);
-    assert.match(html,/tools\/_shared\/css\/share\.css\?v=1/,`${page}: CSS cache bust`);
+    assert.match(html,/tools\/_shared\/css\/share\.css\?v=8/,`${page}: CSS cache bust`);
     assert.match(html,/tools\/_shared\/js\/share\.js\?v=\d+/,`${page}: JS cache bust`);
   }
 });
@@ -60,7 +60,7 @@ test('OG, Twitter, canonical metadata use absolute local assets on every share p
     for(const property of ['og:url','og:image'])assert.match(html,new RegExp(`<meta property=["']${property}["'] content=["']https://`),`${page}: absolute ${property}`);
     assert.match(html,/<meta name="twitter:card" content="summary_large_image">/,`${page}: twitter card`);
     assert.match(html,/<link rel="canonical" href="https:\/\/smbajwa\.com\//,`${page}: canonical`);
-    const image=html.match(/<meta property="og:image" content="https:\/\/smbajwa\.com(\/assets\/og\/[^"?]+\.png)\?v=2">/)?.[1];
+    const image=html.match(/<meta property="og:image" content="https:\/\/smbajwa\.com(\/assets\/og\/[^"?]+\.png)\?v=8">/)?.[1];
     assert.ok(image,`${page}: cache-busted local OG image`);
     const file=path.join(root,image); assert.ok(fs.existsSync(file),`${page}: ${image}`); assert.ok(fs.statSync(file).size<150_000,`${image}: under 150KB`);
     const png=fs.readFileSync(file);assert.equal(png.readUInt32BE(16),1200,`${image}: width`);assert.equal(png.readUInt32BE(20),630,`${image}: height`);
@@ -114,9 +114,9 @@ test('every HTML page references the versioned logo icon set',()=>{
   const allPages=['404.html','privacy.html',...pages];
   for(const page of allPages){
     const html=fs.readFileSync(path.join(root,page),'utf8');
-    assert.match(html,/<link rel="manifest" href="\/site\.webmanifest\?v=2">/,`${page}: manifest`);
-    assert.match(html,/<link rel="apple-touch-icon" href="\/assets\/logo\/favicon-180\.png\?v=2">/,`${page}: apple icon`);
-    assert.match(html,/<link rel="icon" href="\/assets\/logo\/favicon-32\.png\?v=2" sizes="32x32" type="image\/png">/,`${page}: favicon`);
+    assert.match(html,/<link rel="manifest" href="\/site\.webmanifest\?v=8">/,`${page}: manifest`);
+    assert.match(html,/<link rel="apple-touch-icon" href="\/assets\/logo\/favicon-180\.png\?v=8">/,`${page}: apple icon`);
+    assert.match(html,/<link rel="icon" href="\/assets\/logo\/favicon-32\.png\?v=8" sizes="32x32" type="image\/png">/,`${page}: favicon`);
   }
 });
 

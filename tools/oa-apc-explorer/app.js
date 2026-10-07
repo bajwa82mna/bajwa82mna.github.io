@@ -1,14 +1,15 @@
-import Fuse from './third_party/fuse/7.5.0/fuse.min.mjs';
-import { normalizeJournal } from './src/normalize.js';
-import { joinByIssn } from './src/join.js';
-import { filterJournals, sortJournals } from './src/filters.js';
-import { toggleComparison, comparisonRows, MAX_COMPARE } from './src/compare.js';
-import { calculateBudget } from './src/budget.js';
-import { formatMoney } from './src/currency.js';
-import { toCsv, toJson } from './src/export.js';
-import { readCache, writeCache, clearCache } from './src/cache.js';
-import { safeTextElement } from '../_shared/js/dom.js';
-import { safeUrl } from '../_shared/js/safe-link.js';
+import Fuse from './third_party/fuse/7.5.0/fuse.min.mjs?v=8';
+import { normalizeJournal } from './src/normalize.js?v=8';
+import { joinByIssn } from './src/join.js?v=8';
+import { filterJournals, sortJournals } from './src/filters.js?v=8';
+import { toggleComparison, comparisonRows, MAX_COMPARE } from './src/compare.js?v=8';
+import { calculateBudget } from './src/budget.js?v=8';
+import { formatMoney } from './src/currency.js?v=8';
+import { toCsv, toJson } from './src/export.js?v=8';
+import { readCache, writeCache, clearCache } from './src/cache.js?v=8';
+import { safeTextElement } from '../_shared/js/dom.js?v=8';
+import { safeUrl } from '../_shared/js/safe-link.js?v=8';
+import { fetchJsonWithRateLimitRetry } from './src/fetch.js?v=8';
 
 const $ = id => document.getElementById(id);
 const state = {journals: [], compared: [], fuse: null};
@@ -20,7 +21,7 @@ function setStatus(message, error = false) { els.status.textContent = message; e
 async function fetchJson(url) {
   const cached = readCache(url);
   if (cached) return {data: cached, cached: true};
-  const response = await fetch(url, {headers: {'Accept': 'application/json'}});
+  const response = await fetchJsonWithRateLimitRetry(url);
   if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
   const data = await response.json(); writeCache(url, data); return {data, cached: false};
 }

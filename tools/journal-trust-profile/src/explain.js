@@ -1,5 +1,5 @@
-import { STATUS, claim, sourceEvidence } from './schema.js';
-import { subjectFit } from './reconcile.js';
+import { STATUS, claim, sourceEvidence } from './schema.js?v=8';
+import { subjectFit } from './reconcile.js?v=8';
 
 export function buildEvidenceClaims(records, works = []) {
   const doaj = records.find(r => r?.source === 'DOAJ');

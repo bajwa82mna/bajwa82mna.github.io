@@ -19,6 +19,14 @@ class EnrichTests(unittest.TestCase):
         self.assertEqual(self.enrich.normalize_issn("1234567x"), "1234-567X")
         self.assertIsNone(self.enrich.normalize_issn("not-an-issn"))
 
+    def test_issn_validation_blanks_records_without_a_title_confirmed_openalex_match(self):
+        raw = {"rows": [[1, "Chemical Reviews", 3, 1, "2520-1131"], [2, "Good Journal", 3, 1, "2049-3630"]]}
+        extras = [None, ["", None, None, 1, 0, 0, None, "", "S1", "", None]]
+        report = self.enrich.blank_unvalidated_issns(raw, extras)
+        self.assertEqual(raw["rows"][0][4:], [""])
+        self.assertEqual(raw["rows"][1][4:], ["2049-3630"])
+        self.assertEqual(report, {"records_corrected": 1, "issns_blanked": 1, "invalid_checksum": 0, "title_mismatch_or_unmatched": 1})
+
     def test_pick_source_requires_exact_issn_overlap(self):
         sources = [
             {"id": "https://openalex.org/S1", "display_name": "Alpha Journal", "issn": ["1111-1111"]},

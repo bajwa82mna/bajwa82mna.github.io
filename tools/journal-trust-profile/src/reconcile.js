@@ -1,5 +1,5 @@
-import { normalizeIssn } from './issn.js';
-import { STATUS, claim, sourceEvidence } from './schema.js';
+import { normalizeIssn } from './issn.js?v=8';
+import { STATUS, claim, sourceEvidence } from './schema.js?v=8';
 
 export const normalizeText = value => String(value || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, ' ').trim();
 const values = (records, key) => records.map(r => r[key]).filter(Boolean);
@@ -12,6 +12,21 @@ export function titleSimilarity(a, b) {
   if (!aa.size || !bb.size) return 0;
   const common = [...aa].filter(x => bb.has(x)).length;
   return common / (aa.size + bb.size - common);
+}
+
+export function exactTitleMatch(records, title) {
+  const key = normalizeText(title);
+  return records.find(record => normalizeText(record.title) === key) || null;
+}
+
+export function recordsForIdentity(records, query = {}) {
+  const wantedIssns = new Set((query.issns || []).map(normalizeIssn).filter(Boolean));
+  const wantedTitle = normalizeText(query.title);
+  return records.filter(record => {
+    const recordIssns = (record.issns || []).map(normalizeIssn).filter(Boolean);
+    if (wantedIssns.size) return recordIssns.some(issn => wantedIssns.has(issn));
+    return wantedTitle && normalizeText(record.title) === wantedTitle;
+  });
 }
 
 export function reconcile(records, query = {}) {

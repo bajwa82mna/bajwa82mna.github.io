@@ -1,13 +1,13 @@
-import { detectIdentifiers } from './src/detect.js';
-import { buildLookupUrls } from './src/lookup.js';
-import { crossrefToCsl, openAlexToCsl, compareMetadata } from './src/format.js';
-import { exportRecords } from './src/export.js';
-import { createLocalCache } from '../_shared/js/cache.js';
-import { provenanceRecord, renderProvenance } from '../_shared/js/provenance.js';
-import { createPrivacyNotice, confirmLookup } from '../_shared/js/privacy.js';
-import { copyText, downloadText } from '../_shared/js/download.js';
-import { safeTextElement } from '../_shared/js/dom.js';
-import { safeUrl } from '../_shared/js/safe-link.js';
+import { detectIdentifiers } from './src/detect.js?v=8';
+import { buildLookupUrls } from './src/lookup.js?v=8';
+import { crossrefToCsl, openAlexToCsl, compareMetadata } from './src/format.js?v=8';
+import { exportRecords, identifierSummaryRecords } from './src/export.js?v=8';
+import { createLocalCache } from '../_shared/js/cache.js?v=8';
+import { provenanceRecord, renderProvenance } from '../_shared/js/provenance.js?v=8';
+import { createPrivacyNotice, confirmLookup } from '../_shared/js/privacy.js?v=8';
+import { copyText, downloadText } from '../_shared/js/download.js?v=8';
+import { safeTextElement } from '../_shared/js/dom.js?v=8';
+import { safeUrl } from '../_shared/js/safe-link.js?v=8';
 
 const $ = id => document.getElementById(id);
 const state = { items: [], records: [] };
@@ -60,6 +60,7 @@ function analyse() {
       setStatus(`${state.records.length} citation record${state.records.length === 1 ? '' : 's'} parsed locally.`);
     } catch { results.append(text('div', 'No DOI, ISSN, ISBN, ORCID, BibTeX, RIS or supported citation record was detected.', 'empty-state')); setStatus('Nothing recognized. Check the example and input format.'); }
   } else {
+    state.records = identifierSummaryRecords(state.items);
     results.append(...state.items.map(identifierCard));
     const valid = state.items.filter(item => item.valid).length;
     setStatus(`${state.items.length} identifier${state.items.length === 1 ? '' : 's'} found; ${valid} valid.`);

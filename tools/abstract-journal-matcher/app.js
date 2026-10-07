@@ -1,9 +1,9 @@
-import {prepareQuery,signalStatus} from "./src/preprocess.js";
-import {createSearch} from "./src/search.js";
-import {toCsv,download} from "./src/export.js";
-import {lookupEvidence,clearEvidenceCache} from "./src/api.js";
-import {safeTextElement} from "../_shared/js/dom.js";
-import {safeUrl} from "../_shared/js/safe-link.js";
+import {prepareQuery,signalStatus} from "./src/preprocess.js?v=8";
+import {createSearch} from "./src/search.js?v=8";
+import {toCsv,download} from "./src/export.js?v=8";
+import {lookupEvidence,clearEvidenceCache} from "./src/api.js?v=8";
+import {safeTextElement} from "../_shared/js/dom.js?v=8";
+import {safeUrl} from "../_shared/js/safe-link.js?v=8";
 
 const $=id=>document.getElementById(id), form=$("matcher"), resultBox=$("results"), status=$("status"), exportsBox=document.querySelector(".exports");
 let profiles=[], results=[], lastPrepared=null;
@@ -37,10 +37,10 @@ function render(){
   const input={title:$("title").value,abstract:$("abstract").value,keywords:$("keywords").value,exclusions:$("exclude").value,expand:$("expand").checked};lastPrepared=prepareQuery(input);const signal=signalStatus(lastPrepared);
   if(signal.level==="low"){results=[];resultBox.replaceChildren();$("topics").replaceChildren();status.textContent=signal.message;exportsBox.hidden=true;return}
   const search=createSearch(window.MiniSearch,profiles);results=search(lastPrepared,{oa:$("oa").checked,noApc:$("no-apc").checked},{diverse:$("diverse").checked});
-  status.textContent=`${signal.message} Showing ${results.length} plausible ${results.length===1?"journal":"journals"}; scores are relative to this shortlist.`;exportsBox.hidden=!results.length;
+  status.textContent=results.length?`${signal.message} Showing ${results.length} plausible ${results.length===1?"journal":"journals"}; scores are relative to this shortlist.`:"No journals match these filters. Try unticking ‘No APC’ or ‘Open access’.";exportsBox.hidden=!results.length;
   $("topics").replaceChildren(...lastPrepared.groups.map(g=>text("span",`${g.name}: ${g.matches.slice(0,3).join(", ")}`)));
   const max=results[0]?.score||1;resultBox.replaceChildren(...results.map((r,i)=>resultCard(r,i+1,max)));
-  if(!results.length)resultBox.append(text("p","No profiles match the selected evidence filters. Remove a filter or broaden the manuscript signals.","method-note"));
+  if(!results.length)resultBox.append(text("p","No journals match these filters. Try unticking ‘No APC’ or ‘Open access’.","method-note"));
 }
 form.addEventListener("submit",e=>{e.preventDefault();render();$("results-section").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"})});
 $("example").onclick=()=>{$("title").value="Root architectural and transcriptomic responses improve drought tolerance in bread wheat";$("abstract").value="We combined field phenotyping and RNA sequencing to investigate drought-responsive root architecture in diverse Triticum aestivum cultivars. Water deficit altered root depth, abscisic acid signaling, photosynthesis and antioxidant responses. Candidate genes and quantitative trait loci were associated with yield stability under stress.";$("keywords").value="wheat, drought, root architecture, transcriptomics, crop improvement";render()};
