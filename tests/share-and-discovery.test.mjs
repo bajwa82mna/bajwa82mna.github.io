@@ -119,3 +119,12 @@ test('journal cards use the shared dialog with deep-link citation and summary ac
   const js=fs.readFileSync(path.join(root,'tools/emerging-journals-2026/app.js'),'utf8');
   for(const token of ['openShare','https://smbajwa.com/tools/emerging-journals-2026/','searchParams.set(\'q\'','citation','summary','OpenAlex citation score','Copy summary'])assert.match(js,new RegExp(token.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace('Copy summary','summary')));
 });
+
+test('journal deep-link share data survives normalize then buildShareUrls', async () => {
+  const { normalizeShareData, buildShareUrls } = await import('../tools/_shared/js/share.js');
+  const title = 'Nature Reviews Disease Primers';
+  const url = new URL('https://smbajwa.com/tools/emerging-journals-2026/'); url.searchParams.set('q', title);
+  const input = { url: url.href, title: title + ' — Emerging Journals 2026', text: 'Journal record: ' + title + ' — Emerging Journals Database 2026, smbajwa.com', journal: { title, issns: ['2056-676X'] } };
+  const normalized = normalizeShareData(input);
+  assert.ok(buildShareUrls(normalized).X.includes('x.com/intent'));
+});

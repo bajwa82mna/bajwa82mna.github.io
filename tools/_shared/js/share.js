@@ -35,7 +35,7 @@ export function validateShareData(input={}){
 
 export function normalizeShareData(input={}){
   const url=validateShareData(input);
-  return {url:url.href,title:String(input.title||'smbajwa.com'),text:String(input.text||''),citation:String(input.citation||''),summary:String(input.summary||'')};
+  return {url:url.href,title:String(input.title||'smbajwa.com'),text:String(input.text||''),citation:String(input.citation||''),summary:String(input.summary||''),journal:input.journal};
 }
 
 export function buildShareUrls(input){
