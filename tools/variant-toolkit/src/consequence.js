@@ -1,4 +1,4 @@
-import {parseVcfRecords,MAX_BYTES} from './vcf.js?v=17';
+import {parseVcfRecords,MAX_BYTES} from './vcf.js?v=18';
 
 const complement={A:'T',T:'A',C:'G',G:'C',N:'N'};
 const reverseComplement=s=>[...s.toUpperCase()].reverse().map(x=>complement[x]||'N').join('');

@@ -107,7 +107,11 @@ def request_json(url):
     for attempt in range(5):
         try:
             with urllib.request.urlopen(req,timeout=60) as response:return json.load(response)
-        except (urllib.error.URLError,urllib.error.HTTPError,TimeoutError):
+        except urllib.error.HTTPError as exc:
+            if exc.code==404: return {"message":{"items":[]},"missing":True}
+            if attempt==4: raise
+            time.sleep(2**attempt)
+        except (urllib.error.URLError,TimeoutError):
             if attempt==4: raise
             time.sleep(2**attempt)
 
