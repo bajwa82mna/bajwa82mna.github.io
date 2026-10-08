@@ -1,4 +1,4 @@
-import{summarize}from'./src/summary.js?v=19';
+import{summarize}from'./src/summary.js?v=20';
 const coverage=window.JOURNAL_TIMING_COVERAGE||{},$=id=>document.getElementById(id),CACHE_PREFIX='smbajwa.timing.',CACHE_TTL=30*86400000;
 let manifest={subjects:[],examples:[]},loaded=[],visible=[],sort={key:'j',direction:1},searchToken=0,liveBusy=false,lastLiveStart=0;
 const shardCache=new Map(),titleCache=new Map();

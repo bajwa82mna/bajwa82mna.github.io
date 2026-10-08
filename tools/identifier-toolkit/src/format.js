@@ -1,4 +1,4 @@
-import { normalizeDoi } from './doi.js?v=19';
+import { normalizeDoi } from './doi.js?v=20';
 
 const stripMarkup = value => String(value || '').replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
 const cleanAuthors = authors => (authors || []).map(author => ({ given: stripMarkup(author.given), family: stripMarkup(author.family) })).filter(author => author.given || author.family);

@@ -1,4 +1,4 @@
-import { cleanIssn } from './normalize.js?v=19';
+import { cleanIssn } from './normalize.js?v=20';
 
 export function joinByIssn(journals, sources) {
   const index = new Map();

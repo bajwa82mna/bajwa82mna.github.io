@@ -1,5 +1,5 @@
-import {parseCsv, setupLocalFileInput} from './file-input.js?v=19';
-import {applyPlantCalculatorExample, parsePlantCalculatorExample} from './plant-calculator-example.js?v=19';
+import {parseCsv, setupLocalFileInput} from './file-input.js?v=20';
+import {applyPlantCalculatorExample, parsePlantCalculatorExample} from './plant-calculator-example.js?v=20';
 
 const path = location.pathname.split('/').filter(Boolean).at(-1);
 const configs = {
