@@ -8,7 +8,7 @@ An experimental, static-browser workbench by Shoaib Munir / smbajwa.com for DOI,
 
 ## Privacy and data flow
 
-Recognition, normalization, checksum validation, Citation.js parsing and exports run locally. The page sends only a selected valid identifier after the user clicks the online lookup button and confirms the displayed domains. Crossref is the default provider; OpenAlex and DOAJ are opt-in. OpenAlex requests include `mailto=contact@smbajwa.com`. ORCID use is limited to validation and a public-record link. No API keys, client secrets, analytics or tracking scripts are included.
+Recognition, normalization, checksum validation, Citation.js parsing and exports run locally. The page sends only a selected valid identifier after the user clicks the online lookup button and confirms the displayed domains. Crossref is the default provider; OpenAlex and DOAJ are opt-in. OpenAlex requests include the `mailto` parameter (Contact (at) smbajwa.com). ORCID use is limited to validation and a public-record link. No API keys, client secrets, analytics or tracking scripts are included.
 
 Lookup responses are cached in browser `localStorage` for 30 days and can be cleared in the interface. Input and recent history are not stored. Abstract fields are intentionally discarded and excluded from exports.
 

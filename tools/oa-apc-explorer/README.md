@@ -9,7 +9,7 @@ A static, browser-only research tool by Shoaib Munir / smbajwa.com for comparing
 ## Sources and refresh behavior
 
 - DOAJ journal metadata (CC0) is requested live after the user submits a search. The tool uses OA/APC declarations, currencies, waivers, licences, copyright fields, subjects, publisher, title, and ISSNs.
-- OpenAlex source metadata (CC0) is requested live by validated ISSN, with `mailto=contact@smbajwa.com`, to add contextual work/OA counts.
+- OpenAlex source metadata (CC0) is requested live by validated ISSN, with the `mailto` parameter (Contact (at) smbajwa.com), to add contextual work/OA counts.
 - Responses are cached in `localStorage` for 30 days and can be cleared in the interface.
 - The repository snapshot contains zero journal records. `data/data-manifest.json` documents this deliberate choice.
 - OpenAPC data are not used, copied, merged, or cached. The interface only links to OpenAPC as a separate historical-cost resource.

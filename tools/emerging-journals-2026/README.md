@@ -14,7 +14,7 @@ Run from the repository root:
 python3 tools/emerging-journals-2026/build/enrich.py
 ```
 
-The standard-library-only builder reads `data.js`, batches up to 50 ISSNs per OpenAlex request, and identifies requests with `mailto=contact@smbajwa.com`. Responses are cached in `build/cache/`. Set `OPENALEX_API_KEY` in the environment only when required; the key must never be written to disk.
+The standard-library-only builder reads `data.js`, batches up to 50 ISSNs per OpenAlex request, and identifies requests with the `mailto` parameter (Contact (at) smbajwa.com). Responses are cached in `build/cache/`. Set `OPENALEX_API_KEY` in the environment only when required; the key must never be written to disk.
 
 OpenAlex ISSN candidates must pass the normalized journal-name agreement guard. Names are accent-folded, `&` is treated as `and`, common stopwords are removed, and remaining names must be substrings or reach a `difflib` ratio of at least 0.85. Cache filenames use the `v2|` key prefix so pre-guard responses cannot silently determine matches. Warning-list ingestion remains disabled because its redistribution licence is unclear.
 

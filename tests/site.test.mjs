@@ -50,7 +50,7 @@ test('deployed HTML and app code contain no tracking, API keys, or prohibited co
 
 test('privacy policy documents local processing, optional lookups, caches, and providers',()=>{
   const text=fs.readFileSync(path.join(root,'privacy.html'),'utf8');
-  for(const expected of ['2026-10-07','contact@smbajwa.com','localStorage','IndexedDB','30 days','Crossref','OpenAlex','DOAJ','Manuscripts and abstract text never leave your browser'])assert.match(text,new RegExp(expected,'i'));
+  for(const expected of ['2026-10-07','Contact \\(at\\) smbajwa.com','localStorage','IndexedDB','30 days','Crossref','OpenAlex','DOAJ','Manuscripts and abstract text never leave your browser'])assert.match(text,new RegExp(expected,'i'));
   assert.match(text,/Cloudflare[\s\S]*if enabled/i);
   assert.match(text,/after[\s\S]*confirmation/i);
   assert.doesNotMatch(text,/social media scheduling|LinkedIn and X account/i);

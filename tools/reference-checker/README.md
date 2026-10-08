@@ -8,7 +8,7 @@ Experimental, local-first reference audit by Shoaib Munir for smbajwa.com. It ac
 
 ## Online evidence and privacy
 
-Online checking runs only after confirmation. It sends a normalized DOI, or citation title/first-author search fields when no DOI is available, to Crossref. OpenAlex is an optional second source and requests identify `contact@smbajwa.com` through `mailto`. Files and filenames are never sent. API responses are cached in IndexedDB for 30 days; the visible clear action removes that cache and the latest locally saved report. Abstracts are discarded and never exported. There are no tracking scripts or API keys.
+Online checking runs only after confirmation. It sends a normalized DOI, or citation title/first-author search fields when no DOI is available, to Crossref. OpenAlex is an optional second source and requests identify the site contact (Contact (at) smbajwa.com) through `mailto`. Files and filenames are never sent. API responses are cached in IndexedDB for 30 days; the visible clear action removes that cache and the latest locally saved report. Abstracts are discarded and never exported. There are no tracking scripts or API keys.
 
 Crossref `update-to` metadata is classified as retraction, correction/erratum, expression of concern, reinstatement, or other update. Duplicate notices are collapsed. No match is evidence only of an absent match, not proof that a work is correct or unaffected by an update.
 

@@ -9,7 +9,7 @@ An experimental, client-side evidence dossier for journal identity, open-access 
 ## Sources and privacy
 
 - Local suggestions: a minimized seed derived from `../emerging-journals-2026/data.js` on 2026-10-07.
-- Live lookups after explicit confirmation: DOAJ, OpenAlex (with `mailto=contact@smbajwa.com`), and Crossref.
+- Live lookups after explicit confirmation: DOAJ, OpenAlex (identified by the `mailto` parameter, Contact (at) smbajwa.com), and Crossref.
 - Cache: browser local storage, 30-day expiry, visibly clearable.
 - Checklist notes: session storage only and included in an explicit JSON download.
 - No tracking, API keys, editor/contact collection, publisher-page scraping, Clarivate/Scopus/CAS data, or JIF values.
