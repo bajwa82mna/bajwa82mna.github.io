@@ -1,4 +1,7 @@
 const tabs = [...document.querySelectorAll('[role="tab"]')];
+const mounts = [...document.querySelectorAll('iframe[data-src]')];
+
+window.EmbedBridge.mountFrames(mounts);
 
 function setMode(mode, focus = false) {
   const selected = tabs.find(tab => tab.dataset.mode === mode) || tabs[0];
@@ -9,7 +12,7 @@ function setMode(mode, focus = false) {
     const panel = document.getElementById(tab.getAttribute('aria-controls'));
     panel.hidden = !active;
     const frame = panel.querySelector('iframe[data-src]');
-    if (active && !frame.src) frame.src = frame.dataset.src;
+    if (active && !frame.getAttribute('src')) frame.src = frame.dataset.src;
   }
   if (focus) selected.focus();
   const url = new URL(location.href);

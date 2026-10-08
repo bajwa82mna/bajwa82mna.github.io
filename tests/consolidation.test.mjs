@@ -44,7 +44,8 @@ test('Journal Hub exposes one workflow with five accessible modes and combined j
   assert.match(app, /params\.get\('q'\)/);
   assert.match(app, /params\.get\('journal'\)/);
   assert.match(app, /history\.replaceState/);
-  assert.match(app, /profile-mount/);
+  assert.match(app, /showComparisonFrames/);
+  assert.match(app, /comparison-source/);
   assert.doesNotMatch(app, /innerHTML|insertAdjacentHTML/);
 });
 

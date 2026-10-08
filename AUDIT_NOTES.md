@@ -60,3 +60,12 @@ The consolidated hubs now lazy-mount the complete audited applications from `64c
 | Legacy `example`, `q`, `journal`, mode and tab redirects | Shared legacy redirect | `tests/full-parity.test.mjs`, `tests/consolidation.test.mjs` |
 | Lazy workflow assets and initial page-weight budget | Journal Hub mounts | `tests/full-parity.test.mjs` |
 | One cache version across each reachable HTML module/CSS graph | Release `v=15` | `tests/module-cache-version.test.mjs` |
+
+## 2026-10-08 — Embedded tool shell and responsive mounts
+
+- Added one shared, strict-CSP-compatible embed bridge at `tools/_shared/js/embed.js` and `tools/_shared/css/embed.css`, both on release `v=15`. `?embed=1` is applied before page content is parsed; embedded pages hide the site bar, breadcrumb/hero chrome, share controls, duplicate how-to content and footer while retaining tool controls and results.
+- Added same-origin, exact-window validation for parent theme messages and same-origin, exact-iframe-source validation for height messages. Embedded tools report visible content height through `ResizeObserver`; Journal Hub and Publishing Toolkit remove fixed minimum heights and disable iframe scrolling.
+- Journal Hub now declares one iframe per tool. Compare reuses the existing trust, OA/APC, timing and matcher frame elements, while lazy loading remains based on `data-src`. Legacy `?q=`/`?journal=` selection updates the one shared set of frames and the combined-profile status.
+- Added Node regressions for embed flag behavior, parent/frame message validation, duplicate frame sources and shared asset/release-version coverage.
+- Verification: `node --test` 174/174 passed; Emerging Journals Python tests 15/15 passed; Journal Timing Python tests 5/5 passed; `git diff --check` clean.
+- Real Chrome smoke check (local HTTP): all five Journal Hub tabs activated; Find showed the OA/APC and timing controls without nested chrome, Match loaded on demand, Compare contained four unique reused frames, Trends loaded on demand, and Check reused the single trust frame. `?mode=compare&q=Plant+Journal` synchronized all four profile URLs and displayed `Combined evidence for Plant Journal`. Publishing Toolkit switched between both lazily loaded modes with measured heights (1194 px and 1212 px in the smoke viewport) and no embedded header/site bar/footer. Plant Lab Toolkit switched among dilution, qPCR and sequence modes; its `?embed=1` view kept the workflow controls while hiding outer chrome and duplicate how-to content.

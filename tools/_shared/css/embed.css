@@ -1,0 +1,20 @@
+html.is-embedded .site-bar,
+html.is-embedded body > header,
+html.is-embedded body > footer,
+html.is-embedded nav[aria-label="Breadcrumb"],
+html.is-embedded .share-line,
+html.is-embedded [data-share],
+html.is-embedded .embed-how-to {
+  display: none !important;
+}
+
+html.is-embedded,
+html.is-embedded body {
+  min-height: 0;
+  overflow: hidden;
+}
+
+html.is-embedded body > main {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
