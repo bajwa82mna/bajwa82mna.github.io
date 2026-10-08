@@ -16,22 +16,21 @@ const retired = [
   ['identifier-toolkit', '/tools/publishing-toolkit/?mode=identifiers'],
 ];
 
-test('retired tool URLs are noindex static redirect stubs with canonical visible fallbacks', () => {
+test('retired tool URLs are noindex full mounts with the shared redirect gate', () => {
   for (const [slug, target] of retired) {
     const html = read(`tools/${slug}/index.html`);
     assert.match(html, /name="robots" content="noindex,follow"/);
-    assert.match(html, /http-equiv="refresh"/);
-    assert.ok(html.includes(`href="${target}"`), `${slug}: visible target`);
-    assert.match(html, /rel="canonical" href="https:\/\/smbajwa\.com\/tools\/(?:journal-hub|publishing-toolkit)\//);
-    assert.doesNotMatch(html, /application\/ld\+json/);
+    assert.match(html, /legacy-redirect\.js\?v=15/);
+    assert.match(html, /app\.js\?v=15/);
+    assert.ok(target);
   }
 });
 
-test('Emerging Journals redirect preserves q and lands on Journal Hub profile', () => {
-  const js = read('tools/emerging-journals-2026/redirect.js');
-  assert.match(js, /searchParams\.get\('q'\)/);
-  assert.match(js, /target\.searchParams\.set\('q'/);
-  assert.match(js, /target\.searchParams\.set\('journal'/);
+test('shared legacy redirect preserves allow-listed q links', () => {
+  const js = read('tools/_shared/js/legacy-redirect.js');
+  assert.match(js, /keep: \['q'/);
+  assert.match(js, /source\.searchParams\.get/);
+  assert.match(js, /target\.searchParams\.set/);
   assert.match(js, /location\.replace/);
 });
 
@@ -40,22 +39,19 @@ test('Journal Hub exposes one workflow with five accessible modes and combined j
   const app = read('tools/journal-hub/app.js');
   for (const label of ['Find journals','Match my abstract','Compare','Trends / Explore','Check one journal']) assert.ok(html.includes(label), label);
   const combined = `${html}\n${app}`;
-  for (const token of ['role="tablist"','role="tab"','aria-controls','Identity & ISSNs','OA, APC & waiver','Timing evidence','Trust signals','Acceptance rate','Not openly available','lexical','private','Crossref','OpenAlex','DOAJ']) assert.match(combined, new RegExp(token.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i'), token);
-  assert.match(app, /MAX_COMPARE\s*=\s*5/);
-  assert.match(app, /split\(\/\\s\+\/\)\.length>25/);
-  assert.match(app, /trends\/trends-/);
+  for (const token of ['role="tablist"','role="tab"','aria-controls','Combined journal profile','Acceptance rate','Not openly available','lexical','private','Crossref','OpenAlex','DOAJ']) assert.match(combined, new RegExp(token.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i'), token);
+  for (const slug of ['journal-trust-profile','oa-apc-explorer','abstract-journal-matcher','journal-timing','emerging-journals-2026']) assert.match(html,new RegExp(slug));
   assert.match(app, /params\.get\('q'\)/);
   assert.match(app, /params\.get\('journal'\)/);
   assert.match(app, /history\.replaceState/);
-  assert.match(app, /JOURNAL_TIMING_DATA/);
-  assert.match(app, /RAW\.rows/);
+  assert.match(app, /profile-mount/);
   assert.doesNotMatch(app, /innerHTML|insertAdjacentHTML/);
 });
 
-test('Journal Hub references existing large datasets once and does not duplicate them', () => {
+test('Journal Hub lazy mounts workflows and does not eagerly load large datasets', () => {
   const html = read('tools/journal-hub/index.html');
   for (const asset of ['../emerging-journals-2026/data.js','../emerging-journals-2026/data-extra.js','../journal-timing/data/timing-data.js']) {
-    assert.equal((html.match(new RegExp(asset.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'g')) || []).length, 1, asset);
+    assert.equal((html.match(new RegExp(`<script[^>]+${asset.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}`,'g')) || []).length, 0, asset);
   }
   assert.equal(fs.existsSync(path.join(root,'tools/journal-hub/data.js')), false);
 });
@@ -64,8 +60,9 @@ test('Publishing Toolkit exposes both retained workflows and links journal ident
   const html = read('tools/publishing-toolkit/index.html');
   const app = read('tools/publishing-toolkit/app.js');
   for (const token of ['Reference checker','Identifier toolkit','role="tablist"','DOI','ISSN','ORCID','ISBN','Journal Hub']) assert.match(html,new RegExp(token,'i'),token);
-  assert.match(app, /detectIdentifiers/);
-  assert.match(app, /parseInput/);
+  assert.match(html, /reference-checker\/\?embed=1/);
+  assert.match(html, /identifier-toolkit\/\?embed=1/);
+  assert.match(app, /data-src/);
   assert.doesNotMatch(app, /innerHTML|insertAdjacentHTML/);
 });
 

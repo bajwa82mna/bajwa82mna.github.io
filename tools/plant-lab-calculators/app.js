@@ -1,12 +1,12 @@
-import {solveDilution,serialDilution} from './src/dilution-core.js?v=12';
-import {analyseQpcr} from './src/qpcr-core.js?v=12';
-import {transformSequence} from './src/sequence-core.js?v=12';
-import {molarityFromMass,massForMolarity} from './src/molarity.js?v=12';
-import {wallace,nearestNeighbor} from './src/tm.js?v=12';
-import {parseCsv,setupLocalFileInput} from '../_shared/js/file-input.js?v=12';
-import {downloadText} from '../_shared/js/download.js?v=12';
-import {safeTextElement} from '../_shared/js/dom.js?v=12';
-const $=id=>document.getElementById(id),fmt=x=>Number(x).toLocaleString(undefined,{maximumSignificantDigits:8});let qpcrResults=[];
+import {solveDilution,serialDilution} from './src/dilution-core.js?v=15';
+import {analyseQpcr} from './src/qpcr-core.js?v=15';
+import {transformSequence} from './src/sequence-core.js?v=15';
+import {molarityFromMass,massForMolarity} from './src/molarity.js?v=15';
+import {wallace,nearestNeighbor} from './src/tm.js?v=15';
+import {parseCsv,setupLocalFileInput} from '../_shared/js/file-input.js?v=15';
+import {downloadText} from '../_shared/js/download.js?v=15';
+import {safeTextElement} from '../_shared/js/dom.js?v=15';
+const $=id=>document.getElementById(id),fmt=x=>Number(x).toLocaleString(undefined,{maximumSignificantDigits:8});let qpcrResults=[],sequenceResults=[];
 const text=(tag,value)=>safeTextElement(document,tag,value);
 function fail(id,error){$(id).replaceChildren(text('p',String(error?.message||error)))}
 function table(headers,rows){const table=document.createElement('table'),thead=document.createElement('thead'),tr=document.createElement('tr');headers.forEach(v=>tr.append(text('th',v)));thead.append(tr);const tbody=document.createElement('tbody');rows.forEach(row=>{const line=document.createElement('tr');row.forEach(v=>line.append(text('td',v)));tbody.append(line)});table.append(thead,tbody);return table}
@@ -21,7 +21,8 @@ const molarityForm=$('molarity-form');molarityForm.querySelectorAll('[name=mode]
 const rowsFromText=value=>parseCsv(value).slice(1).map(r=>[r[0],r[1],r[2],r[3]]);
 function runQpcr(){try{qpcrResults=analyseQpcr(rowsFromText($('qpcr-data').value),{target:$('target').value.trim(),reference:$('reference').value.trim(),control:$('control').value.trim(),mode:$('mode').value,targetEfficiency:Number($('te').value),referenceEfficiency:Number($('re').value)});$('qpcr-result').replaceChildren(table(['Sample','Group','Mean target Ct','ΔCt','ΔΔCt','Fold','Flags'],qpcrResults.map(r=>r.error?[r.sample,r.group,'—','—','—','—',r.error]:[r.sample,r.group,r.targetMean.toFixed(3),r.delta.toFixed(3),r.ddCt.toFixed(3),r.fold.toFixed(4),[r.replicateWarning?'Replicate SD > 0.5':'',...r.warnings].filter(Boolean).join('; ')||'OK'])))}catch(error){fail('qpcr-result',error)}}
 $('qpcr-form').addEventListener('submit',event=>{event.preventDefault();runQpcr()});setupLocalFileInput({input:$('qpcr-file'),status:$('file-status'),extensions:['csv'],maxRows:5000,onRead:r=>{$('qpcr-data').value=r.text;runQpcr()}});$('qpcr-download').addEventListener('click',()=>{const head='sample,group,mean_target_ct,delta_ct,delta_delta_ct,fold_change,propagated_se,propagated_fold_sd',lines=qpcrResults.filter(x=>!x.error).map(x=>[x.sample,x.group,x.targetMean,x.delta,x.ddCt,x.fold,x.se,x.sdFold].join(','));downloadText('plant-lab-qpcr-results.csv',[head,...lines].join('\r\n')+'\r\n','text/csv')});
-$('sequence-form').addEventListener('submit',event=>{event.preventDefault();try{const r=transformSequence($('sequence-data').value,{rna:new FormData(event.target).get('alphabet')==='rna'}),out=document.createDocumentFragment();r.records.forEach(record=>{out.append(text('h3',record.name),text('p',`Length ${record.length}; GC ${fmt(record.gc)}%`),text('pre',`Complement: ${record.complement}\nReverse: ${record.reverse}\nReverse complement: ${record.reverseComplement}\nTranscript: ${record.transcript}`))});$('sequence-result').replaceChildren(out)}catch(error){fail('sequence-result',error)}});
+$('sequence-form').addEventListener('submit',event=>{event.preventDefault();try{const r=transformSequence($('sequence-data').value,{rna:new FormData(event.target).get('alphabet')==='rna'}),operation=$('sequence-operation').value,out=document.createDocumentFragment();sequenceResults=r.records;r.records.forEach(record=>{out.append(text('h3',record.name),text('p',`Length ${record.length}; GC ${fmt(record.gc)}%`),text('pre',record[operation]))});$('sequence-result').replaceChildren(out)}catch(error){sequenceResults=[];fail('sequence-result',error)}});
+$('sequence-download').addEventListener('click',()=>{const operation=$('sequence-operation').value;if(!sequenceResults.length)return fail('sequence-result','Transform a sequence before downloading.');const fasta=sequenceResults.map(record=>`>${record.name} ${operation}\n${record[operation]}`).join('\n')+'\n';downloadText('plant-lab-sequences.fasta',fasta,'text/x-fasta')});
 $('tm-form').addEventListener('submit',event=>{event.preventDefault();const form=new FormData(event.target),input={sequence:form.get('sequence'),method:form.get('method'),sodiumMm:+form.get('sodiumMm'),primerNm:+form.get('primerNm'),selfComplementary:form.has('selfComplementary')};try{const r=input.method==='wallace'?wallace(input.sequence):nearestNeighbor(input.sequence,input);$('tm-result').replaceChildren(text('p',`Tm = ${fmt(r.tm)} °C; length ${r.length} nt; GC ${fmt(r.gcPercent)}%; ${r.method}.`))}catch(error){fail('tm-result',error)}});
 function loadExample(tab){if(tab==='dilution'){Object.assign($('c1'),{value:100});$('v1').value='';$('c2').value=10;$('v2').value=50;runDilution()}else if(tab==='qpcr'){$('qpcr-data').value='sample,group,gene,Ct\nC1,control,target,20.0\nC1,control,target,20.2\nC1,control,ref,18.0\nC1,control,ref,18.2\nT1,treated,target,18.0\nT1,treated,target,18.2\nT1,treated,ref,18.0\nT1,treated,ref,18.2';runQpcr()}else{$('sequence-data').value='>example\nARYN';$('sequence-form').requestSubmit()}}
 if(new URLSearchParams(location.search).get('example')==='1')loadExample((initial||tabs[0]).dataset.tab);

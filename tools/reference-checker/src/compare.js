@@ -1,4 +1,4 @@
-import { authorFamilies, normalizeText, titleTokens, yearOf } from './normalize.js?v=10';
+import { authorFamilies, normalizeText, titleTokens, yearOf } from './normalize.js?v=15';
 
 export function similarity(a, b) {
   const left = titleTokens(a), right = titleTokens(b); if (!left.size && !right.size) return 1;

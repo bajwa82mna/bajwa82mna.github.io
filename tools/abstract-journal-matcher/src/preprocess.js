@@ -1,4 +1,4 @@
-import {GENERIC, detectGroups, expansionTerms} from "./plant-terms.js?v=10";
+import {GENERIC, detectGroups, expansionTerms} from "./plant-terms.js?v=15";
 
 export function normalizeText(value="") {
   return value.normalize("NFKC").toLowerCase().replace(/[‐‑‒–—]/g,"-").replace(/([a-z])-(?=[a-z])/g,"$1 ").replace(/[^\p{L}\p{N}+.-]+/gu," ").replace(/\s+/g," ").trim();

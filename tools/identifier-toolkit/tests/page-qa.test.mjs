@@ -5,8 +5,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const toolDir = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const pageDir = resolve(toolDir, '../publishing-toolkit');
-const html = await readFile(resolve(pageDir, 'index.html'), 'utf8');
+const html = await readFile(resolve(toolDir, 'index.html'), 'utf8');
 
 test('every external HTML link opens safely in a new tab', () => {
   const tags = html.match(/<a\b[^>]*href="https?:\/\/[^>]+>/g) || [];
@@ -19,7 +18,7 @@ test('every external HTML link opens safely in a new tab', () => {
 test('all local stylesheets and scripts referenced by the page exist', async () => {
   const references = [...html.matchAll(/(?:src|href)="([^"?#]+)(?:[?#][^"]*)?"/g)].map(match => match[1]).filter(path => path.endsWith('.js') || path.endsWith('.css'));
   for (const reference of references) {
-    const target = reference.startsWith('/') ? resolve(toolDir, '../..', reference.slice(1)) : resolve(pageDir, reference);
+    const target = reference.startsWith('/') ? resolve(toolDir, '../..', reference.slice(1)) : resolve(toolDir, reference);
     await assert.doesNotReject(access(target), `Missing local asset: ${reference}`);
   }
 });

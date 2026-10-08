@@ -33,3 +33,30 @@ Uncertain/manual follow-up: browser-specific canvas resampling and memory limits
 - Ported page-level tests to the consolidated interfaces while retaining all core, fixture, data-integrity, XSS and build tests.
 - Verification: `node --test` 165/165 passed; Emerging Journals Python tests 15/15 passed; Journal Timing Python tests 5/5 passed. Real Chrome smoke tests confirmed the `Plant Journal` deep-link profile, add/compare workflow, Publishing Toolkit identifier tab, and four valid example identifiers.
 - No push or deployment was performed.
+
+## 2026-10-08 — Full parity restoration
+
+The consolidated hubs now lazy-mount the complete audited applications from `64c75cf`. The legacy URLs use one allow-listed redirect gate; `?embed=1` is reserved for same-origin hub mounts.
+
+| Old feature | New location | Parity test |
+|---|---|---|
+| Trust identity reconciliation and conflicts | Journal Hub → Check / combined profile | `journal-trust-profile/tests/unit/reconcile.test.mjs`, `tests/full-parity.test.mjs` |
+| Trust source-backed claims, live normalized lookups and provenance | Journal Hub → Check | `journal-trust-profile/tests/integration/adapters.test.mjs`, `tests/full-parity.test.mjs` |
+| Trust checklist, cache controls, dossier export and print | Journal Hub → Check | `journal-trust-profile/tests/e2e/static-check.mjs`, `tests/full-parity.test.mjs` |
+| APC amount, no-fee/unknown, waiver and licence evidence | Journal Hub → Find / combined profile | `oa-apc-explorer/tests/unit/core.test.mjs`, `tests/full-parity.test.mjs` |
+| APC filters, comparison export and budget calculator | Journal Hub → Find | `oa-apc-explorer/tests/unit/budget.test.mjs`, `tests/full-parity.test.mjs` |
+| Matcher exclusions and vocabulary expansion | Journal Hub → Match | `abstract-journal-matcher/tests/unit/preprocess.test.mjs`, `tests/full-parity.test.mjs` |
+| Matcher publisher diversification and OA/no-APC filters | Journal Hub → Match | `abstract-journal-matcher/tests/unit/filters-rerank.test.mjs`, `tests/full-parity.test.mjs` |
+| Matcher signal feedback, evidence refresh/cache clear, CSV/JSON export | Journal Hub → Match | `abstract-journal-matcher/tests/unit/export.test.mjs`, `tests/full-parity.test.mjs` |
+| Timing filters, sortable measures/n, total/IQR/n/retrieval/coverage and CSV | Journal Hub → Find / combined profile | `journal-timing/tests/ui.test.mjs`, `tests/full-parity.test.mjs` |
+| Emerging search, filters, trends and share links | Journal Hub → Trends | `emerging-journals-2026/build/test_ui.mjs`, `tests/full-parity.test.mjs` |
+| Shared journal selection and mode-aware `q` | Journal Hub → Combined profile | `tests/full-parity.test.mjs`, `tests/consolidation.test.mjs` |
+| Citation.js BibTeX/RIS/CSL-JSON parsing and file upload | Publishing Toolkit → Reference checker | `reference-checker/tests/core.test.mjs`, `reference-checker/tests/page-qa.test.mjs` |
+| Crossref/OpenAlex checks, discrepancies, updates/retractions and provenance | Publishing Toolkit → Reference checker | `reference-checker/tests/core.test.mjs`, `tests/full-parity.test.mjs` |
+| Saved reports/cache clear, locales and JSON/CSV/Markdown export | Publishing Toolkit → Reference checker | `reference-checker/tests/page-qa.test.mjs`, `tests/full-parity.test.mjs` |
+| Identifier lookups, source comparison, cache and citation rendering/copy | Publishing Toolkit → Identifier toolkit | `identifier-toolkit/tests/shared.test.mjs`, `tests/full-parity.test.mjs` |
+| Identifier JSON/CSV/BibTeX/RIS export | Publishing Toolkit → Identifier toolkit | `identifier-toolkit/tests/identifier.test.mjs`, `tests/full-parity.test.mjs` |
+| Sequence operation selector and multi-record FASTA download | Plant Lab Toolkit → Sequence | `tests/full-parity.test.mjs`, `plant-lab-calculators/tests/static.test.mjs` |
+| Legacy `example`, `q`, `journal`, mode and tab redirects | Shared legacy redirect | `tests/full-parity.test.mjs`, `tests/consolidation.test.mjs` |
+| Lazy workflow assets and initial page-weight budget | Journal Hub mounts | `tests/full-parity.test.mjs` |
+| One cache version across each reachable HTML module/CSS graph | Release `v=15` | `tests/module-cache-version.test.mjs` |

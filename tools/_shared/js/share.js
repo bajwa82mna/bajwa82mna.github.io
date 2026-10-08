@@ -1,5 +1,5 @@
-import {safeUrl} from './safe-link.js?v=12';
-import {safeTextElement} from './dom.js?v=12';
+import {safeUrl} from './safe-link.js?v=15';
+import {safeTextElement} from './dom.js?v=15';
 
 const SITE_HOST='smbajwa.com';
 const APPROVED=new Map([
