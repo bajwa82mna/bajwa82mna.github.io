@@ -22,12 +22,12 @@ test('external links use safe new-tab attributes',()=>{
 
 test('tool directory links every shipped tool and the credits page',()=>{
   const html=fs.readFileSync(path.join(root,'tools/index.html'),'utf8');
-  for(const name of ['emerging-journals-2026','reference-checker','identifier-toolkit','journal-trust-profile','oa-apc-explorer','plant-lab-calculators','abstract-journal-matcher','dilution-calculator','qpcr-ddct-calculator','reverse-complement','descriptive-statistics','journal-figure-resizer'])assert.match(html,new RegExp(`href=["']${name}/`));
+  for(const name of ['emerging-journals-2026','reference-checker','identifier-toolkit','journal-trust-profile','oa-apc-explorer','plant-lab-calculators','abstract-journal-matcher','descriptive-statistics','journal-figure-resizer'])assert.match(html,new RegExp(`href=["']${name}/`));
   assert.match(html,/href=["']\/credits\/["']/);
 });
 
 test('tool pages link to consolidated credits without attribution or licence blocks',()=>{
-  const toolPages=pages.filter(page=>/^tools\/[^/]+\/index\.html$/.test(page));
+  const toolPages=pages.filter(page=>/^tools\/[^/]+\/index\.html$/.test(page)&&!fs.readFileSync(path.join(root,page),'utf8').includes('name="robots" content="noindex'));
   for(const page of toolPages){
     const html=fs.readFileSync(path.join(root,page),'utf8');
     assert.match(html,/href=["']\/credits\/["'][^>]*>Credits and data sources<\/a>/,`${page}: credits link`);

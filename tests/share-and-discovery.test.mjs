@@ -7,10 +7,10 @@ import crypto from 'node:crypto';
 import {buildShareUrls, normalizeShareData} from '../tools/_shared/js/share.js';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
-const pages=['index.html','credits/index.html','tools/index.html',...fs.readdirSync(path.join(root,'tools'),{withFileTypes:true}).filter(x=>x.isDirectory()&&!x.name.startsWith('_')&&fs.existsSync(path.join(root,'tools',x.name,'index.html'))).map(x=>`tools/${x.name}/index.html`)];
+const pages=['index.html','credits/index.html','tools/index.html',...fs.readdirSync(path.join(root,'tools'),{withFileTypes:true}).filter(x=>x.isDirectory()&&!x.name.startsWith('_')&&fs.existsSync(path.join(root,'tools',x.name,'index.html'))).map(x=>`tools/${x.name}/index.html`)].filter(page=>!fs.readFileSync(path.join(root,page),'utf8').includes('name="robots" content="noindex'));
 
 test('share data accepts only canonical smbajwa.com HTTPS URLs',()=>{
-  const copy={title:'Open research tools',text:'Thirteen free, open tools for students and researchers — smbajwa.com'};
+  const copy={title:'Open research tools',text:'Ten free, open tools for students and researchers — smbajwa.com'};
   assert.equal(normalizeShareData({url:'https://smbajwa.com/tools/',...copy}).url,'https://smbajwa.com/tools/');
   for(const url of ['http://smbajwa.com/tools/','https://evil.example/','https://smbajwa.com.evil.example/','https://smbajwa.com:444/tools/','https://user@smbajwa.com/tools/','javascript:alert(1)','/tools/'])assert.throws(()=>normalizeShareData({url,...copy}),/smbajwa\.com HTTPS/);
 });
@@ -32,7 +32,7 @@ test('share intent builders encode fixed text and URL without leaking payloads',
 });
 
 test('share URLs strip query and hash except a validated journal dataset link',()=>{
-  assert.equal(normalizeShareData({url:'https://smbajwa.com/tools/?utm_source=x#private',title:'Open research tools',text:'Thirteen free, open tools for students and researchers — smbajwa.com'}).url,'https://smbajwa.com/tools/');
+  assert.equal(normalizeShareData({url:'https://smbajwa.com/tools/?utm_source=x#private',title:'Open research tools',text:'Ten free, open tools for students and researchers — smbajwa.com'}).url,'https://smbajwa.com/tools/');
   const journal={title:'Plant Journal',issns:['1234-567X']};
   const good=normalizeShareData({url:'https://smbajwa.com/tools/emerging-journals-2026/?q=Plant+Journal#x',title:'Plant Journal — Emerging Journals 2026',text:'Journal record: Plant Journal — Emerging Journals Database 2026, smbajwa.com',journal});
   assert.equal(good.url,'https://smbajwa.com/tools/emerging-journals-2026/?q=Plant+Journal');
@@ -43,7 +43,7 @@ test('all public share pages expose accessible share controls and shared assets'
   for(const page of pages){
     const html=fs.readFileSync(path.join(root,page),'utf8');
     assert.match(html,/data-share\b/,`${page}: button`);
-    assert.match(html,/tools\/_shared\/css\/share\.css\?v=9/,`${page}: CSS cache bust`);
+    assert.match(html,/tools\/_shared\/css\/share\.css\?v=\d+/,`${page}: CSS cache bust`);
     assert.match(html,/tools\/_shared\/js\/share\.js\?v=\d+/,`${page}: JS cache bust`);
   }
 });
@@ -60,7 +60,7 @@ test('OG, Twitter, canonical metadata use absolute local assets on every share p
     for(const property of ['og:url','og:image'])assert.match(html,new RegExp(`<meta property=["']${property}["'] content=["']https://`),`${page}: absolute ${property}`);
     assert.match(html,/<meta name="twitter:card" content="summary_large_image">/,`${page}: twitter card`);
     assert.match(html,/<link rel="canonical" href="https:\/\/smbajwa\.com\//,`${page}: canonical`);
-    const image=html.match(/<meta property="og:image" content="https:\/\/smbajwa\.com(\/assets\/og\/[^"?]+\.png)\?v=9">/)?.[1];
+    const image=html.match(/<meta property="og:image" content="https:\/\/smbajwa\.com(\/assets\/og\/[^"?]+\.png)\?v=\d+">/)?.[1];
     assert.ok(image,`${page}: cache-busted local OG image`);
     const file=path.join(root,image); assert.ok(fs.existsSync(file),`${page}: ${image}`); assert.ok(fs.statSync(file).size<150_000,`${image}: under 150KB`);
     const png=fs.readFileSync(file);assert.equal(png.readUInt32BE(16),1200,`${image}: width`);assert.equal(png.readUInt32BE(20),630,`${image}: height`);
@@ -114,9 +114,9 @@ test('every HTML page references the versioned logo icon set',()=>{
   const allPages=['404.html','privacy.html',...pages];
   for(const page of allPages){
     const html=fs.readFileSync(path.join(root,page),'utf8');
-    assert.match(html,/<link rel="manifest" href="\/site\.webmanifest\?v=9">/,`${page}: manifest`);
-    assert.match(html,/<link rel="apple-touch-icon" href="\/assets\/logo\/favicon-180\.png\?v=9">/,`${page}: apple icon`);
-    assert.match(html,/<link rel="icon" href="\/assets\/logo\/favicon-32\.png\?v=9" sizes="32x32" type="image\/png">/,`${page}: favicon`);
+    assert.match(html,/<link rel="manifest" href="\/site\.webmanifest\?v=\d+">/,`${page}: manifest`);
+    assert.match(html,/<link rel="apple-touch-icon" href="\/assets\/logo\/favicon-180\.png\?v=\d+">/,`${page}: apple icon`);
+    assert.match(html,/<link rel="icon" href="\/assets\/logo\/favicon-32\.png\?v=\d+" sizes="32x32" type="image\/png">/,`${page}: favicon`);
   }
 });
 

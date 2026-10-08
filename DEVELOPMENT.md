@@ -33,5 +33,5 @@ User-facing credits, data provenance, licences, and scope notes live only on `/c
 ## Known gaps
 - Not tested on real social platforms, a phone share sheet, Safari/Firefox, a screen reader or a WeChat preview.
 - About 540 journals are unmatched (wrong source ISSNs); a name-based lookup could fix some.
-- Urdu translation is partial. Plant Lab calculators are labelled Experimental.
+- Urdu translation is partial. In Plant Lab Toolkit, only primer Tm is labelled Experimental pending the review documented in `METHODS.md`.
 - Search-engine verification tags are not added yet (see README for how).

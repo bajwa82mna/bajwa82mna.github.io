@@ -139,10 +139,10 @@ The same verified, unmodified Fuse.js 7.5.0 browser artifact is also used by the
 - Cache: browser-local IndexedDB, 30-day expiry, user-clearable
 - Attribution: Retraction Watch is named as requested; no affiliation or endorsement is implied
 
-## Plant Lab Calculator Suite formula sources
+## Plant Lab Toolkit formula sources
 
 - Implementation: independently written by Shoaib Munir for smbajwa.com; no third-party runtime or calculation code
-- Used by: Plant Lab Calculator Suite
+- Used by: Plant Lab Toolkit dilution, molarity, qPCR, sequence and primer-Tm workflows
 - Formula references: Livak & Schmittgen (2001), Pfaffl (2001), MIQE (2009), Wallace et al. (1979), and SantaLucia (1998)
 - Full citations and DOI links: `tools/plant-lab-calculators/METHODS.md`
 - Primer3 boundary: no Primer3 code, parameter files, interface, or bundled executable is included
@@ -151,6 +151,6 @@ The same verified, unmodified Fuse.js 7.5.0 browser artifact is also used by the
 ## Browser-only calculation and preparation tools
 
 - Implementation: original JavaScript in this repository; no third-party runtime or calculation library
-- Used by: Dilution Calculator, qPCR ΔΔCt Calculator, Reverse Complement, Descriptive Statistics, and Journal Figure Resizer
-- Formula and transformation notes: each tool's `METHODS.md`
-- Published qPCR sources: Livak & Schmittgen (2001) and Pfaffl (2001), cited in `tools/qpcr-ddct-calculator/METHODS.md`
+- Used by: Plant Lab Toolkit, Descriptive Statistics, and Journal Figure Resizer
+- Formula and transformation notes: each active tool's `METHODS.md`
+- Published qPCR sources: Livak & Schmittgen (2001) and Pfaffl (2001), cited in `tools/plant-lab-calculators/METHODS.md`

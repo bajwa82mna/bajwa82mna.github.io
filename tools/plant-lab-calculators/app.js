@@ -1,54 +1,28 @@
-import {numbers} from './src/validation.js?v=9';
-import {ddCq} from './src/qpcr.js?v=9';
-import {singleDilution,serialDilution} from './src/dilution.js?v=9';
-import {molarityFromMass,massForMolarity} from './src/molarity.js?v=9';
-import {wallace,nearestNeighbor} from './src/tm.js?v=9';
-import {auditRecord,auditCsv,download} from './src/export.js?v=9';
-import {sig} from './src/units.js?v=9';
-import {safeTextElement} from '../_shared/js/dom.js?v=9';
-
-const $=selector=>document.querySelector(selector),$$=selector=>[...document.querySelectorAll(selector)];
-const node=(tag,value,className='')=>safeTextElement(document,tag,value,className);
-let last=null;
-
-function metric(label,value){const item=document.createElement('div');item.className='metric';item.append(node('b',value),node('span',label));return item}
-function grid(...items){const result=document.createElement('div');result.className='result-grid';result.append(...items);return result}
-function render(element,title,content,record){
-  const actions=document.createElement('div');actions.className='actions';
-  const exportButton=node('button','Download JSON record','export');exportButton.type='button';exportButton.dataset.export='';
-  const printButton=node('button','Print methods record','export');printButton.type='button';
-  exportButton.addEventListener('click',()=>download(`plant-lab-${record.calculator}-${Date.now()}.json`,JSON.stringify(record,null,2)));
-  const csvButton=node('button','Download CSV','export');csvButton.type='button';csvButton.addEventListener('click',()=>download(`plant-lab-${record.calculator}-${Date.now()}.csv`,auditCsv(record),'text/csv'));
-  printButton.addEventListener('click',()=>window.print());actions.append(exportButton,csvButton,printButton);
-  element.replaceChildren(node('h3',title),...content,actions);last=record;
-}
-function fail(element,error){const message=document.createElement('p');message.className='error';message.append(node('b','Check the inputs: '),document.createTextNode(String(error?.message||error)));element.replaceChildren(message)}
-function steps(value){return node('p',value,'steps')}
-function warning(value){return value?node('p',value,'warning'):null}
-
-const tabs=$$('.tabs [role="tab"]');
-function activateTab(tab,{focus=false,hash=true}={}){
-  tabs.forEach(item=>{const active=item===tab;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));item.tabIndex=active?0:-1});
-  $$('.calculator').forEach(panel=>{const active=panel.id===tab.dataset.tab;panel.hidden=!active;panel.classList.toggle('active',active)});
-  if(hash)location.hash=tab.dataset.tab;if(focus)tab.focus();
-}
-tabs.forEach((tab,index)=>{
-  tab.addEventListener('click',()=>activateTab(tab));
-  tab.addEventListener('keydown',event=>{let next;if(event.key==='ArrowRight')next=(index+1)%tabs.length;else if(event.key==='ArrowLeft')next=(index-1+tabs.length)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();activateTab(tabs[next],{focus:true})});
-});
-if(location.hash&&$(location.hash))activateTab($(`[data-tab="${location.hash.slice(1)}"]`),{hash:false});
-
-$('#qpcr form').addEventListener('submit',event=>{event.preventDefault();const form=new FormData(event.target),input={sampleTarget:numbers(form.get('sampleTarget')),sampleReference:numbers(form.get('sampleReference')),controlTarget:numbers(form.get('controlTarget')),controlReference:numbers(form.get('controlReference')),targetEfficiency:+form.get('targetEfficiency'),referenceEfficiency:+form.get('referenceEfficiency')};try{const result=ddCq(input),content=[grid(metric('Fold change',sig(result.fold,5)+'×'),metric('Sample ΔCq',sig(result.sampleDelta)),metric('Control ΔCq',sig(result.controlDelta)),metric('ΔΔCq',sig(result.deltaDelta))),steps(`Means are calculated within each replicate group. ${result.method}; fold = ${sig(result.targetEfficiency||input.targetEfficiency)}^(−${sig(result.deltaDelta)}) for equal efficiencies.`),...result.warnings.map(warning)];render($('#qpcr .result'),'Relative expression',content,auditRecord('qpcr',input,result))}catch(error){fail($('#qpcr .result'),error)}});
-
-const dilutionForm=$('#dilution form');
-dilutionForm.querySelectorAll('[name=mode]').forEach(input=>input.addEventListener('change',()=>{const serial=input.value==='serial'&&input.checked;dilutionForm.querySelector('.single-fields').hidden=serial;dilutionForm.querySelector('.serial-fields').hidden=!serial}));
-dilutionForm.addEventListener('submit',event=>{event.preventDefault();const form=new FormData(event.target),mode=form.get('mode');try{if(mode==='single'){const input=Object.fromEntries(['stock','target','finalVolume','overagePercent','minPipette'].map(key=>[key,+form.get(key)])),result=singleDilution(input),content=[grid(metric('Stock volume',sig(result.stockVolume)),metric('Diluent volume',sig(result.diluentVolume)),metric('Total prepared',sig(result.prepared))),steps(`V₁ = C₂ × V₂ ÷ C₁ = ${sig(input.target)} × ${sig(result.prepared)} ÷ ${sig(input.stock)}.`)];if(result.warning)content.push(warning(result.warning));render($('#dilution .result'),'Single dilution',content,auditRecord('dilution-single',input,result))}else{const input=Object.fromEntries(['start','factor','steps','volumePerTube','overagePercent','minPipette'].map(key=>[key,+form.get(key)])),result=serialDilution(input),content=[steps(result.rows.map(row=>`Step ${row.step}: ${sig(row.concentration)} concentration; transfer ${sig(row.transfer)} into ${sig(row.diluent)} diluent.`).join('\n'))];if(result.warning)content.push(warning(result.warning));render($('#dilution .result'),`${result.rows.length}-step serial dilution`,content,auditRecord('dilution-serial',input,result))}}catch(error){fail($('#dilution .result'),error)}});
-
-const molarityForm=$('#molarity form');
-molarityForm.querySelectorAll('[name=mode]').forEach(input=>input.addEventListener('change',()=>{const toMass=input.value==='toMass'&&input.checked;molarityForm.querySelector('.mass-input').hidden=toMass;molarityForm.querySelector('.molarity-input').hidden=!toMass}));
-molarityForm.addEventListener('submit',event=>{event.preventDefault();const form=new FormData(event.target),mode=form.get('mode'),keys=mode==='fromMass'?['mass','molecularWeight','volume','purityPercent','hydrateFactor']:['molarity','molecularWeight','volume','purityPercent','hydrateFactor'],input=Object.fromEntries(keys.map(key=>[key,+form.get(key)]));input.volumePrefix=form.get('volumePrefix');input.massPrefix=form.get('massPrefix');try{const result=mode==='fromMass'?molarityFromMass(input):massForMolarity(input);render($('#molarity .result'),'Solution calculation',[grid(mode==='fromMass'?metric('Molarity',sig(result.molarity,5)+' mol/L'):metric('Required mass',sig(result.grams,5)+' g'),metric('Amount',sig(result.moles,5)+' mol'),metric('Effective formula weight',sig(result.effectiveMolecularWeight,5)+' g/mol')),steps('Purity and hydrate corrections are applied explicitly; neither is inferred from a compound name.')],auditRecord('molarity',input,result))}catch(error){fail($('#molarity .result'),error)}});
-
-$('#tm form').addEventListener('submit',event=>{event.preventDefault();const form=new FormData(event.target),input={sequence:form.get('sequence'),method:form.get('method'),sodiumMm:+form.get('sodiumMm'),primerNm:+form.get('primerNm'),selfComplementary:form.has('selfComplementary')};try{const result=input.method==='wallace'?wallace(input.sequence):nearestNeighbor(input.sequence,input),detail=input.method==='nn'?`ΔH ${sig(result.enthalpy)} kcal/mol; ΔS ${sig(result.entropy)} cal/(K·mol); Na⁺ ${input.sodiumMm} mM; primer ${input.primerNm} nM.`:'Wallace estimates are screening approximations.';render($('#tm .result'),'Primer Tm estimate',[grid(metric('Tm',sig(result.tm,5)+' °C'),metric('Length',result.length+' nt'),metric('GC content',sig(result.gcPercent,4)+'%'),metric('Method',result.method)),steps(`Sanitized sequence: ${result.sequence}. ${detail}`)],auditRecord('primer-tm',input,result))}catch(error){fail($('#tm .result'),error)}});
-
-$('#clear').addEventListener('click',()=>{$$('form').forEach(form=>form.reset());$$('.result').forEach(result=>result.replaceChildren());last=null;try{localStorage.removeItem('plant-lab-calculators')}catch{}});
-let urdu=false;$('#language').addEventListener('click',()=>{urdu=!urdu;document.documentElement.lang=urdu?'ur':'en';document.documentElement.dir=urdu?'rtl':'ltr';$('#language').textContent=urdu?'English':'اردو';$('#privacy').textContent=urdu?'یہاں درج کیا گیا تمام ڈیٹا اسی براؤزر ٹیب میں رہتا ہے۔ کسی حساب کے لیے نیٹ ورک درکار نہیں۔':'Everything entered here stays in this browser tab. No calculation requires a network request.'});
+import {solveDilution,serialDilution} from './src/dilution-core.js?v=12';
+import {analyseQpcr} from './src/qpcr-core.js?v=12';
+import {transformSequence} from './src/sequence-core.js?v=12';
+import {molarityFromMass,massForMolarity} from './src/molarity.js?v=12';
+import {wallace,nearestNeighbor} from './src/tm.js?v=12';
+import {parseCsv,setupLocalFileInput} from '../_shared/js/file-input.js?v=12';
+import {downloadText} from '../_shared/js/download.js?v=12';
+import {safeTextElement} from '../_shared/js/dom.js?v=12';
+const $=id=>document.getElementById(id),fmt=x=>Number(x).toLocaleString(undefined,{maximumSignificantDigits:8});let qpcrResults=[];
+const text=(tag,value)=>safeTextElement(document,tag,value);
+function fail(id,error){$(id).replaceChildren(text('p',String(error?.message||error)))}
+function table(headers,rows){const table=document.createElement('table'),thead=document.createElement('thead'),tr=document.createElement('tr');headers.forEach(v=>tr.append(text('th',v)));thead.append(tr);const tbody=document.createElement('tbody');rows.forEach(row=>{const line=document.createElement('tr');row.forEach(v=>line.append(text('td',v)));tbody.append(line)});table.append(thead,tbody);return table}
+const tabs=[...document.querySelectorAll('[role="tab"]')];
+function activate(tab,{focus=false,update=true}={}){tabs.forEach(x=>{const active=x===tab;x.classList.toggle('active',active);x.setAttribute('aria-selected',String(active));x.tabIndex=active?0:-1;$(x.dataset.tab).hidden=!active;$(x.dataset.tab).classList.toggle('active',active)});if(update){const url=new URL(location.href);url.searchParams.set('tab',tab.dataset.tab);history.replaceState(null,'',`${url.pathname}${url.search}${url.hash}`)}if(focus)tab.focus()}
+tabs.forEach((tab,index)=>{tab.addEventListener('click',()=>activate(tab));tab.addEventListener('keydown',event=>{let next;if(event.key==='ArrowRight')next=(index+1)%tabs.length;else if(event.key==='ArrowLeft')next=(index-1+tabs.length)%tabs.length;else if(event.key==='Home')next=0;else if(event.key==='End')next=tabs.length-1;else return;event.preventDefault();activate(tabs[next],{focus:true})})});
+const requested=new URLSearchParams(location.search).get('tab')||location.hash.slice(1),initial=tabs.find(x=>x.dataset.tab===requested);if(initial)activate(initial,{update:false});
+function runDilution(){try{const input={};for(const key of ['c1','v1','c2','v2']){input[key]=$(key).value===''?null:Number($(key).value);input[`${key}Unit`]=$(`${key}-unit`).value}const r=solveDilution(input),unit=input[`${r.unknown}Unit`];$('dilution-result').replaceChildren(text('p',`${r.unknown.toUpperCase()} = ${fmt(r.value)} ${unit}${r.diluent===null?'':`; add ${fmt(r.diluent)} ${input.v2Unit} diluent`}`))}catch(error){fail('dilution-result',error)}}
+$('dilution-form').addEventListener('submit',event=>{event.preventDefault();runDilution()});
+$('serial-form').addEventListener('submit',event=>{event.preventDefault();try{const rows=serialDilution({factor:$('factor').value,steps:Number($('steps').value),finalVolume:$('final-volume').value});$('serial-result').replaceChildren(table(['Step','Relative concentration','Transfer (µL)','Diluent (µL)'],rows.map(r=>[r.step,fmt(r.relative),fmt(r.transfer),fmt(r.diluent)])))}catch(error){fail('serial-result',error)}});
+const molarityForm=$('molarity-form');molarityForm.querySelectorAll('[name=mode]').forEach(input=>input.addEventListener('change',()=>{const toMass=input.checked&&input.value==='toMass';molarityForm.querySelector('.mass-input').hidden=toMass;molarityForm.querySelector('.molarity-input').hidden=!toMass}));molarityForm.addEventListener('submit',event=>{event.preventDefault();const form=new FormData(event.target),mode=form.get('mode'),keys=mode==='fromMass'?['mass','molecularWeight','volume','purityPercent','hydrateFactor']:['molarity','molecularWeight','volume','purityPercent','hydrateFactor'],input=Object.fromEntries(keys.map(key=>[key,+form.get(key)]));input.volumePrefix=form.get('volumePrefix');input.massPrefix=form.get('massPrefix');try{const r=mode==='fromMass'?molarityFromMass(input):massForMolarity(input);$('molarity-result').replaceChildren(text('p',mode==='fromMass'?`Molarity = ${fmt(r.molarity)} mol/L; amount = ${fmt(r.moles)} mol.`:`Required mass = ${fmt(r.grams)} g; amount = ${fmt(r.moles)} mol.`))}catch(error){fail('molarity-result',error)}});
+const rowsFromText=value=>parseCsv(value).slice(1).map(r=>[r[0],r[1],r[2],r[3]]);
+function runQpcr(){try{qpcrResults=analyseQpcr(rowsFromText($('qpcr-data').value),{target:$('target').value.trim(),reference:$('reference').value.trim(),control:$('control').value.trim(),mode:$('mode').value,targetEfficiency:Number($('te').value),referenceEfficiency:Number($('re').value)});$('qpcr-result').replaceChildren(table(['Sample','Group','Mean target Ct','ΔCt','ΔΔCt','Fold','Flags'],qpcrResults.map(r=>r.error?[r.sample,r.group,'—','—','—','—',r.error]:[r.sample,r.group,r.targetMean.toFixed(3),r.delta.toFixed(3),r.ddCt.toFixed(3),r.fold.toFixed(4),[r.replicateWarning?'Replicate SD > 0.5':'',...r.warnings].filter(Boolean).join('; ')||'OK'])))}catch(error){fail('qpcr-result',error)}}
+$('qpcr-form').addEventListener('submit',event=>{event.preventDefault();runQpcr()});setupLocalFileInput({input:$('qpcr-file'),status:$('file-status'),extensions:['csv'],maxRows:5000,onRead:r=>{$('qpcr-data').value=r.text;runQpcr()}});$('qpcr-download').addEventListener('click',()=>{const head='sample,group,mean_target_ct,delta_ct,delta_delta_ct,fold_change,propagated_se,propagated_fold_sd',lines=qpcrResults.filter(x=>!x.error).map(x=>[x.sample,x.group,x.targetMean,x.delta,x.ddCt,x.fold,x.se,x.sdFold].join(','));downloadText('plant-lab-qpcr-results.csv',[head,...lines].join('\r\n')+'\r\n','text/csv')});
+$('sequence-form').addEventListener('submit',event=>{event.preventDefault();try{const r=transformSequence($('sequence-data').value,{rna:new FormData(event.target).get('alphabet')==='rna'}),out=document.createDocumentFragment();r.records.forEach(record=>{out.append(text('h3',record.name),text('p',`Length ${record.length}; GC ${fmt(record.gc)}%`),text('pre',`Complement: ${record.complement}\nReverse: ${record.reverse}\nReverse complement: ${record.reverseComplement}\nTranscript: ${record.transcript}`))});$('sequence-result').replaceChildren(out)}catch(error){fail('sequence-result',error)}});
+$('tm-form').addEventListener('submit',event=>{event.preventDefault();const form=new FormData(event.target),input={sequence:form.get('sequence'),method:form.get('method'),sodiumMm:+form.get('sodiumMm'),primerNm:+form.get('primerNm'),selfComplementary:form.has('selfComplementary')};try{const r=input.method==='wallace'?wallace(input.sequence):nearestNeighbor(input.sequence,input);$('tm-result').replaceChildren(text('p',`Tm = ${fmt(r.tm)} °C; length ${r.length} nt; GC ${fmt(r.gcPercent)}%; ${r.method}.`))}catch(error){fail('tm-result',error)}});
+function loadExample(tab){if(tab==='dilution'){Object.assign($('c1'),{value:100});$('v1').value='';$('c2').value=10;$('v2').value=50;runDilution()}else if(tab==='qpcr'){$('qpcr-data').value='sample,group,gene,Ct\nC1,control,target,20.0\nC1,control,target,20.2\nC1,control,ref,18.0\nC1,control,ref,18.2\nT1,treated,target,18.0\nT1,treated,target,18.2\nT1,treated,ref,18.0\nT1,treated,ref,18.2';runQpcr()}else{$('sequence-data').value='>example\nARYN';$('sequence-form').requestSubmit()}}
+if(new URLSearchParams(location.search).get('example')==='1')loadExample((initial||tabs[0]).dataset.tab);
+$('clear').addEventListener('click',()=>{const active=tabs.find(x=>x.getAttribute('aria-selected')==='true').dataset.tab,$panel=$(active);$panel.querySelectorAll('form').forEach(form=>form.reset());$panel.querySelectorAll('.result').forEach(result=>result.replaceChildren())});

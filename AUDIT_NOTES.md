@@ -13,3 +13,10 @@ Test results:
 Committed as `8fed696` (`Add five browser-only research tools`). Nothing was pushed or deployed.
 
 Uncertain/manual follow-up: browser-specific canvas resampling and memory limits vary by device; image exports should be visually checked in current Chrome, Safari, and Firefox. The pages were structurally tested but not manually exercised with a screen reader or at an exact 375 px browser viewport.
+## 2026-10-08 — Plant Lab Toolkit consolidation
+
+- Merged the audited dilution, qPCR ΔΔCt and reverse-complement cores into `/tools/plant-lab-calculators/`, renamed the visible product to Plant Lab Toolkit, and retained molarity and primer-Tm functions.
+- Added three accessible workflow tabs with `?tab=`/hash deep links and active-tab `?example=1` loading; retained local CSV upload, quality flags and CSV download.
+- Kept the Experimental label only for primer Tm, as required by `METHODS.md`; dilution, molarity, qPCR and sequence tools are no longer labelled Experimental.
+- Replaced the three old tool pages with `noindex` static redirect stubs and removed their cards, sitemap entries, JSON-LD entries and share allow-list entries.
+- Ported standalone core/example tests to the consolidated paths and updated the public tool count from thirteen to ten.

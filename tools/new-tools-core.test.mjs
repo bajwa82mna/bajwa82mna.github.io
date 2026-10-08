@@ -1,9 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { solveDilution, serialDilution } from './dilution-calculator/src/core.js';
-import { analyseQpcr } from './qpcr-ddct-calculator/src/core.js';
-import { transformSequence } from './reverse-complement/src/core.js';
+import { solveDilution, serialDilution } from './plant-lab-calculators/src/dilution-core.js';
+import { analyseQpcr } from './plant-lab-calculators/src/qpcr-core.js';
+import { transformSequence } from './plant-lab-calculators/src/sequence-core.js';
 import { describe, tCritical975 } from './descriptive-statistics/src/core.js';
 import { outputDimensions } from './journal-figure-resizer/src/core.js';
 
@@ -49,7 +49,7 @@ test('Pfaffl analysis rejects invalid amplification factors', () => {
 });
 
 test('Pfaffl factor controls publish the enforced range', async () => {
-  const html = await readFile(new URL('./qpcr-ddct-calculator/index.html', import.meta.url), 'utf8');
+  const html = await readFile(new URL('./plant-lab-calculators/index.html', import.meta.url), 'utf8');
   assert.match(html, /id="te" type="number" min="1" max="2"/);
   assert.match(html, /id="re" type="number" min="1" max="2"/);
   assert.match(html, /per-cycle multipliers from 1 .* to 2/s);
@@ -81,10 +81,10 @@ test('Student-t confidence intervals use the exact df quantile', () => {
   assert.ok(Math.abs(tCritical975(120) - 1.979930405052777) < 1e-9);
 });
 
-test('shared tool stylesheet imports use the release cache version', async () => {
-  for (const tool of ['qpcr-ddct-calculator','reverse-complement','descriptive-statistics','journal-figure-resizer']) {
+test('remaining standalone tool styles do not depend on deleted legacy tool assets', async () => {
+  for (const tool of ['descriptive-statistics','journal-figure-resizer']) {
     const css = await readFile(new URL(`./${tool}/styles.css`, import.meta.url), 'utf8');
-    assert.match(css, /dilution-calculator\/styles\.css\?v=11/);
+    assert.doesNotMatch(css, /dilution-calculator|qpcr-ddct-calculator|reverse-complement/);
   }
 });
 
@@ -105,7 +105,7 @@ test('figure export aborts when resize validation fails', async () => {
 });
 
 test('local examples for data-driven tools are present and realistic', async () => {
-  for (const path of ['./dilution-calculator/examples/dilution-example.txt','./qpcr-ddct-calculator/examples/qpcr-example.csv','./reverse-complement/examples/sequences.fasta','./descriptive-statistics/examples/grouped-values.csv']) {
+  for (const path of ['./plant-lab-calculators/examples/calculator-examples.txt','./plant-lab-calculators/examples/qpcr-ct.csv','./plant-lab-calculators/examples/sequences.fasta','./descriptive-statistics/examples/grouped-values.csv']) {
     const text = await readFile(new URL(path, import.meta.url), 'utf8');
     assert.ok(text.trim().split('\n').length >= 3, path);
   }

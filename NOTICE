@@ -16,8 +16,8 @@ The OA & APC Explorer contains no OpenAPC data; it links to OpenAPC only as a se
 ORCID is a trademark of ORCID, Inc.
 No affiliation or endorsement by these projects or organizations is implied.
 
-Plant Lab Calculator Suite — original calculation code by Shoaib Munir.
-Published formula sources are cited in tools/plant-lab-calculators/METHODS.md.
+Plant Lab Toolkit — original calculation code by Shoaib Munir.
+Published formula sources and the integrated dilution, qPCR, sequence, GC-content and primer-Tm methods are documented in tools/plant-lab-calculators/METHODS.md. The three former standalone plant-lab URLs are redirect stubs; their implementations were consolidated into Plant Lab Toolkit.
 No Primer3 or other third-party calculation code is included.
 
 Dilution Calculator, qPCR ΔΔCt Calculator, Reverse Complement, Descriptive Statistics,

@@ -1,10 +1,10 @@
-import {safeUrl} from './safe-link.js?v=9';
-import {safeTextElement} from './dom.js?v=9';
+import {safeUrl} from './safe-link.js?v=12';
+import {safeTextElement} from './dom.js?v=12';
 
 const SITE_HOST='smbajwa.com';
 const APPROVED=new Map([
   ['/', ['Shoaib Munir, Plant Molecular Biology','Plant molecular biology research and free, open tools for students and researchers — smbajwa.com']],
-  ['/tools/', ['Open research tools','Thirteen free, open tools for students and researchers — smbajwa.com']],
+  ['/tools/', ['Open research tools','Ten free, open tools for students and researchers — smbajwa.com']],
   ['/privacy.html', ['Privacy Policy, Shoaib Munir','Privacy information for smbajwa.com and its browser-based research tools.']],
   ['/credits/', ['Credits and data sources','Credits, open-data sources and software licences for smbajwa.com research tools']],
   ['/tools/emerging-journals-2026/', ['Emerging Journals Database 2026','Free, open tool for students and researchers: Emerging Journals Database 2026 — smbajwa.com']],
@@ -12,11 +12,8 @@ const APPROVED=new Map([
   ['/tools/identifier-toolkit/', ['Identifier & Citation Toolkit','Free, open tool for students and researchers: Identifier & Citation Toolkit — smbajwa.com']],
   ['/tools/journal-trust-profile/', ['Journal Trust Profile','Free, open tool for students and researchers: Journal Trust Profile — smbajwa.com']],
   ['/tools/oa-apc-explorer/', ['OA & APC Explorer','Free, open tool for students and researchers: OA & APC Explorer — smbajwa.com']],
-  ['/tools/plant-lab-calculators/', ['Plant Lab Calculator Suite','Free, open tool for students and researchers: Plant Lab Calculator Suite — smbajwa.com']],
+  ['/tools/plant-lab-calculators/', ['Plant Lab Toolkit','Free, open tool for students and researchers: Plant Lab Toolkit — smbajwa.com']],
   ['/tools/abstract-journal-matcher/', ['Abstract-to-Journal Matcher','Free, open tool for students and researchers: Abstract-to-Journal Matcher — smbajwa.com']],
-  ['/tools/dilution-calculator/', ['Dilution Calculator','Free, open tool for students and researchers: Dilution Calculator — smbajwa.com']],
-  ['/tools/qpcr-ddct-calculator/', ['qPCR ΔΔCt Calculator','Free, open tool for students and researchers: qPCR ΔΔCt Calculator — smbajwa.com']],
-  ['/tools/reverse-complement/', ['Reverse Complement','Free, open tool for students and researchers: Reverse Complement — smbajwa.com']],
   ['/tools/descriptive-statistics/', ['Descriptive Statistics','Free, open tool for students and researchers: Descriptive Statistics — smbajwa.com']],
   ['/tools/journal-figure-resizer/', ['Journal Figure Resizer','Free, open tool for students and researchers: Journal Figure Resizer — smbajwa.com']],
   ['/tools/journal-timing/', ['Journal Timing','Compare open journal publication timing evidence — smbajwa.com']]
