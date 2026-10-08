@@ -18,7 +18,7 @@ const APPROVED=new Map([
   ['/tools/qpcr-ddct-calculator/', ['qPCR ΔΔCt Calculator','Free, open tool for students and researchers: qPCR ΔΔCt Calculator — smbajwa.com']],
   ['/tools/reverse-complement/', ['Reverse Complement','Free, open tool for students and researchers: Reverse Complement — smbajwa.com']],
   ['/tools/descriptive-statistics/', ['Descriptive Statistics','Free, open tool for students and researchers: Descriptive Statistics — smbajwa.com']],
-  ['/tools/journal-figure-resizer/', ['Journal Figure Resizer','Free, open tool for students and researchers: Journal Figure Resizer — smbajwa.com'],
+  ['/tools/journal-figure-resizer/', ['Journal Figure Resizer','Free, open tool for students and researchers: Journal Figure Resizer — smbajwa.com']],
   ['/tools/journal-timing/', ['Journal Timing','Compare open journal publication timing evidence — smbajwa.com']]
 ]);
 
