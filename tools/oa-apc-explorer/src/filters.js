@@ -1,4 +1,4 @@
-import { plantRelated } from './normalize.js?v=18';
+import { plantRelated } from './normalize.js?v=19';
 
 export function filterJournals(journals, options = {}) {
   const query = (options.query || '').trim().toLocaleLowerCase();

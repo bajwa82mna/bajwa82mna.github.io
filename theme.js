@@ -16,7 +16,7 @@
     d.innerHTML='<span class="theme-state" aria-live="polite">Theme</span><button type="button" data-mode="auto" aria-label="Use automatic colour theme" title="Match system">Auto</button><button type="button" data-mode="light" aria-label="Use light colour theme" title="Light mode">Light</button><button type="button" data-mode="dark" aria-label="Use dark colour theme" title="Dark mode">Dark</button>';
     d.addEventListener('click',function(e){var b=e.target.closest('button');if(b)window.__setTheme(b.dataset.mode)});
     var home=document.createElement('a');home.className='site-brand';home.href='/';home.setAttribute('aria-label','smbajwa.com home');
-    home.innerHTML='<img class="site-logo site-logo-light" src="/assets/logo/logo-horizontal.svg?v=18" alt="smbajwa.com"><img class="site-logo site-logo-dark" src="/assets/logo/logo-dark.svg?v=18" alt="smbajwa.com">';
+    home.innerHTML='<img class="site-logo site-logo-light" src="/assets/logo/logo-horizontal.svg?v=19" alt="smbajwa.com"><img class="site-logo site-logo-dark" src="/assets/logo/logo-dark.svg?v=19" alt="smbajwa.com">';
     inner.append(home,d);bar.append(inner);document.body.prepend(bar);mark(get());
   });
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){if(get()==='auto')apply('auto')});

@@ -1,11 +1,11 @@
-import {solveDilution,serialDilution} from './src/dilution-core.js?v=18';
-import {analyseQpcr} from './src/qpcr-core.js?v=18';
-import {transformSequence} from './src/sequence-core.js?v=18';
-import {molarityFromMass,massForMolarity} from './src/molarity.js?v=18';
-import {wallace,nearestNeighbor} from './src/tm.js?v=18';
-import {parseCsv,setupLocalFileInput} from '../_shared/js/file-input.js?v=18';
-import {downloadText} from '../_shared/js/download.js?v=18';
-import {safeTextElement} from '../_shared/js/dom.js?v=18';
+import {solveDilution,serialDilution} from './src/dilution-core.js?v=19';
+import {analyseQpcr} from './src/qpcr-core.js?v=19';
+import {transformSequence} from './src/sequence-core.js?v=19';
+import {molarityFromMass,massForMolarity} from './src/molarity.js?v=19';
+import {wallace,nearestNeighbor} from './src/tm.js?v=19';
+import {parseCsv,setupLocalFileInput} from '../_shared/js/file-input.js?v=19';
+import {downloadText} from '../_shared/js/download.js?v=19';
+import {safeTextElement} from '../_shared/js/dom.js?v=19';
 const $=id=>document.getElementById(id),fmt=x=>Number(x).toLocaleString(undefined,{maximumSignificantDigits:8});let qpcrResults=[],sequenceResults=[];
 const text=(tag,value)=>safeTextElement(document,tag,value);
 function fail(id,error){$(id).replaceChildren(text('p',String(error?.message||error)))}

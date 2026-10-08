@@ -1,8 +1,8 @@
 {
   "dataset_journals": 22281,
   "joinable_issn_journals": 21341,
-  "journals_attempted": 3000,
-  "journals_with_crossref_timing": 1049,
+  "journals_attempted": 6000,
+  "journals_with_crossref_timing": 2015,
   "journals_with_doaj_weeks": 6152,
   "retrieved": "2026-10-08",
   "window_start": "2023-10-08",
