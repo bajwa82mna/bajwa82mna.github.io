@@ -1,1 +1,1 @@
-@import url('../dilution-calculator/styles.css');.controls{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}.plot{width:100%;min-height:150px;border:1px solid var(--line);background:var(--bg)}@media(max-width:42rem){.controls{grid-template-columns:1fr}}
+@import url('../dilution-calculator/styles.css?v=11');.controls{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}.plot{width:100%;min-height:150px;border:1px solid var(--line);background:var(--bg)}@media(max-width:42rem){.controls{grid-template-columns:1fr}}

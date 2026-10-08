@@ -1,4 +1,4 @@
-import {analyseQpcr} from './src/core.js?v=10';
+import {analyseQpcr} from './src/core.js?v=11';
 import {parseCsv,setupLocalFileInput} from '../_shared/js/file-input.js?v=9';
 import {downloadText} from '../_shared/js/download.js?v=9';
 const $=id=>document.getElementById(id);let results=[];

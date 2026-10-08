@@ -1,6 +1,7 @@
 const mean=a=>a.reduce((s,x)=>s+x,0)/a.length;
 const sd=a=>a.length<2?0:Math.sqrt(a.reduce((s,x)=>s+(x-mean(a))**2,0)/(a.length-1));
 export function analyseQpcr(rows,{target,reference,control,mode='livak',targetEfficiency=2,referenceEfficiency=2}){
+  if(mode==='pfaffl'&&(!Number.isFinite(targetEfficiency)||targetEfficiency<1||targetEfficiency>2||!Number.isFinite(referenceEfficiency)||referenceEfficiency<1||referenceEfficiency>2))throw new Error('Amplification factors must be finite numbers from 1 to 2.');
   const samples=new Map();
   for(const [sample,group,gene,raw] of rows){const ct=Number(raw);if(!sample||!group||!gene||!Number.isFinite(ct))continue;const key=`${sample}\0${group}`;if(!samples.has(key))samples.set(key,{sample,group,genes:{}});(samples.get(key).genes[gene]??=[]).push(ct)}
   const calculated=[];

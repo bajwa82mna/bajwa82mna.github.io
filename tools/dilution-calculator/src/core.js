@@ -7,11 +7,13 @@ export function solveDilution(input){
   if(family(input.c1Unit)!==family(input.c2Unit))throw new Error('Concentration units must be compatible; mass and molar units require molecular weight to convert.');
   const x={c1:Number(input.c1)*concentration[input.c1Unit],v1:Number(input.v1)*volume[input.v1Unit],c2:Number(input.c2)*concentration[input.c2Unit],v2:Number(input.v2)*volume[input.v2Unit]};
   if(Object.entries(x).some(([k,v])=>k!==missing[0]&&(!Number.isFinite(v)||v<=0)))throw new Error('Known values must be positive numbers.');
-  if(missing[0]!=='c1'&&missing[0]!=='c2'&&x.c2>x.c1)throw new Error('Final concentration cannot be higher than stock concentration by dilution.');
   const formulas={c1:()=>x.c2*x.v2/x.v1,v1:()=>x.c2*x.v2/x.c1,c2:()=>x.c1*x.v1/x.v2,v2:()=>x.c1*x.v1/x.c2};
-  const base=formulas[missing[0]](), unit=input[`${missing[0]}Unit`], factor=missing[0].startsWith('c')?concentration[unit]:volume[unit];
+  const base=formulas[missing[0]]();x[missing[0]]=base;
+  if(x.c2>x.c1)throw new Error('Final concentration cannot be higher than stock concentration by dilution.');
+  if(x.v1>x.v2)throw new Error('Stock volume cannot be higher than final volume in a dilution.');
+  const unit=input[`${missing[0]}Unit`], factor=missing[0].startsWith('c')?concentration[unit]:volume[unit];
   const value=base/factor;
-  const diluent=missing[0]==='v1'?Number(input.v2)-value:null;
+  const diluent=missing[0]==='v1'?(x.v2-x.v1)/volume[input.v2Unit]:null;
   return {unknown:missing[0],value,diluent};
 }
 export function serialDilution({factor,steps,finalVolume}){

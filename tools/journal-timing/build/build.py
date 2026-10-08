@@ -120,6 +120,17 @@ def crossref_works(issn,refresh=False):
     payload=request_json(url); path.write_text(json.dumps(payload,separators=(",",":")))
     time.sleep(.25); return payload
 
+def crossref_summary(issns,refresh,today,window_start):
+    empty=None
+    for issn in issns:
+        try:
+            payload=crossref_works(issn,refresh); summary=summarize(payload.get("message",{}).get("items",[]))
+            summary.update({"source":"Crossref","retrieved":today,"window":[window_start,today],"issn":issn})
+            if summary["n"]>0:return summary
+            empty=summary
+        except Exception as exc: print(f"Crossref {issn}: {exc}")
+    return empty
+
 def build(args):
     journals=load_journals(); doaj=load_doaj(args.doaj_csv); attempted=with_timing=0; output=[]; today=dt.date.today().isoformat(); window_start=(dt.date.today()-dt.timedelta(days=1096)).isoformat()
     for journal in journals:
@@ -127,12 +138,8 @@ def build(args):
         record={"j":journal["title"],"p":journal["publisher"] or (dj or {}).get("publisher",""),"s":journal["subject"],"i":journal["issns"],"oa":journal["oa"] or bool(dj),"dw":(dj or {}).get("weeks"),"du":(dj or {}).get("url"),"dr":today if dj else None}
         if attempted < args.max_journals:
             attempted+=1
-            for issn in journal["issns"]:
-                try:
-                    payload=crossref_works(issn,args.refresh); summary=summarize(payload.get("message",{}).get("items",[]))
-                    summary.update({"source":"Crossref","retrieved":today,"window":[window_start,today],"issn":issn})
-                    record["x"]=summary; with_timing+=int(summary["n"]>0); break
-                except Exception as exc: print(f"Crossref {issn}: {exc}")
+            summary=crossref_summary(journal["issns"],args.refresh,today,window_start)
+            if summary is not None:record["x"]=summary;with_timing+=int(summary["n"]>0)
         if dj or record.get("x",{}).get("n",0): output.append(record)
     coverage={"dataset_journals":22281,"joinable_issn_journals":len(journals),"journals_attempted":attempted,"journals_with_crossref_timing":with_timing,"journals_with_doaj_weeks":sum(1 for x in output if x.get("dw") is not None),"retrieved":today,"window_start":window_start,"window_end":today}
     (ROOT/"data").mkdir(exist_ok=True)

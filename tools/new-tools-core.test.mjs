@@ -4,14 +4,22 @@ import { readFile } from 'node:fs/promises';
 import { solveDilution, serialDilution } from './dilution-calculator/src/core.js';
 import { analyseQpcr } from './qpcr-ddct-calculator/src/core.js';
 import { transformSequence } from './reverse-complement/src/core.js';
-import { describe } from './descriptive-statistics/src/core.js';
+import { describe, tCritical975 } from './descriptive-statistics/src/core.js';
 import { outputDimensions } from './journal-figure-resizer/src/core.js';
 
 test('dilution equation solves V1 across compatible units', () => {
   const result = solveDilution({ c1: 100, c1Unit: 'mM', v1: null, v1Unit: 'mL', c2: 10, c2Unit: 'mM', v2: 50, v2Unit: 'mL' });
   assert.equal(result.value, 5);
-  assert.equal(result.diluent, 45);
+  assert.ok(Math.abs(result.diluent - 45) < 1e-12);
   assert.throws(() => solveDilution({ c1: 1, c1Unit: 'mM', v1: null, v1Unit: 'mL', c2: 2, c2Unit: 'mM', v2: 1, v2Unit: 'mL' }), /higher than stock/i);
+});
+
+test('dilution uses normalized volumes and rejects concentration workflows', () => {
+  const mixed = solveDilution({ c1: 100, c1Unit: 'mM', v1: null, v1Unit: 'uL', c2: 10, c2Unit: 'mM', v2: 1, v2Unit: 'mL' });
+  assert.ok(Math.abs(mixed.value - 100) < 1e-12);
+  assert.ok(Math.abs(mixed.diluent - 0.9) < 1e-12);
+  assert.throws(() => solveDilution({ c1: null, c1Unit: 'mM', v1: 2, v1Unit: 'mL', c2: 10, c2Unit: 'mM', v2: 1, v2Unit: 'mL' }), /higher than stock|stock volume/i);
+  assert.throws(() => solveDilution({ c1: 10, c1Unit: 'mM', v1: 2, v1Unit: 'mL', c2: null, c2Unit: 'mM', v2: 1, v2Unit: 'mL' }), /higher than stock|stock volume/i);
 });
 
 test('serial dilution reports transfer and diluent volumes', () => {
@@ -35,6 +43,18 @@ test('Pfaffl analysis applies target and reference efficiencies independently', 
   assert.equal(result.find(x=>x.sample==='T').fold, 1.9 / Math.sqrt(1.8));
 });
 
+test('Pfaffl analysis rejects invalid amplification factors', () => {
+  const rows = [['C','control','target',20],['C','control','ref',18]];
+  for (const factor of [0,-1,NaN,Infinity,2.01]) assert.throws(() => analyseQpcr(rows,{target:'target',reference:'ref',control:'control',mode:'pfaffl',targetEfficiency:factor,referenceEfficiency:2}), /1 to 2/);
+});
+
+test('Pfaffl factor controls publish the enforced range', async () => {
+  const html = await readFile(new URL('./qpcr-ddct-calculator/index.html', import.meta.url), 'utf8');
+  assert.match(html, /id="te" type="number" min="1" max="2"/);
+  assert.match(html, /id="re" type="number" min="1" max="2"/);
+  assert.match(html, /per-cycle multipliers from 1 .* to 2/s);
+});
+
 test('sequence transformations support IUPAC DNA and RNA', () => {
   const dna = transformSequence('>x\nARYN');
   assert.equal(dna.records[0].reverseComplement, 'NRYT');
@@ -52,8 +72,36 @@ test('descriptive statistics use sample SD and type-7 quartiles', () => {
   assert.equal(result.outliers.length,0);
 });
 
+test('Student-t confidence intervals use the exact df quantile', () => {
+  const result = describe([1,2,3,4,5,6]);
+  assert.ok(Math.abs(tCritical975(5) - 2.570581835636305) < 1e-12);
+  assert.equal(result.ciLow.toFixed(4), '1.5367');
+  assert.equal(result.ciHigh.toFixed(4), '5.4633');
+  assert.ok(Math.abs(tCritical975(29) - 2.045229642132703) < 1e-11);
+  assert.ok(Math.abs(tCritical975(120) - 1.979930405052777) < 1e-9);
+});
+
+test('shared tool stylesheet imports use the release cache version', async () => {
+  for (const tool of ['qpcr-ddct-calculator','reverse-complement','descriptive-statistics','journal-figure-resizer']) {
+    const css = await readFile(new URL(`./${tool}/styles.css`, import.meta.url), 'utf8');
+    assert.match(css, /dilution-calculator\/styles\.css\?v=11/);
+  }
+});
+
 test('figure dimensions convert physical size at target DPI', () => {
   assert.deepEqual(outputDimensions({width:85,height:42.5,unit:'mm',dpi:300,aspect:2}),{width:1004,height:502});
+});
+
+test('figure dimensions enforce the cap after aspect locking', () => {
+  assert.throws(() => outputDimensions({width:1000,height:1,unit:'px',dpi:300,aspect:0.001,lock:true}), /80-megapixel/);
+  assert.deepEqual(outputDimensions({width:1000,height:1,unit:'px',dpi:300,aspect:2,lock:true}), {width:1000,height:500});
+});
+
+test('figure export aborts when resize validation fails', async () => {
+  const app = await readFile(new URL('./journal-figure-resizer/app.js', import.meta.url), 'utf8');
+  assert.match(app, /return true/);
+  assert.match(app, /return false/);
+  assert.match(app, /if\(!image\|\|!resize\(\)\)return/);
 });
 
 test('local examples for data-driven tools are present and realistic', async () => {

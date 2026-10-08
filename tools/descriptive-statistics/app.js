@@ -1,4 +1,4 @@
-import {describe} from './src/core.js?v=10';
+import {describe} from './src/core.js?v=11';
 import {parseCsv,setupLocalFileInput} from '../_shared/js/file-input.js?v=9';
 import {downloadText,copyText} from '../_shared/js/download.js?v=9';
 const $=id=>document.getElementById(id);let csv='';
