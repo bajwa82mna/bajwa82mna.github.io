@@ -1,5 +1,12 @@
 # Credits and data provenance
 
+## Variant Toolkit sources
+
+- fastVEP by Kuan-lin Huang and contributors: https://github.com/Huang-lab/fastVEP — Apache-2.0. Linked as an external full annotator; no fastVEP code or binary is bundled.
+- Ensembl Plants Variant Effect Predictor: https://plants.ensembl.org/info/docs/tools/vep/index.html — linked as an external annotation service and workflow reference; no Ensembl VEP code or data is bundled.
+- Sequence Ontology: https://www.sequenceontology.org/ — terminology reference for consequence concepts.
+- Variant Toolkit parser and experimental teaching predictor: original browser-only code by Shoaib Munir. It uses the standard nuclear genetic code and is not an implementation or port of fastVEP or Ensembl VEP.
+
 The public interface consolidates journal discovery, matching, OA/APC, timing and trust evidence in **Journal Hub**, and reference and identifier work in **Publishing Toolkit**. Original data, vendored libraries, provenance records and test fixtures remain at their documented paths so they are not duplicated and their audit trail is preserved.
 
 This file records third-party software and public metadata services used by the research tools at smbajwa.com. Names are factual attribution and do not imply affiliation or endorsement.

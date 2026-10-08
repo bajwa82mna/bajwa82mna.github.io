@@ -11,7 +11,7 @@ const pages=['index.html','credits/index.html','tools/index.html',...fs.readdirS
 const sharePages=pages.filter(page=>page!=='tools/privacy-and-sources/index.html');
 
 test('share data accepts only canonical smbajwa.com HTTPS URLs',()=>{
-  const copy={title:'Open research tools',text:'Five free, open tools for students and researchers — smbajwa.com'};
+  const copy={title:'Open research tools',text:'Six free, open tools for students and researchers — smbajwa.com'};
   assert.equal(normalizeShareData({url:'https://smbajwa.com/tools/',...copy}).url,'https://smbajwa.com/tools/');
   for(const url of ['http://smbajwa.com/tools/','https://evil.example/','https://smbajwa.com.evil.example/','https://smbajwa.com:444/tools/','https://user@smbajwa.com/tools/','javascript:alert(1)','/tools/'])assert.throws(()=>normalizeShareData({url,...copy}),/smbajwa\.com HTTPS/);
 });
@@ -33,7 +33,7 @@ test('share intent builders encode fixed text and URL without leaking payloads',
 });
 
 test('share URLs strip query and hash except a validated journal dataset link',()=>{
-  assert.equal(normalizeShareData({url:'https://smbajwa.com/tools/?utm_source=x#private',title:'Open research tools',text:'Five free, open tools for students and researchers — smbajwa.com'}).url,'https://smbajwa.com/tools/');
+  assert.equal(normalizeShareData({url:'https://smbajwa.com/tools/?utm_source=x#private',title:'Open research tools',text:'Six free, open tools for students and researchers — smbajwa.com'}).url,'https://smbajwa.com/tools/');
   const journal={title:'Plant Journal',issns:['1234-567X']};
   const good=normalizeShareData({url:'https://smbajwa.com/tools/emerging-journals-2026/?q=Plant+Journal#x',title:'Plant Journal — Emerging Journals 2026',text:'Journal record: Plant Journal — Emerging Journals Database 2026, smbajwa.com',journal});
   assert.equal(good.url,'https://smbajwa.com/tools/emerging-journals-2026/?q=Plant+Journal');
