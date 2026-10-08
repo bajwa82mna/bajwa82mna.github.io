@@ -1,5 +1,5 @@
-import {summarizeVcf,MAX_BYTES} from './src/vcf.js?v=16';
-import {predictConsequences} from './src/consequence.js?v=16';
+import {summarizeVcf,MAX_BYTES} from './src/vcf.js?v=17';
+import {predictConsequences} from './src/consequence.js?v=17';
 
 const $=id=>document.getElementById(id);
 const EXAMPLE_VCF='##fileformat=VCFv4.2\n#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\nchr1\t10\t.\tA\tG\t.\tPASS\t.\nchr1\t8\t.\tG\tT\t.\tPASS\t.\nchr1\t7\t.\tG\tGA\t.\tPASS\t.\n';

@@ -1,5 +1,5 @@
-import {safeUrl} from './safe-link.js?v=16';
-import {safeTextElement} from './dom.js?v=16';
+import {safeUrl} from './safe-link.js?v=17';
+import {safeTextElement} from './dom.js?v=17';
 
 const SITE_HOST='smbajwa.com';
 const APPROVED_MODES=new Map([['/tools/journal-hub/',new Set(['check','apc','match','timing','trends'])],['/tools/publishing-toolkit/',new Set(['references','identifiers'])]]);

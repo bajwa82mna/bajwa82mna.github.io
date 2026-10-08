@@ -1,5 +1,5 @@
-import {positive} from './units.js?v=16';
-import {SANTALUCIA_1998 as NN} from '../data/thermodynamic-parameters.js?v=16';
+import {positive} from './units.js?v=17';
+import {SANTALUCIA_1998 as NN} from '../data/thermodynamic-parameters.js?v=17';
 export function cleanSequence(value){return String(value).toUpperCase().replace(/[\s\-0-9]/g,'')}
 export function sequenceStats(value){const sequence=cleanSequence(value);if(!sequence)throw new RangeError('Enter a primer sequence.');if(/[^ACGT]/.test(sequence))throw new TypeError('Sequence contains ambiguous or invalid bases; an exact Tm is not reported.');const gc=(sequence.match(/[GC]/g)||[]).length;return {sequence,length:sequence.length,gcPercent:100*gc/sequence.length}}
 export function wallace(value){const {sequence,length,gcPercent}=sequenceStats(value),gc=Math.round(gcPercent*length/100);return {sequence,length,gcPercent,tm:2*(length-gc)+4*gc,method:'Wallace 2(A+T)+4(G+C)'} }
