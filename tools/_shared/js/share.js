@@ -4,7 +4,7 @@ import {safeTextElement} from './dom.js?v=9';
 const SITE_HOST='smbajwa.com';
 const APPROVED=new Map([
   ['/', ['Shoaib Munir, Plant Molecular Biology','Plant molecular biology research and free, open tools for students and researchers — smbajwa.com']],
-  ['/tools/', ['Open research tools','Seven free, open tools for students and researchers — smbajwa.com']],
+  ['/tools/', ['Open research tools','Eight free, open tools for students and researchers — smbajwa.com']],
   ['/privacy.html', ['Privacy Policy, Shoaib Munir','Privacy information for smbajwa.com and its browser-based research tools.']],
   ['/credits/', ['Credits and data sources','Credits, open-data sources and software licences for smbajwa.com research tools']],
   ['/tools/emerging-journals-2026/', ['Emerging Journals Database 2026','Free, open tool for students and researchers: Emerging Journals Database 2026 — smbajwa.com']],
@@ -13,7 +13,8 @@ const APPROVED=new Map([
   ['/tools/journal-trust-profile/', ['Journal Trust Profile','Free, open tool for students and researchers: Journal Trust Profile — smbajwa.com']],
   ['/tools/oa-apc-explorer/', ['OA & APC Explorer','Free, open tool for students and researchers: OA & APC Explorer — smbajwa.com']],
   ['/tools/plant-lab-calculators/', ['Plant Lab Calculator Suite','Free, open tool for students and researchers: Plant Lab Calculator Suite — smbajwa.com']],
-  ['/tools/abstract-journal-matcher/', ['Abstract-to-Journal Matcher','Free, open tool for students and researchers: Abstract-to-Journal Matcher — smbajwa.com']]
+  ['/tools/abstract-journal-matcher/', ['Abstract-to-Journal Matcher','Free, open tool for students and researchers: Abstract-to-Journal Matcher — smbajwa.com']],
+  ['/tools/journal-timing/', ['Journal Timing','Compare open journal publication timing evidence — smbajwa.com']]
 ]);
 
 export function validateShareData(input={}){

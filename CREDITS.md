@@ -90,6 +90,13 @@ The same verified, unmodified Fuse.js 7.5.0 browser artifact is also used by the
 - Local changes: upstream bundle unmodified; a separate local loader exposes its documented `require('citation-js')` module as `window.Cite`
 - Retrieved: 2026-10-07
 
+## Journal Timing data sources
+
+- DOAJ journal CSV: CC0; self-reported average weeks from submission to publication, joined by print ISSN or e-ISSN
+- Crossref REST API: publisher-deposited assertions and publication dates sampled for recent journal articles; aggregate medians only are committed
+- Used by: Journal Timing; build retrieval only, with no live API calls from the page
+- Method, validation, suppression, and coverage: `tools/journal-timing/METHODS.md` and `tools/journal-timing/data/coverage.json`
+
 ## Crossref
 
 - Service: Crossref REST API, https://api.crossref.org/
