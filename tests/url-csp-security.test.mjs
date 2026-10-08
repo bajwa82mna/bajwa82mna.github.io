@@ -39,6 +39,7 @@ const pages = {
   'tools/emerging-journals-2026/index.html': ['api.openalex.org'],
   'tools/journal-trust-profile/index.html': ["'self'", 'api.openalex.org', 'api.crossref.org', 'doaj.org'],
   'tools/oa-apc-explorer/index.html': ['api.openalex.org', 'doaj.org']
+  ,'tools/journal-timing/index.html': ["'self'"]
 };
 
 const sitePages = ['index.html', 'tools/index.html', 'privacy.html'];

@@ -1,5 +1,6 @@
 tools/emerging-journals-2026/build/cache/
 build/cache/
+tools/journal-timing/build/cache/
 *.log
 build_stages.log
 audit*.log

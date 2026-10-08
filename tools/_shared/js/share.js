@@ -4,7 +4,7 @@ import {safeTextElement} from './dom.js?v=9';
 const SITE_HOST='smbajwa.com';
 const APPROVED=new Map([
   ['/', ['Shoaib Munir, Plant Molecular Biology','Plant molecular biology research and free, open tools for students and researchers — smbajwa.com']],
-  ['/tools/', ['Open research tools','Twelve free, open tools for students and researchers — smbajwa.com']],
+  ['/tools/', ['Open research tools','Thirteen free, open tools for students and researchers — smbajwa.com']],
   ['/privacy.html', ['Privacy Policy, Shoaib Munir','Privacy information for smbajwa.com and its browser-based research tools.']],
   ['/credits/', ['Credits and data sources','Credits, open-data sources and software licences for smbajwa.com research tools']],
   ['/tools/emerging-journals-2026/', ['Emerging Journals Database 2026','Free, open tool for students and researchers: Emerging Journals Database 2026 — smbajwa.com']],
@@ -18,7 +18,8 @@ const APPROVED=new Map([
   ['/tools/qpcr-ddct-calculator/', ['qPCR ΔΔCt Calculator','Free, open tool for students and researchers: qPCR ΔΔCt Calculator — smbajwa.com']],
   ['/tools/reverse-complement/', ['Reverse Complement','Free, open tool for students and researchers: Reverse Complement — smbajwa.com']],
   ['/tools/descriptive-statistics/', ['Descriptive Statistics','Free, open tool for students and researchers: Descriptive Statistics — smbajwa.com']],
-  ['/tools/journal-figure-resizer/', ['Journal Figure Resizer','Free, open tool for students and researchers: Journal Figure Resizer — smbajwa.com']]
+  ['/tools/journal-figure-resizer/', ['Journal Figure Resizer','Free, open tool for students and researchers: Journal Figure Resizer — smbajwa.com'],
+  ['/tools/journal-timing/', ['Journal Timing','Compare open journal publication timing evidence — smbajwa.com']]
 ]);
 
 export function validateShareData(input={}){
