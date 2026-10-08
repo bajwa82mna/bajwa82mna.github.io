@@ -4,9 +4,12 @@ const compareTools = ['journal-trust-profile', 'oa-apc-explorer', 'journal-timin
 
 window.EmbedBridge.mountFrames(mounts);
 
+let exampleRequested = new URLSearchParams(location.search).get('example') === '1';
+
 function withQuery(source, query) {
   const url = new URL(source, location.href);
   if (query) url.searchParams.set('q', query);
+  if (exampleRequested && !query) { url.searchParams.set('example', '1'); exampleRequested = false; }
   return `${url.pathname}${url.search}`;
 }
 

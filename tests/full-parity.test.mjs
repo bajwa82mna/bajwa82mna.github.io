@@ -46,3 +46,11 @@ test('Journal Hub initial page stays under the local asset budget and lazy mount
   assert.match(read('tools/journal-hub/app.js'), /IntersectionObserver|data-src/);
   assert.ok(Buffer.byteLength(html) + Buffer.byteLength(read('tools/journal-hub/app.js')) < 100_000);
 });
+
+test('every legacy redirect route keeps ?example=1 and the hubs pass it to the first frame', () => {
+  const redirect = read('tools/_shared/js/legacy-redirect.js');
+  const routes = redirect.split('\n').filter(line => line.includes("to: '"));
+  assert.ok(routes.length >= 10);
+  for (const line of routes) assert.match(line, /keep: \[[^\]]*'example'/);
+  for (const hub of ['journal-hub', 'publishing-toolkit']) assert.match(read(`tools/${hub}/app.js`), /exampleRequested/);
+});

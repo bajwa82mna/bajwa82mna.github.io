@@ -1,3 +1,4 @@
+let exampleRequested = new URLSearchParams(location.search).get('example') === '1';
 const tabs = [...document.querySelectorAll('[role="tab"]')];
 const mounts = [...document.querySelectorAll('iframe[data-src]')];
 
@@ -12,7 +13,11 @@ function setMode(mode, focus = false) {
     const panel = document.getElementById(tab.getAttribute('aria-controls'));
     panel.hidden = !active;
     const frame = panel.querySelector('iframe[data-src]');
-    if (active && !frame.getAttribute('src')) frame.src = frame.dataset.src;
+    if (active && !frame.getAttribute('src')) {
+      const src = new URL(frame.dataset.src, location.href);
+      if (exampleRequested) { src.searchParams.set('example', '1'); exampleRequested = false; }
+      frame.src = `${src.pathname}${src.search}`;
+    }
   }
   if (focus) selected.focus();
   const url = new URL(location.href);
