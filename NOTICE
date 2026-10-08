@@ -18,3 +18,7 @@ No affiliation or endorsement by these projects or organizations is implied.
 Plant Lab Calculator Suite — original calculation code by Shoaib Munir.
 Published formula sources are cited in tools/plant-lab-calculators/METHODS.md.
 No Primer3 or other third-party calculation code is included.
+
+Dilution Calculator, qPCR ΔΔCt Calculator, Reverse Complement, Descriptive Statistics,
+and Journal Figure Resizer contain original browser-only code. Their methods and limits
+are documented in the corresponding tools/<slug>/METHODS.md files.

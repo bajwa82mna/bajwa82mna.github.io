@@ -1,0 +1,9 @@
+sample,group,gene,Ct
+C1,control,target,20.0
+C1,control,target,20.2
+C1,control,ref,18.0
+C1,control,ref,18.2
+T1,treated,target,18.0
+T1,treated,target,18.2
+T1,treated,ref,18.0
+T1,treated,ref,18.2

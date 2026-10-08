@@ -1,0 +1,4 @@
+const avg=a=>a.reduce((s,x)=>s+x,0)/a.length;
+const quantile=(sorted,p)=>{const h=(sorted.length-1)*p,i=Math.floor(h);return sorted[i]+(sorted[Math.min(i+1,sorted.length-1)]-sorted[i])*(h-i)};
+const t975=n=>n>=120?1.98:n>=60?2:n>=30?2.045:n>=20?2.093:n>=10?2.262:n>=5?2.776:n===4?3.182:n===3?4.303:n===2?12.706:NaN;
+export function describe(values){const a=values.map(Number).filter(Number.isFinite).sort((x,y)=>x-y);if(!a.length)throw new Error('No numeric values found.');const n=a.length,mean=avg(a),sd=n>1?Math.sqrt(a.reduce((s,x)=>s+(x-mean)**2,0)/(n-1)):NaN,se=sd/Math.sqrt(n),q1=quantile(a,.25),q3=quantile(a,.75),iqr=q3-q1;return {n,mean,median:quantile(a,.5),sd,se,ciLow:mean-t975(n)*se,ciHigh:mean+t975(n)*se,cv:mean===0?NaN:100*sd/Math.abs(mean),min:a[0],max:a.at(-1),q1,q3,outliers:a.filter(x=>x<q1-1.5*iqr||x>q3+1.5*iqr),values:a};}

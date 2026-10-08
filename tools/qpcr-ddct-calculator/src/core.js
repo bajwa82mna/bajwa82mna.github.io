@@ -1,0 +1,18 @@
+const mean=a=>a.reduce((s,x)=>s+x,0)/a.length;
+const sd=a=>a.length<2?0:Math.sqrt(a.reduce((s,x)=>s+(x-mean(a))**2,0)/(a.length-1));
+export function analyseQpcr(rows,{target,reference,control,mode='livak',targetEfficiency=2,referenceEfficiency=2}){
+  const samples=new Map();
+  for(const [sample,group,gene,raw] of rows){const ct=Number(raw);if(!sample||!group||!gene||!Number.isFinite(ct))continue;const key=`${sample}\0${group}`;if(!samples.has(key))samples.set(key,{sample,group,genes:{}});(samples.get(key).genes[gene]??=[]).push(ct)}
+  const calculated=[];
+  for(const item of samples.values()){
+    const t=item.genes[target],r=item.genes[reference];
+    if(!r?.length){calculated.push({...item,error:'Missing reference gene'});continue}if(!t?.length)continue;
+    const targetMean=mean(t),referenceMean=mean(r),delta=targetMean-referenceMean;
+    const seTarget=sd(t)/Math.sqrt(t.length),seReference=sd(r)/Math.sqrt(r.length);
+    calculated.push({sample:item.sample,group:item.group,targetMean,referenceMean,delta,sdTarget:sd(t),sdReference:sd(r),seTarget,seReference,seDelta:Math.hypot(seTarget,seReference),warnings:[...t,...r].some(x=>x>35)?['Ct above 35']:[],replicateWarning:sd(t)>.5||sd(r)>.5});
+  }
+  const controls=calculated.filter(x=>x.group===control&&!x.error);if(!controls.length)throw new Error('Control group has no complete target/reference sample.');
+  const controlDelta=mean(controls.map(x=>x.delta)),controlTarget=mean(controls.map(x=>x.targetMean)),controlReference=mean(controls.map(x=>x.referenceMean)),controlSe=Math.sqrt(controls.reduce((s,x)=>s+x.seDelta**2,0))/controls.length;
+  const controlTargetSe=Math.sqrt(controls.reduce((s,x)=>s+x.seTarget**2,0))/controls.length,controlReferenceSe=Math.sqrt(controls.reduce((s,x)=>s+x.seReference**2,0))/controls.length;
+  return calculated.map(x=>{if(x.error)return x;const ddCt=x.delta-controlDelta,se=Math.hypot(x.seDelta,controlSe);let fold,sdFold;if(mode==='pfaffl'){fold=(targetEfficiency**(controlTarget-x.targetMean))/(referenceEfficiency**(controlReference-x.referenceMean));sdFold=fold*Math.hypot(Math.log(targetEfficiency)*Math.hypot(controlTargetSe,x.seTarget),Math.log(referenceEfficiency)*Math.hypot(controlReferenceSe,x.seReference));}else{fold=2**(-ddCt);sdFold=Math.abs(Math.log(2)*fold*se)}return {...x,ddCt,fold,se,sdFold};});
+}

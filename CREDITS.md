@@ -140,3 +140,10 @@ The same verified, unmodified Fuse.js 7.5.0 browser artifact is also used by the
 - Full citations and DOI links: `tools/plant-lab-calculators/METHODS.md`
 - Primer3 boundary: no Primer3 code, parameter files, interface, or bundled executable is included
 - Local changes: not applicable; the source is original to this repository
+
+## Browser-only calculation and preparation tools
+
+- Implementation: original JavaScript in this repository; no third-party runtime or calculation library
+- Used by: Dilution Calculator, qPCR ΔΔCt Calculator, Reverse Complement, Descriptive Statistics, and Journal Figure Resizer
+- Formula and transformation notes: each tool's `METHODS.md`
+- Published qPCR sources: Livak & Schmittgen (2001) and Pfaffl (2001), cited in `tools/qpcr-ddct-calculator/METHODS.md`

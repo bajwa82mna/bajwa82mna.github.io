@@ -22,7 +22,7 @@ test('external links use safe new-tab attributes',()=>{
 
 test('tool directory links every shipped tool and the credits page',()=>{
   const html=fs.readFileSync(path.join(root,'tools/index.html'),'utf8');
-  for(const name of ['emerging-journals-2026','reference-checker','identifier-toolkit','journal-trust-profile','oa-apc-explorer','plant-lab-calculators','abstract-journal-matcher'])assert.match(html,new RegExp(`href=["']${name}/`));
+  for(const name of ['emerging-journals-2026','reference-checker','identifier-toolkit','journal-trust-profile','oa-apc-explorer','plant-lab-calculators','abstract-journal-matcher','dilution-calculator','qpcr-ddct-calculator','reverse-complement','descriptive-statistics','journal-figure-resizer'])assert.match(html,new RegExp(`href=["']${name}/`));
   assert.match(html,/href=["']\/credits\/["']/);
 });
 

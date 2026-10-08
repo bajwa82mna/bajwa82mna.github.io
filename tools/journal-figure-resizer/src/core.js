@@ -1,0 +1,1 @@
+export function outputDimensions({width,height,unit,dpi,aspect}){const scale=unit==='mm'?Number(dpi)/25.4:1;let w=Number(width)*scale,h=Number(height)*scale;if(!(w>0)&&h>0&&aspect)w=h*aspect;if(!(h>0)&&w>0&&aspect)h=w/aspect;if(!(w>0&&h>0))throw new Error('Enter valid output dimensions.');return {width:Math.round(w),height:Math.round(h)};}

@@ -1,0 +1,5 @@
+C1=100 mM
+V1=unknown mL
+C2=10 mM
+V2=50 mL
+Serial dilution: factor 10, 3 steps, final volume 1000 uL
