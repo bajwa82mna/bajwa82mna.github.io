@@ -4,7 +4,7 @@ import {safeTextElement} from './dom.js?v=15';
 const SITE_HOST='smbajwa.com';
 const APPROVED=new Map([
   ['/', ['Shoaib Munir, Plant Molecular Biology','Plant molecular biology research and free, open tools for students and researchers — smbajwa.com']],
-  ['/tools/', ['Open research tools','Five free, open tools for students and researchers — smbajwa.com']],
+  ['/tools/', ['Open research tools','Six free, open tools for students and researchers — smbajwa.com']],
   ['/privacy.html', ['Privacy Policy, Shoaib Munir','Privacy information for smbajwa.com and its browser-based research tools.']],
   ['/credits/', ['Credits and data sources','Credits, open-data sources and software licences for smbajwa.com research tools']],
   ['/tools/emerging-journals-2026/', ['Emerging Journals Database 2026','Free, open tool for students and researchers: Emerging Journals Database 2026 — smbajwa.com']],
@@ -19,6 +19,7 @@ const APPROVED=new Map([
   ['/tools/journal-timing/', ['Journal Timing','Compare open journal publication timing evidence — smbajwa.com']]
   ,['/tools/journal-hub/', ['Journal Hub','Free, open journal discovery and evidence tool — smbajwa.com']]
   ,['/tools/publishing-toolkit/', ['Publishing Toolkit','Free, open reference and identifier toolkit — smbajwa.com']]
+  ,['/tools/variant-toolkit/', ['Variant Toolkit','Free browser-local VCF checks and plant variant learning tools — smbajwa.com']]
 ]);
 
 export function validateShareData(input={}){

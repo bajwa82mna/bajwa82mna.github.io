@@ -4,6 +4,8 @@ Copyright (c) Shoaib Munir
 This distribution contains third-party software and uses third-party public metadata services.
 See CREDITS.md for versions, source URLs, licenses, modifications and data provenance.
 
+Variant Toolkit links to fastVEP (Apache-2.0), Ensembl Plants VEP and the Sequence Ontology as external resources. No source code or datasets from those projects are distributed in the toolkit.
+
 Citation.js 0.9.0 — Copyright (c) 2015-2022 Lars Willighagen — MIT License
 Fuse.js 7.5.0 — Copyright Kiro Risk and contributors — Apache License 2.0
 MiniSearch 7.2.0 — Copyright Luca Ongaro and contributors — MIT License

@@ -67,10 +67,10 @@ test('Publishing Toolkit exposes both retained workflows and links journal ident
   assert.doesNotMatch(app, /innerHTML|insertAdjacentHTML/);
 });
 
-test('directory and sitemap expose exactly the five final tools', () => {
+test('directory and sitemap expose the final tools', () => {
   const directory = read('tools/index.html');
   const sitemap = read('sitemap.xml');
-  const finalSlugs = ['journal-hub','publishing-toolkit','plant-lab-calculators','descriptive-statistics','journal-figure-resizer'];
+  const finalSlugs = ['journal-hub','publishing-toolkit','plant-lab-calculators','descriptive-statistics','journal-figure-resizer','variant-toolkit'];
   for (const slug of finalSlugs) {
     assert.match(directory,new RegExp(`href=["']${slug}/`));
     assert.ok(sitemap.includes(`https://smbajwa.com/tools/${slug}/`), slug);
