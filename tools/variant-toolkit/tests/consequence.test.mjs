@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {predictConsequences} from '../src/consequence.js';
+import {MODEL_LIMITS,predictConsequences} from '../src/consequence.js';
 
 const fasta='>chr1\nAAAAATGGAACTGTAACCCGGGTTTAAA\n';
 const gff='##gff-version 3\nchr1\tstudy\tmRNA\t5\t19\t.\t+\t.\tID=tx1;Parent=g1\nchr1\tstudy\tCDS\t5\t10\t.\t+\t0\tParent=tx1\nchr1\tstudy\tCDS\t14\t19\t.\t+\t0\tParent=tx1\n';
@@ -33,4 +33,32 @@ test('handles reverse-strand CDS and validates reference alleles',()=>{
 test('rejects unsupported symbolic alleles and phase-bearing CDS models',()=>{
   assert.throws(()=>predictConsequences({vcf:vcf(7,'G','<DEL>'),gff,fasta}),/DNA alleles/i);
   assert.throws(()=>predictConsequences({vcf:vcf(7,'G','A'),gff:gff.replace('\t0\tParent=tx1','\t1\tParent=tx1'),fasta}),/phase 0/i);
+});
+
+test('rejects malformed GFF3 models with line-specific errors before prediction',()=>{
+  const cases=[
+    ['chr1\tx\tmRNA\t1\t3\t.\t+\t.\tID=\n',/line 1.*ID/i],
+    ['chr1\tx\tCDS\t1\t3\t.\t+\t0\tParent=\n',/line 1.*Parent/i],
+    ['chr1\tx\tCDS\tx\t3\t.\t+\t0\tParent=tx\n',/line 1.*coordinates/i],
+    ['chr1\tx\tCDS\t4\t3\t.\t+\t0\tParent=tx\n',/line 1.*coordinates/i],
+    ['chr1\tx\tCDS\t1\t99\t.\t+\t0\tParent=tx\n',/line 1.*exceeds FASTA/i],
+    ['chr1\tx\tCDS\t1\t3\t.\t.\t0\tParent=tx\n',/line 1.*strand/i],
+    ['chr1\tx\tCDS\t1\t4\t.\t+\t0\tParent=tx\nchr1\tx\tCDS\t4\t6\t.\t+\t0\tParent=tx\n',/line 2.*overlap/i],
+    ['chr1\tx\tCDS\t1\t3\t.\t+\t0\tParent=tx\nchr1\tx\tCDS\t5\t6\t.\t-\t0\tParent=tx\n',/line 2.*inconsistent strands/i],
+    ['chr1\tx\tCDS\t1\t3\t.\t+\t0\tParent=tx\nchr2\tx\tCDS\t1\t3\t.\t+\t0\tParent=tx\n',/line 2.*inconsistent contigs/i],
+  ];
+  const validationFasta=`${fasta}>chr2\nAAAA\n`;
+  for(const [model,error] of cases)assert.throws(()=>predictConsequences({vcf:vcf(1,'A','C'),gff:model,fasta:validationFasta}),error);
+});
+
+test('enforces transcript, parent and expanded CDS resource limits',()=>{
+  const parents=Array.from({length:MODEL_LIMITS.parentsPerCds+1},(_,i)=>`tx${i}`).join(',');
+  assert.throws(()=>predictConsequences({vcf:vcf(1,'A','C'),gff:`chr1\tx\tCDS\t1\t1\t.\t+\t0\tParent=${parents}\n`,fasta}),/parents/i);
+  const transcripts=Array.from({length:MODEL_LIMITS.transcripts+1},(_,i)=>`chr1\tx\tmRNA\t1\t1\t.\t+\t.\tID=tx${i}`).join('\n');
+  assert.throws(()=>predictConsequences({vcf:vcf(1,'A','C'),gff:transcripts,fasta}),/transcript limit/i);
+  const longFasta=`>long\n${'A'.repeat(MODEL_LIMITS.cdsBasesPerTranscript+1)}\n`;
+  const longVcf=vcf(1,'A','C').replaceAll('chr1','long');
+  assert.throws(()=>predictConsequences({vcf:longVcf,gff:`long\tx\tCDS\t1\t${MODEL_LIMITS.cdsBasesPerTranscript+1}\t.\t+\t0\tParent=tx\n`,fasta:longFasta}),/CDS-base limit/i);
+  const millionFasta=`>long\n${'A'.repeat(MODEL_LIMITS.cdsBasesPerTranscript)}\n`,manyParents='a,b,c,d,e,f';
+  assert.throws(()=>predictConsequences({vcf:longVcf,gff:`long\tx\tCDS\t1\t${MODEL_LIMITS.cdsBasesPerTranscript}\t.\t+\t0\tParent=${manyParents}\n`,fasta:millionFasta}),/total expanded CDS-base limit/i);
 });

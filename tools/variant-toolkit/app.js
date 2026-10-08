@@ -1,5 +1,5 @@
-import {summarizeVcf,MAX_BYTES} from './src/vcf.js?v=15';
-import {predictConsequences} from './src/consequence.js?v=15';
+import {summarizeVcf,MAX_BYTES} from './src/vcf.js?v=16';
+import {predictConsequences} from './src/consequence.js?v=16';
 
 const $=id=>document.getElementById(id);
 const EXAMPLE_VCF='##fileformat=VCFv4.2\n#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\nchr1\t10\t.\tA\tG\t.\tPASS\t.\nchr1\t8\t.\tG\tT\t.\tPASS\t.\nchr1\t7\t.\tG\tGA\t.\tPASS\t.\n';
@@ -12,7 +12,7 @@ function showTab(name){
   history.replaceState(null,'',`?tab=${name}`);
 }
 document.querySelector('[role="tablist"]').addEventListener('click',e=>{const b=e.target.closest('[role="tab"]');if(b)showTab(b.dataset.tab)});
-document.querySelector('[role="tablist"]').addEventListener('keydown',e=>{if(!['ArrowLeft','ArrowRight'].includes(e.key))return;const tabs=[...document.querySelectorAll('[role="tab"]')],i=tabs.indexOf(document.activeElement),next=tabs[(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length];next.focus();showTab(next.dataset.tab)});
+document.querySelector('[role="tablist"]').addEventListener('keydown',e=>{const tabs=[...document.querySelectorAll('[role="tab"]')],i=tabs.indexOf(document.activeElement);let next;if(e.key==='Home')next=tabs[0];else if(e.key==='End')next=tabs.at(-1);else if(e.key==='ArrowRight')next=tabs[(i+1)%tabs.length];else if(e.key==='ArrowLeft')next=tabs[(i-1+tabs.length)%tabs.length];else return;e.preventDefault();next.focus();showTab(next.dataset.tab)});
 async function loadFile(input,target,status){const file=input.files[0];if(!file)return;if(file.size>MAX_BYTES){status.textContent='File is larger than 2 MB.';return}target.value=await file.text();status.textContent=`Loaded ${file.name} locally (${file.size.toLocaleString()} bytes).`}
 $('vcf-file').addEventListener('change',()=>loadFile($('vcf-file'),$('vcf'),$('vcf-status')));
 $('check').addEventListener('click',()=>{
