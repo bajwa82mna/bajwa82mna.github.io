@@ -45,7 +45,7 @@
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"Journal Hub","applicationCategory":"EducationalApplication","operatingSystem":"Any modern browser","isAccessibleForFree":true,"description":"Search 22,281 journals, privately match an abstract, and compare open journal evidence.","url":"https://smbajwa.com/tools/journal-hub/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://smbajwa.com/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://smbajwa.com/tools/"},{"@type":"ListItem","position":3,"name":"Journal Hub","item":"https://smbajwa.com/tools/journal-hub/"}]},{"@type":"HowTo","name":"How to find and assess a journal","step":[{"@type":"HowToStep","name":"Search","text":"Enter a journal title, ISSN, or abstract."},{"@type":"HowToStep","name":"Review","text":"Select a result and inspect its combined evidence profile."},{"@type":"HowToStep","name":"Compare","text":"Review one selected journal across OA/APC, timing, trust and trends; the OA/APC tray can compare up to four journals."}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is the matcher private?","acceptedAnswer":{"@type":"Answer","text":"Yes. Lexical matching runs in the browser and abstract text is not sent to a server."}},{"@type":"Question","name":"Are acceptance rates included?","acceptedAnswer":{"@type":"Answer","text":"No. Acceptance rate is not openly available and is not estimated."}},{"@type":"Question","name":"Are timing values guarantees?","acceptedAnswer":{"@type":"Answer","text":"No. They are partial descriptive evidence from DOAJ and Crossref."}},{"@type":"Question","name":"Does this include Journal Impact Factor?","acceptedAnswer":{"@type":"Answer","text":"No. No JIF, Clarivate, Scopus, CAS or bundled SJR data is used."}},{"@type":"Question","name":"Where does OA and APC evidence come from?","acceptedAnswer":{"@type":"Answer","text":"Current checks use openly available DOAJ, OpenAlex and Crossref records."}},{"@type":"Question","name":"Can I share a journal profile?","acceptedAnswer":{"@type":"Answer","text":"Yes. Selected journals receive a q deep link containing only the public journal title."}}]}]}</script>
 </head>
 <body>
-<header class="hero">
+<header class="tool-hero">
 <div class="wrap">
 <nav aria-label="Breadcrumb">
 <a href="/">smbajwa.com</a> / <a href="/tools/">Tools</a> / Journal Hub</nav>
@@ -74,7 +74,7 @@
 </div>
 <section id="panel-find" role="tabpanel" aria-labelledby="tab-find">
 <h2>Search, OA/APC and timing</h2>
-<p>These are the complete audited tools, mounted without removing their filters, columns, calculators or exports.</p>
+<p>Search journals first, then use the filters to review open-access fees and publication timing.</p>
 <iframe class="tool-mount" title="OA and APC Explorer" data-tool="oa-apc-explorer" data-src="../oa-apc-explorer/?embed=1">
 </iframe>
 <iframe class="tool-mount" title="Journal Timing" data-tool="journal-timing" data-src="../journal-timing/?embed=1">
@@ -86,7 +86,7 @@
 </section>
 <section id="panel-compare" role="tabpanel" aria-labelledby="tab-compare" hidden>
 <h2>Combined journal profile</h2>
-<p id="profile-status">Select a journal in any mounted tool, or open a legacy <code>?q=</code> link, to synchronize the profile.</p>
+<p id="profile-status">Select a journal in any tool above, or open a saved <code>?q=</code> link, to view its combined profile.</p>
 <p>The trust, OA/APC, timing and trends views for the selected journal are shown together below; switching modes does not reload them.</p>
 </section>
 <section id="panel-trends" role="tabpanel" aria-labelledby="tab-trends" hidden>

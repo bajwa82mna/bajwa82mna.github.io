@@ -29,7 +29,7 @@ function loadEmbed(search = '') {
   };
   context.window = context;
   vm.runInNewContext(embedSource(), context, {filename: 'embed.js'});
-  return {api: context.EmbedBridge, classes, parent};
+  return {api: context.EmbedBridge, classes, parent, listeners};
 }
 
 test('embed flag applies is-embedded only for embed=1', () => {
@@ -52,6 +52,27 @@ test('frame messages require the same origin and a mounted frame source', () => 
   assert.equal(api.frameForMessage({origin: 'https://example.test', source}, [frame]), frame);
   assert.equal(api.frameForMessage({origin: 'https://evil.test', source}, [frame]), null);
   assert.equal(api.frameForMessage({origin: 'https://example.test', source: {}}, [frame]), null);
+});
+
+test('mounted iframe heights are capped at 2400px and oversized content scrolls internally', () => {
+  const {api, listeners} = loadEmbed();
+  const source = {};
+  const attributes = new Map();
+  const frame = {
+    contentWindow: source,
+    style: {},
+    setAttribute(name, value) { attributes.set(name, value); },
+    addEventListener() {},
+  };
+  api.mountFrames([frame]);
+  listeners.get('message')({
+    origin: 'https://example.test',
+    source,
+    data: {type: api.HEIGHT_MESSAGE, height: 528022},
+  });
+  assert.equal(api.MAX_FRAME_HEIGHT, 2400);
+  assert.equal(frame.style.height, '2400px');
+  assert.equal(attributes.get('scrolling'), 'yes');
 });
 
 test('Journal Hub declares each embedded tool source once', () => {

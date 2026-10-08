@@ -3,6 +3,7 @@
 
   var HEIGHT_MESSAGE = 'smb:embed-height';
   var THEME_MESSAGE = 'smb:embed-theme';
+  var MAX_FRAME_HEIGHT = 2400;
 
   function isEmbedded(search) {
     return new URLSearchParams(search || '').get('embed') === '1';
@@ -83,7 +84,11 @@
       var frame = frameForMessage(event, list);
       if (!frame || !event.data || event.data.type !== HEIGHT_MESSAGE) return;
       var height = Number(event.data.height);
-      if (Number.isFinite(height) && height > 0) frame.style.height = Math.ceil(height) + 'px';
+      if (Number.isFinite(height) && height > 0) {
+        var capped = Math.min(Math.ceil(height), MAX_FRAME_HEIGHT);
+        frame.style.height = capped + 'px';
+        frame.setAttribute('scrolling', height > MAX_FRAME_HEIGHT ? 'yes' : 'no');
+      }
     }
     global.addEventListener('message', onMessage);
     list.forEach(function (frame) {
@@ -99,6 +104,7 @@
   global.EmbedBridge = {
     HEIGHT_MESSAGE: HEIGHT_MESSAGE,
     THEME_MESSAGE: THEME_MESSAGE,
+    MAX_FRAME_HEIGHT: MAX_FRAME_HEIGHT,
     isEmbedded: isEmbedded,
     isTrustedParentMessage: isTrustedParentMessage,
     frameForMessage: frameForMessage,

@@ -11,10 +11,45 @@ html.is-embedded .embed-how-to {
 html.is-embedded,
 html.is-embedded body {
   min-height: 0;
-  overflow: hidden;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 html.is-embedded body > main {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+html.is-embedded button,
+html.is-embedded input,
+html.is-embedded select,
+html.is-embedded textarea {
+  font: inherit;
+}
+
+html.is-embedded button,
+html.is-embedded input,
+html.is-embedded select,
+html.is-embedded textarea,
+html.is-embedded label,
+html.is-embedded legend,
+html.is-embedded th,
+html.is-embedded .badge,
+html.is-embedded .chip,
+html.is-embedded .status,
+html.is-embedded .status-pill {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+html.is-embedded .table-wrap,
+html.is-embedded .table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+html.is-embedded img,
+html.is-embedded svg,
+html.is-embedded canvas {
+  max-width: 100%;
 }
