@@ -48,7 +48,7 @@ test('top-level pages use site-only CSPs without inline scripts', () => {
 const renderedTools = [
   'journal-hub','publishing-toolkit','plant-lab-calculators','descriptive-statistics','journal-figure-resizer',
   'abstract-journal-matcher','emerging-journals-2026','journal-timing','journal-trust-profile',
-  'oa-apc-explorer','reference-checker','identifier-toolkit'
+  'oa-apc-explorer','reference-checker','identifier-toolkit','variant-toolkit'
 ];
 
 test('every rendered tool links its compact privacy chip to the central register', () => {
