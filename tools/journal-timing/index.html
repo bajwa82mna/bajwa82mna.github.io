@@ -7,7 +7,7 @@
 <script type="module" src="/tools/_shared/js/legacy-redirect.js?v=19">
 </script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://api.crossref.org; object-src 'none'; base-uri 'self'; form-action 'self'">
 <meta name="theme-color" content="#f7f8f4">
 <title>Compare journal publication timelines | Shoaib Munir</title>
 <meta name="description" content="Search open, source-linked journal submission-to-publication timing evidence from DOAJ and Crossref.">
@@ -57,7 +57,7 @@
 </nav>
 <p class="eyebrow">Open evidence · static snapshot</p>
 <h1>Compare journal publication timelines</h1>
-<p class="tool-intro">Search source-linked submission-to-publication evidence without sending your query anywhere.</p>
+<p class="tool-intro">Search first-party snapshot shards; optionally request current Crossref dates for one selected ISSN.</p>
 <p class="share-line">
 <button type="button" data-share data-share-url="https://smbajwa.com/tools/journal-hub/?mode=timing" data-share-title="Journal Hub" data-share-text="Free, open journal discovery and evidence tool — smbajwa.com">Share</button>
 </p>
@@ -80,18 +80,23 @@
 </label>
 <label>Minimum Crossref n<input id="minimum" type="number" min="0" value="0">
 </label>
+<label>Source<select id="source"><option value="">Any source</option><option value="crossref">Crossref snapshot</option><option value="doaj">DOAJ</option></select></label>
+<label>Retrieved<select id="recency"><option value="0">Any date</option><option value="365">Past year</option><option value="1096">Past 3 years</option></select></label>
 <label class="check">
 <input id="oa" type="checkbox"> Open access only</label>
 <label class="check">
 <input id="has-data" type="checkbox"> Has timing data only</label>
 </div>
 <div class="actions">
-<button id="example" type="button">Load example</button>
 <button id="download" type="button">Download filtered CSV</button>
+<button id="clear-cache" type="button">Clear local cache</button>
 </div>
+<p class="muted">CSV export includes only the currently loaded, filtered rows.</p>
+<p id="search-error" class="error" role="alert"></p>
 <p id="status" role="status" aria-live="polite">
 </p>
 </section>
+<section id="start" class="start-panel" aria-labelledby="start-heading"><h2 id="start-heading">Start here</h2><p>Enter at least two title characters or a complete print/e-ISSN. Or try an example:</p><div id="examples" class="actions"></div></section>
 <aside class="caveat" aria-label="Mandatory interpretation caveat">
 <strong>Read before comparing:</strong> Publisher-deposited or self-reported data; incomplete and not comparable across workflows. Missing means unavailable, not fast. Medians describe accepted published articles and exclude rejected manuscripts; they are not acceptance rates or promises.</aside>
 <section aria-labelledby="results-heading">
@@ -107,26 +112,18 @@
 <th aria-sort="none">
 <button data-sort="j">Journal</button>
 </th>
-<th>Publisher</th>
+<th>ISSN</th>
+<th>Subject</th>
 <th aria-sort="none">
 <button data-sort="dw">DOAJ weeks</button>
 </th>
 <th aria-sort="none">
-<button data-sort="sa">Submit→accept</button>
-</th>
-<th aria-sort="none">
-<button data-sort="ao">Accept→online</button>
-</th>
-<th aria-sort="none">
 <button data-sort="so">Total</button>
 </th>
-<th>IQR total</th>
 <th aria-sort="none">
 <button data-sort="n">n</button>
 </th>
-<th>Acceptance rate</th>
-<th>Source</th>
-<th>Last updated</th>
+<th>Details</th>
 </tr>
 </thead>
 <tbody id="rows">
@@ -134,6 +131,7 @@
 </table>
 </div>
 </section>
+<section id="detail" class="detail-panel" aria-label="Selected journal timing detail" hidden></section>
 <section class="how" aria-labelledby="how-heading">
 <h2 id="how-heading">How to compare journal timing evidence</h2>
 <ol>
@@ -145,7 +143,7 @@
 </section>
 <section aria-labelledby="about-heading">
 <h2 id="about-heading">About this tool</h2>
-<p>This snapshot joins the 22,281-journal Emerging Journals 2026 dataset to DOAJ and Crossref by print ISSN or e-ISSN only. See <a href="METHODS.md">methods</a> and <a href="/credits/">Credits and data sources</a>.</p>
+<p>This on-demand index joins all 21,341 ISSN-bearing journals in the Emerging Journals 2026 dataset to DOAJ and Crossref by print ISSN or e-ISSN only. See <a href="METHODS.md">methods</a> and <a href="/credits/">Credits and data sources</a>.</p>
 <h3>Why acceptance rate is unavailable</h3>
 <p>There is no suitable open source for this field. It is shown as “Not openly available” and is never estimated from published articles, because published articles omit rejected manuscripts.</p>
 <h3>Limitations</h3>
@@ -193,8 +191,6 @@
 <p>Crossref and DOAJ upstream data. No affiliation or endorsement implied.</p>
 </div>
 </footer>
-<script src="data/timing-data.js?v=19">
-</script>
 <script src="data/coverage.js?v=19">
 </script>
 <script src="/tools/_shared/vendor/qrcode-generator/1.4.4/qrcode.js?v=19">

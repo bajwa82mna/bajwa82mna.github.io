@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the browser-only Journal Timing snapshot from DOAJ and Crossref."""
 from __future__ import annotations
-import argparse, csv, datetime as dt, json, pathlib, re, statistics, time, urllib.error, urllib.parse, urllib.request
+import argparse, csv, datetime as dt, hashlib, json, pathlib, re, shutil, statistics, time, urllib.error, urllib.parse, urllib.request
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 SITE = ROOT.parents[1]
@@ -102,6 +102,41 @@ def load_doaj(path):
                 if issn: by_issn[issn]={"weeks":weeks,"url":row.get("URL in DOAJ") or "https://doaj.org/","publisher":row.get("Publisher") or ""}
     return by_issn
 
+def title_key(value):
+    """A deterministic, URL-safe two-character title bucket."""
+    folded=re.sub(r"[^a-z0-9]+","",str(value or "").casefold())
+    return (folded[:2] or "__").ljust(2,"_")
+
+def shard_key(issn):
+    return hashlib.sha1(issn.encode("ascii")).hexdigest()[:2]
+
+def write_shards(records):
+    data_dir=ROOT/"data"; shard_dir=data_dir/"shards"; title_dir=data_dir/"titles"
+    for directory in (shard_dir,title_dir):
+        if directory.exists(): shutil.rmtree(directory)
+        directory.mkdir(parents=True)
+    shards={f"{n:02x}":{"r":[],"a":{}} for n in range(256)}; titles={}
+    for record in sorted(records,key=lambda x:(x["j"].casefold(),x["i"][0])):
+        canonical=record["i"][0];shards[shard_key(canonical)]["r"].append(record)
+        # Alternate ISSNs get a tiny pointer in their own hash bucket. This
+        # preserves direct resolution without duplicating full records.
+        for issn in record["i"][1:]: shards[shard_key(issn)]["a"][issn]=canonical
+        # Index the beginning of every title token, so a query such as "Plant"
+        # finds "The Plant Journal" without downloading a global title list.
+        keys={title_key(token) for token in re.findall(r"[a-z0-9]+",record["j"].casefold())}
+        for key in keys: titles.setdefault(key,[]).append([record["j"],record["i"][0]])
+    for key,payload in shards.items():
+        payload["r"].sort(key=lambda x:x["i"][0]);payload["a"]=dict(sorted(payload["a"].items()))
+        (shard_dir/f"{key}.json").write_text(json.dumps(payload,ensure_ascii=False,separators=(",",":"))+"\n")
+    for key,rows in sorted(titles.items()):
+        rows.sort(key=lambda x:(x[0].casefold(),x[1]))
+        (title_dir/f"{key}.json").write_text(json.dumps(rows,ensure_ascii=False,separators=(",",":"))+"\n")
+    manifest={"version":1,"hash":"sha1-first-2","shards":256,"title_prefix_length":2,
+              "journals":len(records),"subjects":sorted({x["s"] for x in records}),
+              "examples":[[x["j"],x["i"][0]] for x in records if x["j"].casefold() in
+                          {"the plant journal","nature communications","plos one"}]}
+    (data_dir/"manifest.json").write_text(json.dumps(manifest,ensure_ascii=False,separators=(",",":"))+"\n")
+
 def request_json(url):
     req=urllib.request.Request(url,headers={"User-Agent":UA,"Accept":"application/json"})
     for attempt in range(5):
@@ -144,10 +179,12 @@ def build(args):
             attempted+=1
             summary=crossref_summary(journal["issns"],args.refresh,today,window_start)
             if summary is not None:record["x"]=summary;with_timing+=int(summary["n"]>0)
-        if dj or record.get("x",{}).get("n",0): output.append(record)
+        # Every ISSN-joinable journal is emitted. Missing evidence is useful:
+        # it enables an explicit, on-demand live lookup in the browser.
+        output.append(record)
     coverage={"dataset_journals":22281,"joinable_issn_journals":len(journals),"journals_attempted":attempted,"journals_with_crossref_timing":with_timing,"journals_with_doaj_weeks":sum(1 for x in output if x.get("dw") is not None),"retrieved":today,"window_start":window_start,"window_end":today}
     (ROOT/"data").mkdir(exist_ok=True)
-    (ROOT/"data/timing-data.js").write_text("window.JOURNAL_TIMING_DATA="+json.dumps(output,ensure_ascii=False,separators=(",",":"))+";\n")
+    write_shards(output)
     (ROOT/"data/coverage.json").write_text(json.dumps(coverage,indent=2)+"\n")
     (ROOT/"data/coverage.js").write_text("window.JOURNAL_TIMING_COVERAGE="+json.dumps(coverage,separators=(",",":"))+";\n")
     print(json.dumps(coverage,indent=2))
