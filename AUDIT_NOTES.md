@@ -20,3 +20,16 @@ Uncertain/manual follow-up: browser-specific canvas resampling and memory limits
 - Kept the Experimental label only for primer Tm, as required by `METHODS.md`; dilution, molarity, qPCR and sequence tools are no longer labelled Experimental.
 - Replaced the three old tool pages with `noindex` static redirect stubs and removed their cards, sitemap entries, JSON-LD entries and share allow-list entries.
 - Ported standalone core/example tests to the consolidated paths and updated the public tool count from thirteen to ten.
+
+## 2026-10-08 — Journal and publishing consolidation
+
+- Merged five journal-facing workflows into `/tools/journal-hub/`: 22,281-journal search and filters, private lexical abstract matching, up-to-five comparison, Emerging Journals trends/counts, combined evidence profiles, and opt-in live Crossref/OpenAlex/DOAJ checks.
+- Journal profiles combine identity and ISSNs, subject/country/publisher, open-data trust signals, OA/APC/waiver guidance, DOAJ weeks, Crossref medians with `n`, evidence links, and explicit timing/acceptance-rate caveats.
+- Reused the existing Emerging Journals, enrichment, matcher, and timing assets in place. No large dataset was copied into the hub.
+- Merged Reference Checker and Identifier Toolkit into `/tools/publishing-toolkit/`, reusing their audited parser, duplicate detector, normalization, detection, and checksum modules.
+- Replaced all seven retired pages with strict-CSP, noindex static redirect stubs. The Emerging Journals external redirect script preserves existing `?q=` shared links and opens the selected Journal Hub profile.
+- Reduced the public directory, homepage cards, sitemap and JSON-LD ItemList to the five final tools; retained old paths in the share allow-list only for redirect compatibility.
+- Added SoftwareApplication, BreadcrumbList, HowTo and FAQPage JSON-LD to both hubs, with matching visible how-to, limitations, FAQ and related-tool content.
+- Ported page-level tests to the consolidated interfaces while retaining all core, fixture, data-integrity, XSS and build tests.
+- Verification: `node --test` 165/165 passed; Emerging Journals Python tests 15/15 passed; Journal Timing Python tests 5/5 passed. Real Chrome smoke tests confirmed the `Plant Journal` deep-link profile, add/compare workflow, Publishing Toolkit identifier tab, and four valid example identifiers.
+- No push or deployment was performed.

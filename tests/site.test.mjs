@@ -20,9 +20,9 @@ test('external links use safe new-tab attributes',()=>{
   for(const page of pages){const html=fs.readFileSync(path.join(root,page),'utf8');for(const [anchor] of html.matchAll(/<a\b[^>]*href=["']https?:\/\/[^"']+["'][^>]*>/gi)){assert.match(anchor,/target=["']_blank["']/i,`${page}: ${anchor}`);assert.match(anchor,/rel=["'][^"']*noopener[^"']*noreferrer[^"']*["']/i,`${page}: ${anchor}`)}}
 });
 
-test('tool directory links every shipped tool and the credits page',()=>{
+test('tool directory links the five public tools and the credits page',()=>{
   const html=fs.readFileSync(path.join(root,'tools/index.html'),'utf8');
-  for(const name of ['emerging-journals-2026','reference-checker','identifier-toolkit','journal-trust-profile','oa-apc-explorer','plant-lab-calculators','abstract-journal-matcher','descriptive-statistics','journal-figure-resizer'])assert.match(html,new RegExp(`href=["']${name}/`));
+  for(const name of ['journal-hub','publishing-toolkit','plant-lab-calculators','descriptive-statistics','journal-figure-resizer'])assert.match(html,new RegExp(`href=["']${name}/`));
   assert.match(html,/href=["']\/credits\/["']/);
 });
 

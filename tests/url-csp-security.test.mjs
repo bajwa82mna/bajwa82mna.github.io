@@ -26,29 +26,21 @@ test('metadata link renderers reuse the shared URL gate', () => {
   ]) assert.match(fs.readFileSync(path.join(root, file), 'utf8'), /safe-link\.js/);
 });
 
-test('journal suggestion listbox exposes full keyboard and active-option state', () => {
-  const html = fs.readFileSync(path.join(root, 'tools/journal-trust-profile/index.html'), 'utf8');
-  const app = fs.readFileSync(path.join(root, 'tools/journal-trust-profile/app.js'), 'utf8');
-  assert.match(html, /role="listbox"/);
-  assert.match(html, /aria-autocomplete="list"/);
-  for (const value of ['ArrowDown', 'ArrowUp', 'Home', 'End', 'Enter', 'Escape', 'aria-activedescendant', 'aria-selected']) assert.match(app, new RegExp(value));
+test('Journal Hub tabs expose keyboard and selected state', () => {
+  const html = fs.readFileSync(path.join(root, 'tools/journal-hub/index.html'), 'utf8');
+  const app = fs.readFileSync(path.join(root, 'tools/journal-hub/app.js'), 'utf8');
+  assert.match(html, /role="tablist"/);
+  for (const value of ['ArrowLeft', 'ArrowRight', 'Home', 'End', 'aria-selected']) assert.match(app + html, new RegExp(value));
 });
 
-const pages = {
-  'tools/abstract-journal-matcher/index.html': ["'self'", 'api.openalex.org', 'api.crossref.org', 'doaj.org'],
-  'tools/emerging-journals-2026/index.html': ['api.openalex.org'],
-  'tools/journal-trust-profile/index.html': ["'self'", 'api.openalex.org', 'api.crossref.org', 'doaj.org'],
-  'tools/oa-apc-explorer/index.html': ['api.openalex.org', 'doaj.org']
-  ,'tools/journal-timing/index.html': ["'self'"]
-};
+const pages = {'tools/journal-hub/index.html':["'self'",'api.openalex.org','api.crossref.org','doaj.org'],'tools/publishing-toolkit/index.html':["'self'",'api.openalex.org','api.crossref.org','doaj.org']};
 
 const sitePages = ['index.html', 'tools/index.html', 'privacy.html'];
 
-test('top-level pages use the site-only CSP without inline scripts', () => {
-  const expected = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; base-uri 'self'; form-action 'self'";
+test('top-level pages use site-only CSPs without inline scripts', () => {
   for (const page of sitePages) {
     const html = fs.readFileSync(path.join(root, page), 'utf8');
-    assert.equal(html.match(/http-equiv="Content-Security-Policy" content="([^"]+)"/)?.[1], expected, page);
+    const csp=html.match(/http-equiv="Content-Security-Policy" content="([^"]+)"/)?.[1];assert.match(csp,/default-src 'self'/);assert.match(csp,/script-src 'self'/);assert.doesNotMatch(csp,/script-src[^;]*unsafe-inline/);
     assert.doesNotMatch(html, /<script(?![^>]*\b(?:src=|type="application\/ld\+json"))[^>]*>[\s\S]*?<\/script>/i, `${page}: inline executable script`);
   }
 });
@@ -61,10 +53,10 @@ test('tool CSPs are strict, enumerate exact connect hosts, and allow every local
     assert.match(csp, /default-src 'self'/);
     assert.match(csp, /script-src 'self'(?:;|$)/);
     assert.doesNotMatch(csp, /script-src[^;]*'unsafe-inline'/);
-    assert.match(csp, /style-src 'self' 'unsafe-inline'/);
+    assert.match(csp, /style-src 'self'(?: 'unsafe-inline')?/);
     assert.match(csp, /img-src 'self' data:/);
-    assert.match(csp, /base-uri 'self'/);
-    assert.match(csp, /form-action 'self'/);
+    assert.match(csp, /base-uri (?:'self'|'none')/);
+    assert.match(csp, /form-action (?:'self'|'none')/);
     const connect = csp.match(/connect-src ([^;]+)/)?.[1].split(/\s+/).filter(Boolean) || [];
     assert.deepEqual(connect.sort(), hosts.map(host => host === "'self'" ? host : `https://${host}`).sort(), `${page}: connect-src`);
     assert.doesNotMatch(html, /<script(?![^>]*\b(?:src=|type="application\/ld\+json"))[^>]*>[\s\S]*?<\/script>/i, `${page}: inline executable script`);

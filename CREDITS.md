@@ -1,5 +1,7 @@
 # Credits and data provenance
 
+The public interface consolidates journal discovery, matching, OA/APC, timing and trust evidence in **Journal Hub**, and reference and identifier work in **Publishing Toolkit**. Original data, vendored libraries, provenance records and test fixtures remain at their documented paths so they are not duplicated and their audit trail is preserved.
+
 This file records third-party software and public metadata services used by the research tools at smbajwa.com. Names are factual attribution and do not imply affiliation or endorsement.
 
 ## Logo

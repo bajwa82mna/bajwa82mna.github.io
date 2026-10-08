@@ -4,7 +4,7 @@ import {safeTextElement} from './dom.js?v=12';
 const SITE_HOST='smbajwa.com';
 const APPROVED=new Map([
   ['/', ['Shoaib Munir, Plant Molecular Biology','Plant molecular biology research and free, open tools for students and researchers — smbajwa.com']],
-  ['/tools/', ['Open research tools','Ten free, open tools for students and researchers — smbajwa.com']],
+  ['/tools/', ['Open research tools','Five free, open tools for students and researchers — smbajwa.com']],
   ['/privacy.html', ['Privacy Policy, Shoaib Munir','Privacy information for smbajwa.com and its browser-based research tools.']],
   ['/credits/', ['Credits and data sources','Credits, open-data sources and software licences for smbajwa.com research tools']],
   ['/tools/emerging-journals-2026/', ['Emerging Journals Database 2026','Free, open tool for students and researchers: Emerging Journals Database 2026 — smbajwa.com']],
@@ -17,6 +17,8 @@ const APPROVED=new Map([
   ['/tools/descriptive-statistics/', ['Descriptive Statistics','Free, open tool for students and researchers: Descriptive Statistics — smbajwa.com']],
   ['/tools/journal-figure-resizer/', ['Journal Figure Resizer','Free, open tool for students and researchers: Journal Figure Resizer — smbajwa.com']],
   ['/tools/journal-timing/', ['Journal Timing','Compare open journal publication timing evidence — smbajwa.com']]
+  ,['/tools/journal-hub/', ['Journal Hub','Free, open journal discovery and evidence tool — smbajwa.com']]
+  ,['/tools/publishing-toolkit/', ['Publishing Toolkit','Free, open reference and identifier toolkit — smbajwa.com']]
 ]);
 
 export function validateShareData(input={}){
@@ -24,10 +26,11 @@ export function validateShareData(input={}){
   if(url.origin!==`https://${SITE_HOST}`||url.username||url.password||url.port||!APPROVED.has(url.pathname))throw new TypeError('Share URL must be an allow-listed smbajwa.com HTTPS URL');
   url.hash='';
   const journal=input.journal;
-  if(url.pathname==='/tools/emerging-journals-2026/'&&url.searchParams.has('q')){
+  if(['/tools/emerging-journals-2026/','/tools/journal-hub/'].includes(url.pathname)&&url.searchParams.has('q')){
     const title=String(journal?.title||''),issns=Array.isArray(journal?.issns)?journal.issns.map(String):[];
     if(!title||url.searchParams.size!==1||url.searchParams.get('q')!==title||(!issns.length&&!title))throw new TypeError('Journal deep link must match a fixed dataset journal');
-    const expectedTitle=`${title} — Emerging Journals 2026`,expectedText=`Journal record: ${title} — Emerging Journals Database 2026, smbajwa.com`;
+    const hub=url.pathname==='/tools/journal-hub/';
+    const expectedTitle=hub?`${title} — Journal Hub`:`${title} — Emerging Journals 2026`,expectedText=hub?`Journal profile: ${title} — Journal Hub, smbajwa.com`:`Journal record: ${title} — Emerging Journals Database 2026, smbajwa.com`;
     if(input.title!==expectedTitle||input.text!==expectedText)throw new TypeError('Share title and text must be approved share copy');
   }else{
     url.search='';

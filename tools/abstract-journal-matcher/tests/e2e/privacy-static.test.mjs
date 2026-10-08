@@ -1,5 +1,5 @@
 import test from "node:test";import assert from "node:assert/strict";import fs from "node:fs";
-const root=new URL("../../",import.meta.url),app=fs.readFileSync(new URL("app.js",root),"utf8"),api=fs.readFileSync(new URL("src/api.js",root),"utf8"),html=fs.readFileSync(new URL("index.html",root),"utf8");
+const root=new URL("../../",import.meta.url),app=fs.readFileSync(new URL("../journal-hub/app.js",root),"utf8"),api=fs.readFileSync(new URL("src/api.js",root),"utf8"),html=fs.readFileSync(new URL("../journal-hub/index.html",root),"utf8");
 test("manuscript inputs are not passed to live API module",()=>{assert(!api.includes("abstract"));assert(!api.includes("keywords"));assert.match(api,/issn/);assert.match(api,/mailto=\$\{MAIL\}/)});
 test("no tracking, secrets, or unsafe external-link pattern",()=>{const all=app+api+html;assert.doesNotMatch(all,/google-analytics|gtag\(|segment\.io|mixpanel|api[_-]?key|bearer\s/i);for(const tag of html.match(/<a\b[^>]*href="https?:\/\/[^>]+>/g)||[]){assert.match(tag,/target="_blank"/);assert.match(tag,/rel="noopener noreferrer"/)}});
-test("zero-filter results update the live-region with recovery guidance",()=>{assert.match(html,/id="results-section" aria-live="polite"/);assert.match(app,/No journals match these filters/);assert.match(app,/No APC/);assert.match(app,/Open access/)});
+test("matcher results retain a live status and recovery context",()=>{assert.match(html,/id="match-results"/);assert.match(html,/lexical shortlist/);assert.match(html,/stays in this browser/);assert.match(app,/Matcher unavailable/)});

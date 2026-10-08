@@ -10,6 +10,8 @@ MiniSearch 7.2.0 — Copyright Luca Ongaro and contributors — MIT License
 qrcode-generator 1.4.4 — Copyright (c) 2009 Kazuhiko Arase — MIT License
 
 Data attribution: Crossref; Retraction Watch via Crossref; OpenAlex; Directory of Open Access Journals (DOAJ).
+Journal Hub consolidates the former Emerging Journals 2026, Journal Trust Profile, OA & APC Explorer, Abstract Journal Matcher and Journal Timing interfaces without copying their large data assets.
+Publishing Toolkit consolidates the former Reference Checker and Identifier Toolkit interfaces while retaining their local parsing and validation modules.
 Journal Timing includes aggregate Crossref metadata and DOAJ CC0 journal metadata; article-level build responses are excluded.
 SCImago is linked as an external ISSN lookup only; no SCImago or Scopus-derived values are distributed.
 The OA & APC Explorer contains no OpenAPC data; it links to OpenAPC only as a separate resource.

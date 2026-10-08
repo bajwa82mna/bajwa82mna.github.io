@@ -82,30 +82,30 @@ class EnrichTests(unittest.TestCase):
 
 class StaticUiContractTests(unittest.TestCase):
     def test_ui_has_enrichment_controls_and_disclosure(self):
-        html = (BUILD.parent / "index.html").read_text()
-        self.assertIn('value="citation"', html)
-        self.assertIn('value="hindex"', html)
-        self.assertIn('id="oa"', html)
-        self.assertIn("Citation score (2-yr, OpenAlex)", html)
-        self.assertIn("not a Journal Impact Factor", html)
-        self.assertIn('src="data-extra.js', html)
-        self.assertIn("data-event", html)
+        html = (BUILD.parent.parent / "journal-hub" / "index.html").read_text()
+        app = (BUILD.parent.parent / "journal-hub" / "app.js").read_text()
+        self.assertIn('id="oa-only"', html)
+        self.assertIn('value="timing"', html)
+        self.assertIn("OpenAlex", html + app)
+        self.assertIn("No JIF", html)
+        self.assertIn('../emerging-journals-2026/data-extra.js', html)
+        self.assertIn("openProfile", app)
 
     def test_ui_has_hot_search_share_drawer_tabs_and_lazy_trends(self):
-        html = (BUILD.parent / "index.html").read_text()
-        scripts = (BUILD.parent / "app.js").read_text() + (BUILD.parent / "metrics.js").read_text()
+        html = (BUILD.parent.parent / "journal-hub" / "index.html").read_text()
+        scripts = (BUILD.parent.parent / "journal-hub" / "app.js").read_text()
         page = html + scripts
         for required in (
-            "Hot searches",
-            "Choose a journal",
-            "Filter options",
-            "Citation score range",
-            "Share",
-            "OpenAlex citations per paper",
-            "trends/trends-",
-            "SJR on SCImago ↗",
+            "Find journals",
+            "Match my abstract",
+            "Compare",
+            "Trends / Explore",
+            "Share Journal Hub",
+            "OpenAlex",
+            "Timing evidence",
+            "Trust signals",
             'href="/credits/">Credits and data sources',
-            "not a Journal Impact Factor",
+            "No JIF",
         ):
             self.assertIn(required, page)
         for removed in ("Data sources and credits", "Built on", "warning-list field remains disabled"):

@@ -5,7 +5,7 @@ Technical notes for maintaining smbajwa.com. No credentials or personal contact 
 ## Architecture
 - Static site on GitHub Pages (`main` branch, `.nojekyll`, custom domain in `CNAME`) behind Cloudflare. No backend; every tool runs in the browser.
 - Every page carries a strict CSP meta tag: `script-src 'self'`, `img-src 'self' data:`, `connect-src` limited to `'self'` and approved APIs (OpenAlex, DOAJ, Crossref where a tool needs them). In-page `fetch` to the site itself is blocked, so use `curl` for server checks.
-- Tools live in `tools/<slug>/`; shared code in `tools/_shared/` (`js/share.js`, `js/file-input.js`, `js/tool-examples.js`, `css/share.css`, vendored `qrcode-generator` 1.4.4, MIT).
+- The five public tools are Journal Hub, Publishing Toolkit, Plant Lab Toolkit, Descriptive Statistics, and Journal Figure Resizer. Retired tool directories retain data, audited modules, tests, and redirect stubs; shared code lives in `tools/_shared/`.
 - Each tool has `examples/` (CSV/TXT, plus BibTeX/RIS for the reference checker). `?example=1` auto-loads the example. Uploads are read client-side with FileReader (2 MB cap, per-tool row limits counted as CSV records); files are never sent anywhere.
 - Shared top bar (Auto/Light/Dark control and theme-aware logo) is built by `theme.js` and styled in `style.css`.
 - Logo sources and rules: `assets/logo/README.md`. Share-preview images are regenerated with `assets/og/generate.py`.
@@ -21,8 +21,9 @@ Only allow-listed canonical `https://smbajwa.com` URLs and fixed approved titles
 4. Check the live page with `curl`, then in a browser. Cloudflare caches assets about 4 hours (including 404s); "Purge Everything" in the dashboard clears it.
 
 ## Tests
-- `node --test` from the repo root (120 tests: privacy, share, metadata, JSON-LD, sitemap, theme bar, icons, example data).
-- `python3 -m unittest` in `tools/emerging-journals-2026/build` (14 tests).
+- `node --test` from the repo root (privacy, share, metadata, JSON-LD, sitemap, theme bar, icons, examples, core functions, and consolidation contracts).
+- `python3 -m unittest discover -s tools/emerging-journals-2026/build -p 'test_*.py'`.
+- `python3 -m unittest discover -s tools/journal-timing/build -p 'test_*.py'`.
 Run both before every push.
 
 ## Data and licensing
