@@ -4,7 +4,7 @@
 
 Journal Hub loads the existing 22,281-row Emerging Journals 2026 ranking and its aligned OpenAlex enrichment once, then joins the Journal Timing snapshot in memory by normalized ISSN, with normalized title used only when no ISSN join is available. No large dataset is copied into the hub.
 
-Find performs local title and ISSN filtering. Match my abstract reuses the MiniSearch 7.2.0 lexical index and preprocessing pipeline; manuscript text stays in the browser and scores indicate relative word overlap only. Compare stores at most five selected public journal records in memory. Check one journal requests current public records from Crossref, OpenAlex and DOAJ only after the user submits a public title or ISSN.
+Find performs local title and ISSN filtering. Match my abstract reuses the MiniSearch 7.2.0 lexical index and preprocessing pipeline; manuscript text stays in the browser and scores indicate relative word overlap only. The combined profile shows one selected journal across OA/APC, timing, trust and trends sources; the OA/APC tray can compare up to four journals in memory. Check one journal requests current public records from Crossref, OpenAlex and DOAJ only after the user submits a public title or ISSN.
 
 DOAJ weeks are journal-reported. Crossref medians describe only published articles with usable deposited dates and include the observation count; rejected manuscripts are absent. Acceptance rate is “Not openly available” and is never inferred. No Clarivate, Scopus, CAS, Journal Impact Factor or bundled SJR data is used.
 

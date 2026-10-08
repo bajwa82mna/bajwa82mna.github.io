@@ -29,7 +29,7 @@ test('legacy redirects share one allow-listed query-preserving implementation', 
   const redirect = read('tools/_shared/js/legacy-redirect.js');
   for (const token of ['example', 'q', 'journal', 'mode', 'tab', 'searchParams', 'location.replace']) assert.match(redirect, new RegExp(token));
   for (const slug of Object.values(legacy).map(([slug]) => slug).concat(['dilution-calculator', 'qpcr-ddct-calculator', 'reverse-complement'])) {
-    assert.match(read(`tools/${slug}/index.html`), /legacy-redirect\.js\?v=15/);
+    assert.match(read(`tools/${slug}/index.html`), /legacy-redirect\.js\?v=16/);
   }
 });
 
@@ -51,6 +51,6 @@ test('every legacy redirect route keeps ?example=1 and the hubs pass it to the f
   const redirect = read('tools/_shared/js/legacy-redirect.js');
   const routes = redirect.split('\n').filter(line => line.includes("to: '"));
   assert.ok(routes.length >= 10);
-  for (const line of routes) assert.match(line, /keep: \[[^\]]*'example'/);
+  assert.match(redirect,/const SAFE_PARAMS = \['q', 'journal', 'example'\]/);
   for (const hub of ['journal-hub', 'publishing-toolkit']) assert.match(read(`tools/${hub}/app.js`), /exampleRequested/);
 });

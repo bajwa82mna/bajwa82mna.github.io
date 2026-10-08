@@ -17,7 +17,7 @@ test('share data accepts only canonical smbajwa.com HTTPS URLs',()=>{
 });
 
 test('share intent builders encode fixed text and URL without leaking payloads',()=>{
-  const safe={url:'https://smbajwa.com/tools/reference-checker/',title:'Reference Integrity Checker',text:'Free, open tool for students and researchers: Reference Integrity Checker — smbajwa.com'};
+  const safe={url:'https://smbajwa.com/tools/publishing-toolkit/?mode=references',title:'Publishing Toolkit',text:'Free, open reference and identifier toolkit — smbajwa.com'};
   const urls=buildShareUrls(safe);
   for(const [network,url] of Object.entries(urls)){
     assert.match(url,/^(?:https:|mailto:)/,network);
@@ -35,9 +35,10 @@ test('share intent builders encode fixed text and URL without leaking payloads',
 test('share URLs strip query and hash except a validated journal dataset link',()=>{
   assert.equal(normalizeShareData({url:'https://smbajwa.com/tools/?utm_source=x#private',title:'Open research tools',text:'Six free, open tools for students and researchers — smbajwa.com'}).url,'https://smbajwa.com/tools/');
   const journal={title:'Plant Journal',issns:['1234-567X']};
-  const good=normalizeShareData({url:'https://smbajwa.com/tools/emerging-journals-2026/?q=Plant+Journal#x',title:'Plant Journal — Emerging Journals 2026',text:'Journal record: Plant Journal — Emerging Journals Database 2026, smbajwa.com',journal});
-  assert.equal(good.url,'https://smbajwa.com/tools/emerging-journals-2026/?q=Plant+Journal');
-  assert.throws(()=>normalizeShareData({...good,url:'https://smbajwa.com/tools/emerging-journals-2026/?q=Typed+secret',journal}),/dataset journal/);
+  const good=normalizeShareData({url:'https://smbajwa.com/tools/journal-hub/?q=Plant+Journal#x',title:'Plant Journal — Journal Hub',text:'Journal profile: Plant Journal — Journal Hub, smbajwa.com',journal});
+  assert.equal(good.url,'https://smbajwa.com/tools/journal-hub/?q=Plant+Journal');
+  assert.throws(()=>normalizeShareData({...good,url:'https://smbajwa.com/tools/journal-hub/?q=Typed+secret',journal}),/dataset journal/);
+  assert.equal(normalizeShareData({url:'https://smbajwa.com/tools/journal-hub/?mode=timing',title:'Journal Hub',text:'Free, open journal discovery and evidence tool — smbajwa.com'}).url,'https://smbajwa.com/tools/journal-hub/?mode=timing');
 });
 
 test('all public share pages expose accessible share controls and shared assets',()=>{
@@ -52,6 +53,7 @@ test('all public share pages expose accessible share controls and shared assets'
 test('share component contains dialog semantics, keyboard handling, and a live region',()=>{
   const js=fs.readFileSync(path.join(root,'tools/_shared/js/share.js'),'utf8');
   for(const token of ["setAttribute\\('role','dialog'\\)",'aria-modal','aria-live="polite"','Escape','Tab','navigator.share','clipboard'])assert.match(js,new RegExp(token));
+  for(const retired of ['journal-trust-profile','oa-apc-explorer','abstract-journal-matcher','journal-timing','emerging-journals-2026','reference-checker','identifier-toolkit'])assert.doesNotMatch(js,new RegExp(`\\['/tools/${retired}/'`));
 });
 
 test('OG, Twitter, canonical metadata use absolute local assets on every share page',()=>{
@@ -131,14 +133,14 @@ test('theme control is shared, sticky, stateful, and no floating control remains
 
 test('journal cards use the shared dialog with deep-link citation and summary actions',()=>{
   const js=fs.readFileSync(path.join(root,'tools/emerging-journals-2026/app.js'),'utf8');
-  for(const token of ['openShare','https://smbajwa.com/tools/emerging-journals-2026/','searchParams.set(\'q\'','citation','summary','OpenAlex citation score','Copy summary'])assert.match(js,new RegExp(token.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace('Copy summary','summary')));
+  for(const token of ['openShare','https://smbajwa.com/tools/journal-hub/','searchParams.set(\'q\'','citation','summary','OpenAlex citation score','Copy summary'])assert.match(js,new RegExp(token.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace('Copy summary','summary')));
 });
 
 test('journal deep-link share data survives normalize then buildShareUrls', async () => {
   const { normalizeShareData, buildShareUrls } = await import('../tools/_shared/js/share.js');
   const title = 'Nature Reviews Disease Primers';
-  const url = new URL('https://smbajwa.com/tools/emerging-journals-2026/'); url.searchParams.set('q', title);
-  const input = { url: url.href, title: title + ' — Emerging Journals 2026', text: 'Journal record: ' + title + ' — Emerging Journals Database 2026, smbajwa.com', journal: { title, issns: ['2056-676X'] } };
+  const url = new URL('https://smbajwa.com/tools/journal-hub/'); url.searchParams.set('q', title);
+  const input = { url: url.href, title: title + ' — Journal Hub', text: 'Journal profile: ' + title + ' — Journal Hub, smbajwa.com', journal: { title, issns: ['2056-676X'] } };
   const normalized = normalizeShareData(input);
   assert.ok(buildShareUrls(normalized).X.includes('x.com/intent'));
 });

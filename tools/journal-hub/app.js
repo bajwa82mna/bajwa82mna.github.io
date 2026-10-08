@@ -1,6 +1,6 @@
 const tabs = [...document.querySelectorAll('[role="tab"]')];
 const mounts = [...document.querySelectorAll('iframe[data-src]')];
-const compareTools = ['journal-trust-profile', 'oa-apc-explorer', 'journal-timing', 'abstract-journal-matcher'];
+const compareTools = ['journal-trust-profile', 'oa-apc-explorer', 'journal-timing', 'emerging-journals-2026'];
 
 window.EmbedBridge.mountFrames(mounts);
 

@@ -1,25 +1,19 @@
-import {safeUrl} from './safe-link.js?v=15';
-import {safeTextElement} from './dom.js?v=15';
+import {safeUrl} from './safe-link.js?v=16';
+import {safeTextElement} from './dom.js?v=16';
 
 const SITE_HOST='smbajwa.com';
+const APPROVED_MODES=new Map([['/tools/journal-hub/',new Set(['check','apc','match','timing','trends'])],['/tools/publishing-toolkit/',new Set(['references','identifiers'])]]);
 const APPROVED=new Map([
   ['/', ['Shoaib Munir, Plant Molecular Biology','Plant molecular biology research and free, open tools for students and researchers — smbajwa.com']],
   ['/tools/', ['Open research tools','Six free, open tools for students and researchers — smbajwa.com']],
   ['/privacy.html', ['Privacy Policy, Shoaib Munir','Privacy information for smbajwa.com and its browser-based research tools.']],
   ['/credits/', ['Credits and data sources','Credits, open-data sources and software licences for smbajwa.com research tools']],
-  ['/tools/emerging-journals-2026/', ['Emerging Journals Database 2026','Free, open tool for students and researchers: Emerging Journals Database 2026 — smbajwa.com']],
-  ['/tools/reference-checker/', ['Reference Integrity Checker','Free, open tool for students and researchers: Reference Integrity Checker — smbajwa.com']],
-  ['/tools/identifier-toolkit/', ['Identifier & Citation Toolkit','Free, open tool for students and researchers: Identifier & Citation Toolkit — smbajwa.com']],
-  ['/tools/journal-trust-profile/', ['Journal Trust Profile','Free, open tool for students and researchers: Journal Trust Profile — smbajwa.com']],
-  ['/tools/oa-apc-explorer/', ['OA & APC Explorer','Free, open tool for students and researchers: OA & APC Explorer — smbajwa.com']],
   ['/tools/plant-lab-calculators/', ['Plant Lab Toolkit','Free, open tool for students and researchers: Plant Lab Toolkit — smbajwa.com']],
-  ['/tools/abstract-journal-matcher/', ['Abstract-to-Journal Matcher','Free, open tool for students and researchers: Abstract-to-Journal Matcher — smbajwa.com']],
   ['/tools/descriptive-statistics/', ['Descriptive Statistics','Free, open tool for students and researchers: Descriptive Statistics — smbajwa.com']],
   ['/tools/journal-figure-resizer/', ['Journal Figure Resizer','Free, open tool for students and researchers: Journal Figure Resizer — smbajwa.com']],
-  ['/tools/journal-timing/', ['Journal Timing','Compare open journal publication timing evidence — smbajwa.com']]
-  ,['/tools/journal-hub/', ['Journal Hub','Free, open journal discovery and evidence tool — smbajwa.com']]
-  ,['/tools/publishing-toolkit/', ['Publishing Toolkit','Free, open reference and identifier toolkit — smbajwa.com']]
-  ,['/tools/variant-toolkit/', ['Variant Toolkit','Free browser-local VCF checks and plant variant learning tools — smbajwa.com']]
+  ['/tools/journal-hub/', ['Journal Hub','Free, open journal discovery and evidence tool — smbajwa.com']],
+  ['/tools/publishing-toolkit/', ['Publishing Toolkit','Free, open reference and identifier toolkit — smbajwa.com']],
+  ['/tools/variant-toolkit/', ['Variant Toolkit','Free browser-local VCF checks and plant variant learning tools — smbajwa.com']]
 ]);
 
 export function validateShareData(input={}){
@@ -27,14 +21,14 @@ export function validateShareData(input={}){
   if(url.origin!==`https://${SITE_HOST}`||url.username||url.password||url.port||!APPROVED.has(url.pathname))throw new TypeError('Share URL must be an allow-listed smbajwa.com HTTPS URL');
   url.hash='';
   const journal=input.journal;
-  if(['/tools/emerging-journals-2026/','/tools/journal-hub/'].includes(url.pathname)&&url.searchParams.has('q')){
+  if(url.pathname==='/tools/journal-hub/'&&url.searchParams.has('q')){
     const title=String(journal?.title||''),issns=Array.isArray(journal?.issns)?journal.issns.map(String):[];
     if(!title||url.searchParams.size!==1||url.searchParams.get('q')!==title||(!issns.length&&!title))throw new TypeError('Journal deep link must match a fixed dataset journal');
-    const hub=url.pathname==='/tools/journal-hub/';
-    const expectedTitle=hub?`${title} — Journal Hub`:`${title} — Emerging Journals 2026`,expectedText=hub?`Journal profile: ${title} — Journal Hub, smbajwa.com`:`Journal record: ${title} — Emerging Journals Database 2026, smbajwa.com`;
+    const expectedTitle=`${title} — Journal Hub`,expectedText=`Journal profile: ${title} — Journal Hub, smbajwa.com`;
     if(input.title!==expectedTitle||input.text!==expectedText)throw new TypeError('Share title and text must be approved share copy');
   }else{
-    url.search='';
+    const mode=url.searchParams.get('mode'),allowed=APPROVED_MODES.get(url.pathname);
+    if(!allowed?.has(mode)||url.searchParams.size!==1)url.search='';
     const [title,text]=APPROVED.get(url.pathname);
     if(input.title!==title||input.text!==text)throw new TypeError('Share title and text must be approved share copy');
   }
