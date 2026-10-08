@@ -8,6 +8,7 @@ import {buildShareUrls, normalizeShareData} from '../tools/_shared/js/share.js';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const pages=['index.html','credits/index.html','tools/index.html',...fs.readdirSync(path.join(root,'tools'),{withFileTypes:true}).filter(x=>x.isDirectory()&&!x.name.startsWith('_')&&fs.existsSync(path.join(root,'tools',x.name,'index.html'))).map(x=>`tools/${x.name}/index.html`)].filter(page=>!fs.readFileSync(path.join(root,page),'utf8').includes('name="robots" content="noindex'));
+const sharePages=pages.filter(page=>page!=='tools/privacy-and-sources/index.html');
 
 test('share data accepts only canonical smbajwa.com HTTPS URLs',()=>{
   const copy={title:'Open research tools',text:'Five free, open tools for students and researchers — smbajwa.com'};
@@ -40,7 +41,7 @@ test('share URLs strip query and hash except a validated journal dataset link',(
 });
 
 test('all public share pages expose accessible share controls and shared assets',()=>{
-  for(const page of pages){
+  for(const page of sharePages){
     const html=fs.readFileSync(path.join(root,page),'utf8');
     assert.match(html,/data-share\b/,`${page}: button`);
     assert.match(html,/tools\/_shared\/css\/share\.css\?v=\d+/,`${page}: CSS cache bust`);

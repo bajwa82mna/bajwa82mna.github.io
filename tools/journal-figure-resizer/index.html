@@ -1,1 +1,161 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; base-uri 'self'; form-action 'self'"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f8f4"><title>Resize publication figures | Journal Figure Resizer</title><meta name="description" content="Resize images to journal dimensions and DPI locally, then export clean PNG or JPEG files."><meta name="robots" content="index,follow,max-image-preview:large"><meta name="author" content="Dr. Shoaib Munir"><meta name="keywords" content="journal figure resizer, DPI, image dimensions"><meta name="applicable-device" content="pc,mobile"><meta name="mobile-agent" content="format=html5;url=https://smbajwa.com/tools/journal-figure-resizer/"><meta name="format-detection" content="telephone=no,email=no,address=no"><link rel="canonical" href="https://smbajwa.com/tools/journal-figure-resizer/"><meta property="og:title" content="Journal Figure Resizer"><meta property="og:description" content="Prepare publication figure dimensions locally."><meta property="og:type" content="website"><meta property="og:url" content="https://smbajwa.com/tools/journal-figure-resizer/"><meta property="og:image" content="https://smbajwa.com/assets/og/tools.png?v=15"><meta property="og:site_name" content="smbajwa.com"><meta property="og:locale" content="en_US"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Journal Figure Resizer"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Journal Figure Resizer"><meta name="twitter:description" content="Prepare publication figure dimensions locally."><meta name="twitter:image" content="https://smbajwa.com/assets/og/tools.png?v=15"><meta name="twitter:image:alt" content="Journal Figure Resizer"><meta itemprop="name" content="Journal Figure Resizer"><meta itemprop="description" content="Prepare publication figure dimensions locally."><meta itemprop="image" content="https://smbajwa.com/assets/og/wechat-thumb.png?v=15"><link rel="alternate" hreflang="en" href="https://smbajwa.com/tools/journal-figure-resizer/"><link rel="manifest" href="/site.webmanifest?v=15"><link rel="apple-touch-icon" href="/assets/logo/favicon-180.png?v=15"><link rel="icon" href="/assets/logo/favicon-32.png?v=15" sizes="32x32" type="image/png"><link rel="stylesheet" href="/style.css?v=15"><link rel="stylesheet" href="/tools/_shared/css/tool-shell.css?v=15"><link rel="stylesheet" href="styles.css?v=15"><link rel="stylesheet" href="/tools/_shared/css/share.css?v=15"><script src="/theme.js?v=15"></script><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"Journal Figure Resizer","applicationCategory":"MultimediaApplication","isAccessibleForFree":true,"url":"https://smbajwa.com/tools/journal-figure-resizer/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://smbajwa.com/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://smbajwa.com/tools/"},{"@type":"ListItem","position":3,"name":"Journal Figure Resizer","item":"https://smbajwa.com/tools/journal-figure-resizer/"}]},{"@type":"HowTo","name":"How to resize a journal figure","step":[{"@type":"HowToStep","text":"Choose an image from your device."},{"@type":"HowToStep","text":"Set dimensions, units, DPI, and format."},{"@type":"HowToStep","text":"Resize, verify pixels, and download."}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is the image uploaded?","acceptedAnswer":{"@type":"Answer","text":"No; canvas processing stays in the browser."}},{"@type":"Question","name":"Are presets journal requirements?","acceptedAnswer":{"@type":"Answer","text":"No; they are typical starting points only."}},{"@type":"Question","name":"Is EXIF retained?","acceptedAnswer":{"@type":"Answer","text":"No; canvas export strips source metadata."}},{"@type":"Question","name":"Does DPI improve detail?","acceptedAnswer":{"@type":"Answer","text":"No; enlarging cannot recreate missing source detail."}},{"@type":"Question","name":"What are the size limits?","acceptedAnswer":{"@type":"Answer","text":"Input is capped at 25 MB and output at 80 megapixels."}}]}]}</script></head><body><header class="tool-hero"><div class="wrap toolwrap"><nav aria-label="Breadcrumb"><a href="/">Home</a> &gt; <a href="/tools/">Tools</a> &gt; Journal Figure Resizer</nav><p class="eyebrow">Publication prep</p><h1>Resize publication figures to exact dimensions</h1><p class="tool-intro">Convert millimetres and DPI to pixels, preserve aspect ratio, and export a metadata-free PNG or JPEG.</p><div class="data-chips"><span>Runs in your browser</span><span>No upload</span><span>EXIF stripped on export</span></div><p><button type="button" data-share data-share-url="https://smbajwa.com/tools/journal-figure-resizer/" data-share-title="Journal Figure Resizer" data-share-text="Free, open tool for students and researchers: Journal Figure Resizer — smbajwa.com">Share</button></p></div></header><main class="wrap toolwrap tool-main"><section class="tool-panel"><label>Choose image<input id="file" type="file" accept="image/png,image/jpeg,image/webp"></label><div class="controls"><label>Typical width preset<select id="preset"><option value="">Custom</option><option value="85">Single column: 85 mm</option><option value="180">Double column: 180 mm</option></select></label><label>Width<input id="width" type="number" min="1" value="85"></label><label>Height<input id="height" type="number" min="1" value="60"></label><label>Units<select id="unit"><option value="mm">mm</option><option value="px">px</option></select></label><label>Target DPI<select id="dpi"><option>300</option><option>600</option></select></label><label>Format<select id="format"><option value="image/png">PNG</option><option value="image/jpeg">JPEG</option></select></label><label>JPEG quality<input id="quality" type="range" min="0.4" max="1" step="0.05" value="0.9"></label><label><input id="lock" type="checkbox" checked> Keep aspect ratio</label></div><div class="button-row"><button id="resize" class="primary" type="button">Resize preview</button><button id="download" type="button">Export image</button></div><p id="status" class="result" role="status" aria-live="polite">Choose an image to begin.</p><canvas id="canvas" width="1" height="1" aria-label="Resized image preview"></canvas></section><section class="content-section"><h2>How to use</h2><ol><li>Choose an image from your device.</li><li>Set dimensions, units, DPI, and format.</li><li>Resize, verify pixels, and download.</li></ol></section><section class="content-section"><h2>About and limitations</h2><p>The 85 mm and 180 mm presets are typical starting values, not journal requirements; always check the target journal. Input is capped at 25 MB and output at 80 megapixels. Browser canvas resampling may soften line art, JPEG is lossy, and increasing dimensions cannot create missing detail. Very large images may exceed device memory. See <a href="METHODS.md">methods</a>.</p></section><section class="content-section faq"><h2>Frequently asked questions</h2><details><summary>Is the image uploaded?</summary><p>No; canvas processing stays in the browser.</p></details><details><summary>Are presets journal requirements?</summary><p>No; they are typical starting points only.</p></details><details><summary>Is EXIF retained?</summary><p>No; canvas export strips source metadata.</p></details><details><summary>Does DPI improve detail?</summary><p>No; enlarging cannot recreate missing source detail.</p></details><details><summary>What are the size limits?</summary><p>Input is capped at 25 MB and output at 80 megapixels.</p></details></section><section class="content-section"><h2>Related tools</h2><p><a href="../descriptive-statistics/">Descriptive Statistics</a> · <a href="../plant-lab-calculators/?tab=sequence">Reverse Complement</a> · <a href="../plant-lab-calculators/">Plant Lab Toolkit</a> · <a href="/tools/">Browse all tools</a></p><p><a href="/credits/">Credits and data sources</a></p></section></main><script src="/tools/_shared/vendor/qrcode-generator/1.4.4/qrcode.js?v=15"></script><script type="module" src="/tools/_shared/js/share.js?v=15"></script><script type="module" src="app.js?v=15"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; base-uri 'self'; form-action 'self'">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f8f4">
+<title>Resize publication figures | Journal Figure Resizer</title>
+<meta name="description" content="Resize images to journal dimensions and DPI locally, then export clean PNG or JPEG files.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="author" content="Dr. Shoaib Munir">
+<meta name="keywords" content="journal figure resizer, DPI, image dimensions">
+<meta name="applicable-device" content="pc,mobile">
+<meta name="mobile-agent" content="format=html5;url=https://smbajwa.com/tools/journal-figure-resizer/">
+<meta name="format-detection" content="telephone=no,email=no,address=no">
+<link rel="canonical" href="https://smbajwa.com/tools/journal-figure-resizer/">
+<meta property="og:title" content="Journal Figure Resizer">
+<meta property="og:description" content="Prepare publication figure dimensions locally.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://smbajwa.com/tools/journal-figure-resizer/">
+<meta property="og:image" content="https://smbajwa.com/assets/og/tools.png?v=15">
+<meta property="og:site_name" content="smbajwa.com">
+<meta property="og:locale" content="en_US">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Journal Figure Resizer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Journal Figure Resizer">
+<meta name="twitter:description" content="Prepare publication figure dimensions locally.">
+<meta name="twitter:image" content="https://smbajwa.com/assets/og/tools.png?v=15">
+<meta name="twitter:image:alt" content="Journal Figure Resizer">
+<meta itemprop="name" content="Journal Figure Resizer">
+<meta itemprop="description" content="Prepare publication figure dimensions locally.">
+<meta itemprop="image" content="https://smbajwa.com/assets/og/wechat-thumb.png?v=15">
+<link rel="alternate" hreflang="en" href="https://smbajwa.com/tools/journal-figure-resizer/">
+<link rel="manifest" href="/site.webmanifest?v=15">
+<link rel="apple-touch-icon" href="/assets/logo/favicon-180.png?v=15">
+<link rel="icon" href="/assets/logo/favicon-32.png?v=15" sizes="32x32" type="image/png">
+<link rel="stylesheet" href="/style.css?v=15">
+<link rel="stylesheet" href="/tools/_shared/css/tool-shell.css?v=15">
+<link rel="stylesheet" href="styles.css?v=15">
+<link rel="stylesheet" href="/tools/_shared/css/share.css?v=15">
+<script src="/theme.js?v=15">
+</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"Journal Figure Resizer","applicationCategory":"MultimediaApplication","isAccessibleForFree":true,"url":"https://smbajwa.com/tools/journal-figure-resizer/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://smbajwa.com/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://smbajwa.com/tools/"},{"@type":"ListItem","position":3,"name":"Journal Figure Resizer","item":"https://smbajwa.com/tools/journal-figure-resizer/"}]},{"@type":"HowTo","name":"How to resize a journal figure","step":[{"@type":"HowToStep","text":"Choose an image from your device."},{"@type":"HowToStep","text":"Set dimensions, units, DPI, and format."},{"@type":"HowToStep","text":"Resize, verify pixels, and download."}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is the image uploaded?","acceptedAnswer":{"@type":"Answer","text":"No; canvas processing stays in the browser."}},{"@type":"Question","name":"Are presets journal requirements?","acceptedAnswer":{"@type":"Answer","text":"No; they are typical starting points only."}},{"@type":"Question","name":"Is EXIF retained?","acceptedAnswer":{"@type":"Answer","text":"No; canvas export strips source metadata."}},{"@type":"Question","name":"Does DPI improve detail?","acceptedAnswer":{"@type":"Answer","text":"No; enlarging cannot recreate missing source detail."}},{"@type":"Question","name":"What are the size limits?","acceptedAnswer":{"@type":"Answer","text":"Input is capped at 25 MB and output at 80 megapixels."}}]}]}</script>
+</head>
+<body>
+<header class="tool-hero">
+<div class="wrap toolwrap">
+<nav aria-label="Breadcrumb">
+<a href="/">Home</a> &gt; <a href="/tools/">Tools</a> &gt; Journal Figure Resizer</nav>
+<p class="eyebrow">Publication prep</p>
+<h1>Resize publication figures to exact dimensions</h1>
+<p class="tool-intro">Convert millimetres and DPI to pixels, preserve aspect ratio, and export a metadata-free PNG or JPEG.</p>
+<div class="data-chips">
+<span><a href="/tools/privacy-and-sources/">Runs in your browser — privacy and sources</a></span>
+<span>No upload</span>
+<span>EXIF stripped on export</span>
+</div>
+<p>
+<button type="button" data-share data-share-url="https://smbajwa.com/tools/journal-figure-resizer/" data-share-title="Journal Figure Resizer" data-share-text="Free, open tool for students and researchers: Journal Figure Resizer — smbajwa.com">Share</button>
+</p>
+</div>
+</header>
+<main class="wrap toolwrap tool-main">
+<section class="tool-panel">
+<label>Choose image<input id="file" type="file" accept="image/png,image/jpeg,image/webp">
+</label>
+<div class="controls">
+<label>Typical width preset<select id="preset">
+<option value="">Custom</option>
+<option value="85">Single column: 85 mm</option>
+<option value="180">Double column: 180 mm</option>
+</select>
+</label>
+<label>Width<input id="width" type="number" min="1" value="85">
+</label>
+<label>Height<input id="height" type="number" min="1" value="60">
+</label>
+<label>Units<select id="unit">
+<option value="mm">mm</option>
+<option value="px">px</option>
+</select>
+</label>
+<label>Target DPI<select id="dpi">
+<option>300</option>
+<option>600</option>
+</select>
+</label>
+<label>Format<select id="format">
+<option value="image/png">PNG</option>
+<option value="image/jpeg">JPEG</option>
+</select>
+</label>
+<label>JPEG quality<input id="quality" type="range" min="0.4" max="1" step="0.05" value="0.9">
+</label>
+<label>
+<input id="lock" type="checkbox" checked> Keep aspect ratio</label>
+</div>
+<div class="button-row">
+<button id="resize" class="primary" type="button">Resize preview</button>
+<button id="download" type="button">Export image</button>
+</div>
+<p id="status" class="result" role="status" aria-live="polite">Choose an image to begin.</p>
+<canvas id="canvas" width="1" height="1" aria-label="Resized image preview">
+</canvas>
+</section>
+<section class="content-section">
+<h2>How to use</h2>
+<ol>
+<li>Choose an image from your device.</li>
+<li>Set dimensions, units, DPI, and format.</li>
+<li>Resize, verify pixels, and download.</li>
+</ol>
+<h3>Worked example</h3><p>For an 85 mm single-column figure at 300 DPI, set width to 85 mm and choose 300 DPI. The preview reports the resulting pixel dimensions; keep aspect ratio enabled unless the journal requires an exact height.</p>
+</section>
+<section class="content-section">
+<h2>About and limitations</h2>
+<p>The 85 mm and 180 mm presets are typical starting values, not journal requirements; always check the target journal. Input is capped at 25 MB and output at 80 megapixels. Browser canvas resampling may soften line art, JPEG is lossy, and increasing dimensions cannot create missing detail. Very large images may exceed device memory. See <a href="METHODS.md">methods</a>.</p>
+</section>
+<section class="content-section faq">
+<h2>Frequently asked questions</h2>
+<details>
+<summary>Is the image uploaded?</summary>
+<p>No; canvas processing stays in the browser.</p>
+</details>
+<details>
+<summary>Are presets journal requirements?</summary>
+<p>No; they are typical starting points only.</p>
+</details>
+<details>
+<summary>Is EXIF retained?</summary>
+<p>No; canvas export strips source metadata.</p>
+</details>
+<details>
+<summary>Does DPI improve detail?</summary>
+<p>No; enlarging cannot recreate missing source detail.</p>
+</details>
+<details>
+<summary>What are the size limits?</summary>
+<p>Input is capped at 25 MB and output at 80 megapixels.</p>
+</details>
+</section>
+<section class="content-section">
+<h2>Related tools</h2>
+<p>
+<a href="../descriptive-statistics/">Descriptive Statistics</a> · <a href="../plant-lab-calculators/?tab=sequence">Reverse Complement</a> · <a href="../plant-lab-calculators/">Plant Lab Toolkit</a> · <a href="/tools/">Browse all tools</a>
+</p>
+<p>
+<a href="/credits/">Credits and data sources</a>
+</p>
+</section>
+</main>
+<script src="/tools/_shared/vendor/qrcode-generator/1.4.4/qrcode.js?v=15">
+</script>
+<script type="module" src="/tools/_shared/js/share.js?v=15">
+</script>
+<script type="module" src="app.js?v=15">
+</script>
+</body>
+</html>

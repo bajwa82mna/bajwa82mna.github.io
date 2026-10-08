@@ -69,3 +69,12 @@ The consolidated hubs now lazy-mount the complete audited applications from `64c
 - Added Node regressions for embed flag behavior, parent/frame message validation, duplicate frame sources and shared asset/release-version coverage.
 - Verification: `node --test` 174/174 passed; Emerging Journals Python tests 15/15 passed; Journal Timing Python tests 5/5 passed; `git diff --check` clean.
 - Real Chrome smoke check (local HTTP): all five Journal Hub tabs activated; Find showed the OA/APC and timing controls without nested chrome, Match loaded on demand, Compare contained four unique reused frames, Trends loaded on demand, and Check reused the single trust frame. `?mode=compare&q=Plant+Journal` synchronized all four profile URLs and displayed `Combined evidence for Plant Journal`. Publishing Toolkit switched between both lazily loaded modes with measured heights (1194 px and 1212 px in the smoke viewport) and no embedded header/site bar/footer. Plant Lab Toolkit switched among dilution, qPCR and sequence modes; its `?embed=1` view kept the workflow controls while hiding outer chrome and duplicate how-to content.
+
+## 2026-10-08 — Central tool privacy and source register
+
+- Added canonical `/tools/privacy-and-sources/` with a per-workflow network register, local-processing boundaries, data sources and licences, collection exclusions, file and comparison limits, and a contact-free presentation.
+- Replaced repeated privacy/network panels across the five public tools and seven embedded implementations with compact links to the register. Notices remain beside controls that trigger OpenAlex, Crossref or DOAJ requests.
+- Added worked examples to all five public tools, expanded Plant Lab Toolkit to five visible FAQs, and retained the existing numbered how-to, limitations and related-tool guidance.
+- Linked the register from the tools index, site footer and credits footer, and added it to the sitemap without adding it to the share allow-list.
+- Privacy regressions now require a central link on every rendered tool, factual notices beside external-call controls, and coverage of every external host allowed by any rendered tool’s `connect-src`.
+- Verification: `node --test` passed 177/177; Emerging Journals Python passed 15/15; Journal Timing Python passed 5/5; `git diff --check` was clean. Chrome smoke checks passed for the central register, Journal Hub, Publishing Toolkit and Descriptive Statistics, including visible privacy links and worked examples.

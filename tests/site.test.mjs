@@ -48,12 +48,11 @@ test('deployed HTML and app code contain no tracking, API keys, or prohibited co
   assert.doesNotMatch(text,/api\.(?:clarivate|scopus)\.com|api\.elsevier\.com/i);
 });
 
-test('privacy policy documents local processing, optional lookups, caches, and providers',()=>{
-  const text=fs.readFileSync(path.join(root,'privacy.html'),'utf8');
-  for(const expected of ['2026-10-07','Contact \\(at\\) smbajwa.com','localStorage','IndexedDB','30 days','Crossref','OpenAlex','DOAJ','Manuscripts and abstract text never leave your browser'])assert.match(text,new RegExp(expected,'i'));
-  assert.match(text,/Cloudflare[\s\S]*if enabled/i);
-  assert.match(text,/after[\s\S]*confirmation/i);
-  assert.doesNotMatch(text,/social media scheduling|LinkedIn and X account/i);
+test('central tool privacy page documents processing, limits, sources, and is contact-free',()=>{
+  const text=fs.readFileSync(path.join(root,'tools/privacy-and-sources/index.html'),'utf8');
+  for(const expected of ['localStorage','IndexedDB','30 days','Crossref','OpenAlex','DOAJ','Citation.js','qrcode-generator','pica','2 MB','10,000 rows','25 MB','80 megapixels','doi.org'])assert.match(text,new RegExp(expected,'i'));
+  assert.doesNotMatch(text,/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+  assert.doesNotMatch(text,/\+?\d[\d ()-]{7,}\d/);
 });
 
 function walk(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(x=>x.isDirectory()?walk(path.join(dir,x.name)):[path.join(dir,x.name)])}

@@ -5,7 +5,7 @@ import { classifyUpdates } from './src/updates.js?v=15';
 import { exportReport } from './src/export.js?v=15';
 import { createEvidenceCache } from './src/cache.js?v=15';
 import { normalizeDoi, normalizeText, yearOf } from './src/normalize.js?v=15';
-import { createPrivacyNotice, confirmLookup } from '../_shared/js/privacy.js?v=15';
+import { confirmLookup } from '../_shared/js/privacy.js?v=15';
 import { provenanceRecord } from '../_shared/js/provenance.js?v=15';
 import { downloadText } from '../_shared/js/download.js?v=15';
 import { loadLocale, applyLocale } from '../_shared/js/locale.js?v=15';
@@ -18,7 +18,6 @@ const MAILTO = 'contact@smbajwa.com';
 const el = (tag, value, className) => safeTextElement(document, tag, value, className);
 const link = (label, value) => { const url = safeUrl(value); if (!url) return el('span', label); const node = el('a', label); node.href = url; node.target = '_blank'; node.rel = 'noopener noreferrer'; return node; };
 
-$('privacy-slot').append(createPrivacyNotice({ local: ['reference parsing', 'duplicate detection', 'comparison, reports, and exports'], online: ['only normalized DOI values or citation title/author/year search fields after confirmation'], storage: 'Metadata responses use a 30-day IndexedDB cache. The latest evidence report can be restored locally. Clear both at any time.' }));
 function status(message) { $('status').textContent = message; }
 function emptyEntry(record) { return { local: record, remote: null, findings: plantWarnings(record), updates: [], sources: [], retrievedAt: null, status: 'Local review only' }; }
 function saveReport() { try { localStorage.setItem('reference-checker:last-report', JSON.stringify(state.report)); } catch {} }

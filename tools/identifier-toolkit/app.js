@@ -4,7 +4,7 @@ import { crossrefToCsl, openAlexToCsl, compareMetadata } from './src/format.js?v
 import { exportRecords, identifierSummaryRecords } from './src/export.js?v=15';
 import { createLocalCache } from '../_shared/js/cache.js?v=15';
 import { provenanceRecord, renderProvenance } from '../_shared/js/provenance.js?v=15';
-import { createPrivacyNotice, confirmLookup } from '../_shared/js/privacy.js?v=15';
+import { confirmLookup } from '../_shared/js/privacy.js?v=15';
 import { copyText, downloadText } from '../_shared/js/download.js?v=15';
 import { safeTextElement } from '../_shared/js/dom.js?v=15';
 import { safeUrl } from '../_shared/js/safe-link.js?v=15';
@@ -14,12 +14,6 @@ const state = { items: [], records: [] };
 const cache = createLocalCache('identifier-toolkit:v1');
 const text = (tag, value, className) => safeTextElement(document, tag, value, className);
 const externalLink = (label, value) => { const url = safeUrl(value); if (!url) return safeTextElement(document, 'span', label); const link = document.createElement('a'); link.textContent = label; link.href = url; link.target = '_blank'; link.rel = 'noopener noreferrer'; return link; };
-
-$('privacy-slot').append(createPrivacyNotice({
-  local: ['pasted text', 'checksum validation', 'citation formatting and exports'],
-  online: ['only each valid identifier you explicitly submit to the selected public providers'],
-  storage: 'Lookup responses are cached in this browser for 30 days. Recent-input history is not stored. Use “Clear lookup cache” at any time.'
-}));
 
 function setStatus(message) { $('status').textContent = message; }
 function updateActions() {
