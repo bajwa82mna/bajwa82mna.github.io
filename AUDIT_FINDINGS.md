@@ -45,7 +45,7 @@ Scope: commits `8fed696` through `d3dbf73` (`git diff c5aa899..HEAD`). Findings 
 ### 7. Four tool stylesheets defeat cache-version consistency through unversioned imports
 
 - **Location:** `tools/qpcr-ddct-calculator/styles.css:1`; `tools/reverse-complement/styles.css:1`; `tools/descriptive-statistics/styles.css:1`; `tools/journal-figure-resizer/styles.css:1`
-- **Failure scenario:** Each versioned `styles.css?v=10` imports `../dilution-calculator/styles.css` without a `?v=` value. After deployment, a browser or intermediary can reuse a stale imported base stylesheet while serving the new versioned wrapper, yielding mixed releases.
+- **Failure scenario:** Each versioned `styles.css?v=16` imports `../dilution-calculator/styles.css` without a `?v=` value. After deployment, a browser or intermediary can reuse a stale imported base stylesheet while serving the new versioned wrapper, yielding mixed releases.
 - **Fix:** Add the same explicit cache version to each `@import`, or move the shared rules into a dedicated versioned shared stylesheet linked directly from HTML.
 
 ### 8. Journal Timing sort state is not exposed to assistive technology

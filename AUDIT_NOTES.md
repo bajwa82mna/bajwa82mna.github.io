@@ -59,11 +59,11 @@ The consolidated hubs now lazy-mount the complete audited applications from `64c
 | Sequence operation selector and multi-record FASTA download | Plant Lab Toolkit → Sequence | `tests/full-parity.test.mjs`, `plant-lab-calculators/tests/static.test.mjs` |
 | Legacy `example`, `q`, `journal`, mode and tab redirects | Shared legacy redirect | `tests/full-parity.test.mjs`, `tests/consolidation.test.mjs` |
 | Lazy workflow assets and initial page-weight budget | Journal Hub mounts | `tests/full-parity.test.mjs` |
-| One cache version across each reachable HTML module/CSS graph | Release `v=15` | `tests/module-cache-version.test.mjs` |
+| One cache version across each reachable HTML module/CSS graph | Release `v=16` | `tests/module-cache-version.test.mjs` |
 
 ## 2026-10-08 — Embedded tool shell and responsive mounts
 
-- Added one shared, strict-CSP-compatible embed bridge at `tools/_shared/js/embed.js` and `tools/_shared/css/embed.css`, both on release `v=15`. `?embed=1` is applied before page content is parsed; embedded pages hide the site bar, breadcrumb/hero chrome, share controls, duplicate how-to content and footer while retaining tool controls and results.
+- Added one shared, strict-CSP-compatible embed bridge at `tools/_shared/js/embed.js` and `tools/_shared/css/embed.css`, both on release `v=16`. `?embed=1` is applied before page content is parsed; embedded pages hide the site bar, breadcrumb/hero chrome, share controls, duplicate how-to content and footer while retaining tool controls and results.
 - Added same-origin, exact-window validation for parent theme messages and same-origin, exact-iframe-source validation for height messages. Embedded tools report visible content height through `ResizeObserver`; Journal Hub and Publishing Toolkit remove fixed minimum heights and disable iframe scrolling.
 - Journal Hub now declares one iframe per tool. Compare reuses the existing trust, OA/APC, timing and matcher frame elements, while lazy loading remains based on `data-src`. Legacy `?q=`/`?journal=` selection updates the one shared set of frames and the combined-profile status.
 - Added Node regressions for embed flag behavior, parent/frame message validation, duplicate frame sources and shared asset/release-version coverage.
