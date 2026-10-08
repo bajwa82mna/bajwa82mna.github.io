@@ -1,0 +1,8 @@
+{
+  "submit_accept": {"n": 1, "median": null, "iqr": null},
+  "accept_online": {"n": 2, "median": null, "iqr": null},
+  "submit_online": {"n": 1, "median": null, "iqr": null},
+  "n": 2,
+  "years": [2024, 2024],
+  "rejected": 1
+}

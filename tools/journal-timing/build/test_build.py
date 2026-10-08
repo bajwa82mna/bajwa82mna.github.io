@@ -14,6 +14,9 @@ class BuildTests(unittest.TestCase):
   self.assertIsNone(build.summarize(works[:9])["submit_accept"]["median"])
  def test_join_is_issn_only(self):
   doaj={"1234-567X":{"weeks":8}}; self.assertIsNone(next((doaj[x] for x in ["0000-0000"] if x in doaj),None))
+ def test_stable_shard_and_title_keys(self):
+  self.assertEqual(build.shard_key("1234-567X"),"f2")
+  self.assertEqual(build.title_key(" The Plant Journal "),"th")
  def test_crossref_tries_alternate_issn_after_empty_summary(self):
   valid={"assertion":[{"label":"Received","value":"1 January 2024"},{"label":"Accepted","value":"11 January 2024"}],"published-online":{"date-parts":[[2024,1,21]]}}
   responses=[{"message":{"items":[]}},{"message":{"items":[valid]}}]
