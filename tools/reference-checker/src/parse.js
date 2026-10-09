@@ -1,4 +1,4 @@
-import { cleanRecord, normalizeDoi, validDoi } from './normalize.js?v=23';
+import { cleanRecord, normalizeDoi, validDoi } from './normalize.js?v=24';
 
 export function extractDois(text = '') {
   const matches = text.match(/(?:https?:\/\/(?:dx\.)?doi\.org\/|doi\s*:\s*)?10\.\d{4,9}\/[^\s<>"']+/gi) || [];

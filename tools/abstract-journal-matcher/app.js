@@ -1,9 +1,9 @@
-import {prepareQuery,signalStatus} from "./src/preprocess.js?v=23";
-import {createSearch} from "./src/search.js?v=23";
-import {toCsv,download} from "./src/export.js?v=23";
-import {lookupEvidence,clearEvidenceCache} from "./src/api.js?v=23";
-import {safeTextElement} from "../_shared/js/dom.js?v=23";
-import {safeUrl} from "../_shared/js/safe-link.js?v=23";
+import {prepareQuery,signalStatus} from "./src/preprocess.js?v=24";
+import {createSearch} from "./src/search.js?v=24";
+import {toCsv,download} from "./src/export.js?v=24";
+import {lookupEvidence,clearEvidenceCache} from "./src/api.js?v=24";
+import {safeTextElement} from "../_shared/js/dom.js?v=24";
+import {safeUrl} from "../_shared/js/safe-link.js?v=24";
 
 const $=id=>document.getElementById(id), form=$("matcher"), resultBox=$("results"), status=$("status"), exportsBox=document.querySelector(".exports");
 let profiles=[], results=[], lastPrepared=null;
@@ -11,7 +11,7 @@ const text=(tag,value,cls)=>safeTextElement(document,tag,value,cls);
 const external=(label,href)=>{const url=safeUrl(href);if(!url)return text("span",label);const a=text("a",label);a.href=url;a.target="_blank";a.rel="noopener noreferrer";return a};
 
 async function init(){
-  try{profiles=await fetch("data/journal-profiles.min.json?v=23").then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json()});status.textContent=`Ready: ${profiles.length} compact journal profiles loaded.`}
+  try{profiles=await fetch("data/journal-profiles.min.json?v=24").then(r=>{if(!r.ok)throw new Error(`HTTP ${r.status}`);return r.json()});status.textContent=`Ready: ${profiles.length} compact journal profiles loaded.`}
   catch(e){status.textContent=`Journal profiles could not be loaded: ${e.message}. Serve this folder over HTTP.`;form.querySelector("button[type=submit]").disabled=true}
 }
 
