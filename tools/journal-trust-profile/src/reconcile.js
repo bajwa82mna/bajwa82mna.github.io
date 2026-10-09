@@ -1,5 +1,5 @@
-import { normalizeIssn } from './issn.js?v=24';
-import { STATUS, claim, sourceEvidence } from './schema.js?v=24';
+import { normalizeIssn } from './issn.js?v=25';
+import { STATUS, claim, sourceEvidence } from './schema.js?v=25';
 
 export const normalizeText = value => String(value || '').normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, ' ').trim();
 export const normalizePublisher = value => {

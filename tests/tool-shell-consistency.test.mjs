@@ -21,7 +21,7 @@ const read = relative => fs.readFileSync(path.join(root, relative), 'utf8');
 for (const [relative, current] of pages) {
   test(`${relative} uses the shared tool shell and canonical hero structure`, () => {
     const html = read(relative);
-    assert.match(html, /href="\/tools\/_shared\/css\/tool-shell\.css\?v=24"/);
+    assert.match(html, /href="\/tools\/_shared\/css\/tool-shell\.css\?v=25"/);
     assert.equal((html.match(/<nav\b[^>]*aria-label="Breadcrumb"/g) || []).length, 1);
     assert.match(html, new RegExp(`<nav\\b[^>]*aria-label="Breadcrumb"[^>]*>\\s*<a href="/">Home</a>\\s*<span aria-hidden="true">/</span>\\s*<a href="/tools/">Tools</a>\\s*<span aria-hidden="true">/</span>\\s*<span aria-current="page">${current}</span>\\s*</nav>`));
     assert.equal((html.match(/<h1\b/g) || []).length, 1);
@@ -33,7 +33,7 @@ for (const [relative, current] of pages) {
 
 test('the tools landing page loads the shared tool shell', () => {
   const html = read('tools/index.html');
-  assert.match(html, /href="\/tools\/_shared\/css\/tool-shell\.css\?v=24"/);
+  assert.match(html, /href="\/tools\/_shared\/css\/tool-shell\.css\?v=25"/);
   assert.match(html, /<nav class="breadcrumb" aria-label="Breadcrumb"><a href="\/">Home<\/a><span aria-hidden="true">\/<\/span><span aria-current="page">Tools<\/span><\/nav>/);
   assert.match(html, /<div class="hero-actions">[\s\S]*?data-share[\s\S]*?<\/div>/);
 });
