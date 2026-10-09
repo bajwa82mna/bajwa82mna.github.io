@@ -4,7 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const root = path.resolve('.');
-const release = '22';
+const release = '23';
 const entries = fs.readdirSync('tools', {withFileTypes: true})
   .filter(entry => entry.isDirectory() && fs.existsSync(path.join('tools', entry.name, 'index.html')))
   .map(entry => path.resolve('tools', entry.name, 'index.html'));
