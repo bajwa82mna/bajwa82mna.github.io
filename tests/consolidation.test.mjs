@@ -21,8 +21,8 @@ test('retired tool URLs are noindex full mounts with the shared redirect gate', 
   for (const [slug, target] of retired) {
     const html = read(`tools/${slug}/index.html`);
     assert.match(html, /name="robots" content="noindex,follow"/);
-    assert.match(html, /legacy-redirect\.js\?v=20/);
-    assert.match(html, /app\.js\?v=20/);
+    assert.match(html, /legacy-redirect\.js\?v=21/);
+    assert.match(html, /app\.js\?v=21/);
     assert.ok(target);
   }
 });

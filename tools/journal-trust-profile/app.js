@@ -1,14 +1,14 @@
-import Fuse from './third_party/fuse/7.5.0/fuse.min.mjs?v=20';
-import { extractIssns, isValidIssn, normalizeIssn } from './src/issn.js?v=20';
-import { emptyProfile } from './src/schema.js?v=20';
-import { reconcile, exactTitleMatch, recordsForIdentity, findLocalSelection } from './src/reconcile.js?v=20';
-import { lookupDoaj, lookupOpenAlex, lookupCrossref, lookupPlantWorks } from './src/evidence.js?v=20';
-import { buildEvidenceClaims, statusExplanation } from './src/explain.js?v=20';
-import { dossierFilename, dossierJson, dossierCsv } from './src/export.js?v=20';
-import { createCache } from './src/cache.js?v=20';
-import { downloadText } from '../_shared/js/download.js?v=20';
-import { safeTextElement } from '../_shared/js/dom.js?v=20';
-import { safeUrl } from '../_shared/js/safe-link.js?v=20';
+import Fuse from './third_party/fuse/7.5.0/fuse.min.mjs?v=21';
+import { extractIssns, isValidIssn, normalizeIssn } from './src/issn.js?v=21';
+import { emptyProfile } from './src/schema.js?v=21';
+import { reconcile, exactTitleMatch, recordsForIdentity, findLocalSelection } from './src/reconcile.js?v=21';
+import { lookupDoaj, lookupOpenAlex, lookupCrossref, lookupPlantWorks } from './src/evidence.js?v=21';
+import { buildEvidenceClaims, statusExplanation } from './src/explain.js?v=21';
+import { dossierFilename, dossierJson, dossierCsv } from './src/export.js?v=21';
+import { createCache } from './src/cache.js?v=21';
+import { downloadText } from '../_shared/js/download.js?v=21';
+import { safeTextElement } from '../_shared/js/dom.js?v=21';
+import { safeUrl } from '../_shared/js/safe-link.js?v=21';
 
 const $ = id => document.getElementById(id);
 const query = $('journal-query'), suggestions = $('suggestions'), status = $('status');
@@ -20,7 +20,7 @@ const external = (label, href) => { const url = safeUrl(href); if (!url) return 
 const format = value => value == null || value === '' ? 'Not reported' : Array.isArray(value) ? (value.length ? value.join(' · ') : 'Not reported') : typeof value === 'object' ? Object.entries(value).filter(([,v]) => v != null).map(([k,v]) => `${k.replace(/([A-Z])/g,' $1')}: ${Array.isArray(v) ? JSON.stringify(v) : v}`).join(' · ') || 'Not reported' : value === true ? 'Yes' : value === false ? 'No' : String(value);
 
 async function init() {
-  try { seed = await fetch('./data/journal-seed.min.json?v=20').then(r => { if (!r.ok) throw new Error('seed unavailable'); return r.json(); }); fuse = new Fuse(seed, { keys: [{name:'title',weight:.75},{name:'issns',weight:.25}], threshold:.34, ignoreLocation:true, minMatchCharLength:2, includeScore:true }); status.textContent = `${seed.length.toLocaleString()} journal records ready for local search.`; } catch { status.textContent = 'Local suggestions are unavailable. You can still enter a valid ISSN for live lookup.'; }
+  try { seed = await fetch('./data/journal-seed.min.json?v=21').then(r => { if (!r.ok) throw new Error('seed unavailable'); return r.json(); }); fuse = new Fuse(seed, { keys: [{name:'title',weight:.75},{name:'issns',weight:.25}], threshold:.34, ignoreLocation:true, minMatchCharLength:2, includeScore:true }); status.textContent = `${seed.length.toLocaleString()} journal records ready for local search.`; } catch { status.textContent = 'Local suggestions are unavailable. You can still enter a valid ISSN for live lookup.'; }
   renderChecklist(); const params = new URLSearchParams(location.search); if (params.get('q')) { query.value = params.get('q'); showSuggestions(); }
 }
 function showSuggestions() {

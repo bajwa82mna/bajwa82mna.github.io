@@ -93,7 +93,7 @@ test('every iframe target and Plant Lab load the versioned shared embed assets',
   }
   for (const file of targets) {
     const html = fs.readFileSync(path.resolve(root, file), 'utf8');
-    assert.match(html, /\/tools\/_shared\/css\/embed\.css\?v=20/, file);
-    assert.match(html, /\/tools\/_shared\/js\/embed\.js\?v=20/, file);
+    assert.match(html, /\/tools\/_shared\/css\/embed\.css\?v=21/, file);
+    assert.match(html, /\/tools\/_shared\/js\/embed\.js\?v=21/, file);
   }
 });

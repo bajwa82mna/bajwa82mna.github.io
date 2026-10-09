@@ -1,6 +1,6 @@
-import {applyFilters} from "./filters.js?v=20";
-import {diversify} from "./rerank.js?v=20";
-import {explain} from "./explain.js?v=20";
+import {applyFilters} from "./filters.js?v=21";
+import {diversify} from "./rerank.js?v=21";
+import {explain} from "./explain.js?v=21";
 
 export function createSearch(MiniSearch, profiles) {
   const index = new MiniSearch({fields:["title","topicsText","termsText","category"],storeFields:["id"],searchOptions:{boost:{title:2.8,topicsText:2.2,termsText:1.2,category:1.1},prefix:true,fuzzy:0.12,combineWith:"OR"}});

@@ -18,7 +18,7 @@
 <meta property="og:description" content="Prepare publication figure dimensions locally.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://smbajwa.com/tools/journal-figure-resizer/">
-<meta property="og:image" content="https://smbajwa.com/assets/og/tools.png?v=20">
+<meta property="og:image" content="https://smbajwa.com/assets/og/tools.png?v=21">
 <meta property="og:site_name" content="smbajwa.com">
 <meta property="og:locale" content="en_US">
 <meta property="og:image:width" content="1200">
@@ -27,20 +27,20 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Journal Figure Resizer">
 <meta name="twitter:description" content="Prepare publication figure dimensions locally.">
-<meta name="twitter:image" content="https://smbajwa.com/assets/og/tools.png?v=20">
+<meta name="twitter:image" content="https://smbajwa.com/assets/og/tools.png?v=21">
 <meta name="twitter:image:alt" content="Journal Figure Resizer">
 <meta itemprop="name" content="Journal Figure Resizer">
 <meta itemprop="description" content="Prepare publication figure dimensions locally.">
-<meta itemprop="image" content="https://smbajwa.com/assets/og/wechat-thumb.png?v=20">
+<meta itemprop="image" content="https://smbajwa.com/assets/og/wechat-thumb.png?v=21">
 <link rel="alternate" hreflang="en" href="https://smbajwa.com/tools/journal-figure-resizer/">
-<link rel="manifest" href="/site.webmanifest?v=20">
-<link rel="apple-touch-icon" href="/assets/logo/favicon-180.png?v=20">
-<link rel="icon" href="/assets/logo/favicon-32.png?v=20" sizes="32x32" type="image/png">
-<link rel="stylesheet" href="/style.css?v=20">
-<link rel="stylesheet" href="/tools/_shared/css/tool-shell.css?v=20">
-<link rel="stylesheet" href="styles.css?v=20">
-<link rel="stylesheet" href="/tools/_shared/css/share.css?v=20">
-<script src="/theme.js?v=20">
+<link rel="manifest" href="/site.webmanifest?v=21">
+<link rel="apple-touch-icon" href="/assets/logo/favicon-180.png?v=21">
+<link rel="icon" href="/assets/logo/favicon-32.png?v=21" sizes="32x32" type="image/png">
+<link rel="stylesheet" href="/style.css?v=21">
+<link rel="stylesheet" href="/tools/_shared/css/tool-shell.css?v=21">
+<link rel="stylesheet" href="styles.css?v=21">
+<link rel="stylesheet" href="/tools/_shared/css/share.css?v=21">
+<script src="/theme.js?v=21">
 </script>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","name":"Journal Figure Resizer","applicationCategory":"MultimediaApplication","isAccessibleForFree":true,"url":"https://smbajwa.com/tools/journal-figure-resizer/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://smbajwa.com/"},{"@type":"ListItem","position":2,"name":"Tools","item":"https://smbajwa.com/tools/"},{"@type":"ListItem","position":3,"name":"Journal Figure Resizer","item":"https://smbajwa.com/tools/journal-figure-resizer/"}]},{"@type":"HowTo","name":"How to resize a journal figure","step":[{"@type":"HowToStep","text":"Choose an image from your device."},{"@type":"HowToStep","text":"Set dimensions, units, DPI, and format."},{"@type":"HowToStep","text":"Resize, verify pixels, and download."}]},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is the image uploaded?","acceptedAnswer":{"@type":"Answer","text":"No; canvas processing stays in the browser."}},{"@type":"Question","name":"Are presets journal requirements?","acceptedAnswer":{"@type":"Answer","text":"No; they are typical starting points only."}},{"@type":"Question","name":"Is EXIF retained?","acceptedAnswer":{"@type":"Answer","text":"No; canvas export strips source metadata."}},{"@type":"Question","name":"Does DPI improve detail?","acceptedAnswer":{"@type":"Answer","text":"No; enlarging cannot recreate missing source detail."}},{"@type":"Question","name":"What are the size limits?","acceptedAnswer":{"@type":"Answer","text":"Input is capped at 25 MB and output at 80 megapixels."}}]}]}</script>
 </head>
@@ -48,18 +48,20 @@
 <header class="tool-hero">
 <div class="wrap toolwrap">
 <nav aria-label="Breadcrumb">
-<a href="/">Home</a> &gt; <a href="/tools/">Tools</a> &gt; Journal Figure Resizer</nav>
+<a href="/">Home</a><span aria-hidden="true">/</span><a href="/tools/">Tools</a><span aria-hidden="true">/</span><span aria-current="page">Journal Figure Resizer</span>
+</nav>
 <p class="eyebrow">Publication prep</p>
 <h1>Resize publication figures to exact dimensions</h1>
 <p class="tool-intro">Convert millimetres and DPI to pixels, preserve aspect ratio, and export a metadata-free PNG or JPEG.</p>
 <div class="data-chips">
-<span><a href="/tools/privacy-and-sources/">Runs in your browser — privacy and sources</a></span>
+<span>Runs in your browser</span>
 <span>No upload</span>
 <span>EXIF stripped on export</span>
+<span><a href="/tools/privacy-and-sources/">Privacy and sources</a></span>
 </div>
-<p>
+<div class="hero-actions">
 <button type="button" data-share data-share-url="https://smbajwa.com/tools/journal-figure-resizer/" data-share-title="Journal Figure Resizer" data-share-text="Free, open tool for students and researchers: Journal Figure Resizer — smbajwa.com">Share</button>
-</p>
+</div>
 </div>
 </header>
 <main class="wrap toolwrap tool-main">
@@ -92,7 +94,7 @@
 <option value="image/jpeg">JPEG</option>
 </select>
 </label>
-<label>JPEG quality<input id="quality" type="range" min="0.4" max="1" step="0.05" value="0.9">
+<label>JPEG quality <output for="quality">0.9</output><input id="quality" type="range" min="0.4" max="1" step="0.05" value="0.9">
 </label>
 <label>
 <input id="lock" type="checkbox" checked> Keep aspect ratio</label>
@@ -151,11 +153,11 @@
 </p>
 </section>
 </main>
-<script src="/tools/_shared/vendor/qrcode-generator/1.4.4/qrcode.js?v=20">
+<script src="/tools/_shared/vendor/qrcode-generator/1.4.4/qrcode.js?v=21">
 </script>
-<script type="module" src="/tools/_shared/js/share.js?v=20">
+<script type="module" src="/tools/_shared/js/share.js?v=21">
 </script>
-<script type="module" src="app.js?v=20">
+<script type="module" src="app.js?v=21">
 </script>
 </body>
 </html>
