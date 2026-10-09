@@ -4,7 +4,8 @@ html.is-embedded body > footer,
 html.is-embedded nav[aria-label="Breadcrumb"],
 html.is-embedded .share-line,
 html.is-embedded [data-share],
-html.is-embedded .embed-how-to {
+html.is-embedded .embed-how-to,
+html.is-embedded .embed-documentation {
   display: none !important;
 }
 

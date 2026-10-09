@@ -3,7 +3,7 @@
 
   var HEIGHT_MESSAGE = 'smb:embed-height';
   var THEME_MESSAGE = 'smb:embed-theme';
-  var MAX_FRAME_HEIGHT = 2400;
+  var MAX_FRAME_HEIGHT = 4800;
 
   function isEmbedded(search) {
     return new URLSearchParams(search || '').get('embed') === '1';
@@ -46,9 +46,9 @@
       if (summary && /how to use/i.test(summary.textContent)) details.open = false;
     });
     document.querySelectorAll('h2,h3').forEach(function (heading) {
-      if (/^how to use\b/i.test(heading.textContent.trim())) {
+      if (/^(?:how to (?:use|compare|read)|about(?: this tool| and limitations)?|frequently asked questions|related tools)\b/i.test(heading.textContent.trim())) {
         var section = heading.closest('section,aside');
-        if (section) section.classList.add('embed-how-to');
+        if (section) section.classList.add('embed-documentation');
       }
     });
   }

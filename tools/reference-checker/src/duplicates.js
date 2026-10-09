@@ -1,5 +1,5 @@
-import { normalizeText } from './normalize.js?v=21';
-import { similarity } from './compare.js?v=21';
+import { normalizeText } from './normalize.js?v=22';
+import { similarity } from './compare.js?v=22';
 
 export function findDuplicates(records) {
   const groups = [];

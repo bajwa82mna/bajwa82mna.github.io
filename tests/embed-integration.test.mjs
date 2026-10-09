@@ -54,7 +54,7 @@ test('frame messages require the same origin and a mounted frame source', () => 
   assert.equal(api.frameForMessage({origin: 'https://example.test', source: {}}, [frame]), null);
 });
 
-test('mounted iframe heights are capped at 2400px and oversized content scrolls internally', () => {
+test('mounted iframe heights are capped at 4800px and oversized content scrolls internally', () => {
   const {api, listeners} = loadEmbed();
   const source = {};
   const attributes = new Map();
@@ -70,8 +70,8 @@ test('mounted iframe heights are capped at 2400px and oversized content scrolls 
     source,
     data: {type: api.HEIGHT_MESSAGE, height: 528022},
   });
-  assert.equal(api.MAX_FRAME_HEIGHT, 2400);
-  assert.equal(frame.style.height, '2400px');
+  assert.equal(api.MAX_FRAME_HEIGHT, 4800);
+  assert.equal(frame.style.height, '4800px');
   assert.equal(attributes.get('scrolling'), 'yes');
 });
 
@@ -93,7 +93,7 @@ test('every iframe target and Plant Lab load the versioned shared embed assets',
   }
   for (const file of targets) {
     const html = fs.readFileSync(path.resolve(root, file), 'utf8');
-    assert.match(html, /\/tools\/_shared\/css\/embed\.css\?v=21/, file);
-    assert.match(html, /\/tools\/_shared\/js\/embed\.js\?v=21/, file);
+    assert.match(html, /\/tools\/_shared\/css\/embed\.css\?v=22/, file);
+    assert.match(html, /\/tools\/_shared\/js\/embed\.js\?v=22/, file);
   }
 });

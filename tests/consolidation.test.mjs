@@ -21,8 +21,8 @@ test('retired tool URLs are noindex full mounts with the shared redirect gate', 
   for (const [slug, target] of retired) {
     const html = read(`tools/${slug}/index.html`);
     assert.match(html, /name="robots" content="noindex,follow"/);
-    assert.match(html, /legacy-redirect\.js\?v=21/);
-    assert.match(html, /app\.js\?v=21/);
+    assert.match(html, /legacy-redirect\.js\?v=22/);
+    assert.match(html, /app\.js\?v=22/);
     assert.ok(target);
   }
 });
@@ -76,7 +76,7 @@ test('Emerging Journals expires fallback cache entries and can clear only its lo
   const html=read('tools/emerging-journals-2026/index.html'),app=read('tools/emerging-journals-2026/app.js');
   assert.match(html,/id="clear-live-cache"[^>]*>Clear cached lookups/);
   assert.match(app,/cached&&Date\.now\(\)-cached\.saved<CACHE_TTL/);
-  assert.match(app,/startsWith\("ej-openalex-v1-"\)/);
+  assert.match(app,/startsWith\(["']ej-openalex-v1-["']\)/);
 });
 
 test('Variant Toolkit tabs expose labels and complete keyboard navigation',()=>{

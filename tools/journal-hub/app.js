@@ -1,6 +1,7 @@
 const tabs = [...document.querySelectorAll('[role="tab"]')];
 const mounts = [...document.querySelectorAll('iframe[data-src]')];
 const compareTools = ['journal-trust-profile', 'oa-apc-explorer', 'journal-timing', 'emerging-journals-2026'];
+let hasSelection = false;
 
 window.EmbedBridge.mountFrames(mounts);
 
@@ -18,6 +19,7 @@ function loadMount(frame, query = '') {
 }
 
 function showComparisonFrames() {
+  if (!hasSelection) return;
   mounts.filter(frame => compareTools.includes(frame.dataset.tool)).forEach(frame => {
     const panel = frame.closest('section');
     panel.hidden = false;
@@ -55,7 +57,10 @@ function activate(mode, {focus = false, update = true} = {}) {
 function selectJournal(query) {
   const journal = String(query || '').trim();
   if (!journal) return;
-  document.getElementById('profile-status').textContent = `Combined evidence for ${journal}`;
+  hasSelection = true;
+  document.getElementById('compare-empty').hidden = true;
+  document.getElementById('compare-selection').hidden = false;
+  document.getElementById('selected-journal').textContent = `Combined evidence for ${journal}`;
   mounts.filter(frame => compareTools.includes(frame.dataset.tool)).forEach(frame => {
     frame.src = withQuery(frame.dataset.src, journal);
   });
@@ -64,6 +69,29 @@ function selectJournal(query) {
   url.searchParams.set('mode', 'compare');
   history.replaceState(null, '', url);
   activate('compare', {update: false});
+}
+
+function clearSelection() {
+  hasSelection = false;
+  document.getElementById('compare-empty').hidden = false;
+  document.getElementById('compare-selection').hidden = true;
+  document.getElementById('selected-journal').textContent = '';
+  const url = new URL(location.href);
+  url.searchParams.delete('q');
+  url.searchParams.delete('journal');
+  history.replaceState(null, '', url);
+  activate('compare', {update: false});
+}
+
+function focusFindSearch() {
+  activate('find');
+  const frame = document.querySelector('iframe[title="OA and APC Explorer"]');
+  loadMount(frame);
+  const focusSearch = () => {
+    try { frame.contentDocument?.querySelector('input[type="search"], input')?.focus(); } catch {}
+  };
+  if (frame.contentDocument?.readyState === 'complete') focusSearch();
+  else frame.addEventListener('load', focusSearch, {once: true});
 }
 
 function bridge(frame) {
@@ -79,6 +107,11 @@ function bridge(frame) {
 
 for (const frame of mounts) frame.addEventListener('load', () => bridge(frame));
 for (const tab of tabs) tab.addEventListener('click', () => activate(tab.dataset.mode));
+document.getElementById('choose-journal').addEventListener('click', focusFindSearch);
+document.getElementById('clear-selection').addEventListener('click', clearSelection);
+document.querySelectorAll('[data-example-journal]').forEach(button => {
+  button.addEventListener('click', () => selectJournal(button.dataset.exampleJournal));
+});
 document.querySelector('.tabs').addEventListener('keydown', event => {
   const index = tabs.indexOf(document.activeElement);
   if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
