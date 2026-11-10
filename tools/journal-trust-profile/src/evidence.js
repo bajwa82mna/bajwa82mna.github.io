@@ -1,4 +1,4 @@
-import { normalizeIssn } from './issn.js?v=29';
+import { normalizeIssn } from './issn.js?v=30';
 
 const CONTACT = 'contact@smbajwa.com';
 const clean = value => value == null || value === '' ? null : value;

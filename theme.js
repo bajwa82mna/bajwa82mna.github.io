@@ -16,7 +16,7 @@
     d.innerHTML='<span class="theme-state" aria-live="polite">Theme</span><button type="button" data-mode="auto" aria-label="Use automatic colour theme" title="Match system">Auto</button><button type="button" data-mode="light" aria-label="Use light colour theme" title="Light mode">Light</button><button type="button" data-mode="dark" aria-label="Use dark colour theme" title="Dark mode">Dark</button>';
     d.addEventListener('click',function(e){var b=e.target.closest('button');if(b)window.__setTheme(b.dataset.mode)});
     var home=document.createElement('a');home.className='site-brand';home.href='/';home.setAttribute('aria-label','smbajwa.com home');
-    home.innerHTML='<img class="site-logo site-logo-light" src="/assets/logo/logo-horizontal.svg?v=29" alt="smbajwa.com"><img class="site-logo site-logo-dark" src="/assets/logo/logo-dark.svg?v=29" alt="smbajwa.com">';
+    home.innerHTML='<img class="site-logo site-logo-light" src="/assets/logo/logo-horizontal.svg?v=30" alt="smbajwa.com"><img class="site-logo site-logo-dark" src="/assets/logo/logo-dark.svg?v=30" alt="smbajwa.com">';
     var menu=document.createElement('nav');menu.className='site-menu';menu.setAttribute('aria-label','Main');menu.innerHTML='<a href="/#research">Research</a><a href="/#publications">Publications</a><a href="/#latest-posts">Latest</a><a href="/tools/">Tools</a>';if(location.pathname.indexOf('/tools')===0){var cur=menu.querySelector('a[href="/tools/"]');if(cur)cur.setAttribute('aria-current','page')}inner.append(home,menu,d);bar.append(inner);document.body.prepend(bar);mark(get());
   });
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){if(get()==='auto')apply('auto')});

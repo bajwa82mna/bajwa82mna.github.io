@@ -1,13 +1,13 @@
-import { detectIdentifiers } from './src/detect.js?v=29';
-import { buildLookupUrls } from './src/lookup.js?v=29';
-import { crossrefToCsl, openAlexToCsl, compareMetadata } from './src/format.js?v=29';
-import { exportRecords, identifierSummaryRecords } from './src/export.js?v=29';
-import { createLocalCache } from '../_shared/js/cache.js?v=29';
-import { provenanceRecord, renderProvenance } from '../_shared/js/provenance.js?v=29';
-import { confirmLookup } from '../_shared/js/privacy.js?v=29';
-import { copyText, downloadText } from '../_shared/js/download.js?v=29';
-import { safeTextElement } from '../_shared/js/dom.js?v=29';
-import { safeUrl } from '../_shared/js/safe-link.js?v=29';
+import { detectIdentifiers } from './src/detect.js?v=30';
+import { buildLookupUrls } from './src/lookup.js?v=30';
+import { crossrefToCsl, openAlexToCsl, compareMetadata } from './src/format.js?v=30';
+import { exportRecords, identifierSummaryRecords } from './src/export.js?v=30';
+import { createLocalCache } from '../_shared/js/cache.js?v=30';
+import { provenanceRecord, renderProvenance } from '../_shared/js/provenance.js?v=30';
+import { confirmLookup } from '../_shared/js/privacy.js?v=30';
+import { copyText, downloadText } from '../_shared/js/download.js?v=30';
+import { safeTextElement } from '../_shared/js/dom.js?v=30';
+import { safeUrl } from '../_shared/js/safe-link.js?v=30';
 
 const $ = id => document.getElementById(id);
 const state = { items: [], records: [] };

@@ -1,7 +1,7 @@
-import { validateDoi } from './doi.js?v=29';
-import { validateIssn } from './issn.js?v=29';
-import { validateOrcid } from './orcid.js?v=29';
-import { validateIsbn } from './isbn.js?v=29';
+import { validateDoi } from './doi.js?v=30';
+import { validateIssn } from './issn.js?v=30';
+import { validateOrcid } from './orcid.js?v=30';
+import { validateIsbn } from './isbn.js?v=30';
 
 export function detectIdentifiers(input = '') {
   const text = String(input);

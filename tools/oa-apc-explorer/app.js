@@ -1,15 +1,15 @@
-import Fuse from './third_party/fuse/7.5.0/fuse.min.mjs?v=29';
-import { normalizeJournal } from './src/normalize.js?v=29';
-import { joinByIssn } from './src/join.js?v=29';
-import { filterJournals, sortJournals } from './src/filters.js?v=29';
-import { toggleComparison, comparisonRows, MAX_COMPARE } from './src/compare.js?v=29';
-import { calculateBudget } from './src/budget.js?v=29';
-import { formatMoney } from './src/currency.js?v=29';
-import { toCsv, toJson } from './src/export.js?v=29';
-import { readCache, writeCache, clearCache } from './src/cache.js?v=29';
-import { safeTextElement } from '../_shared/js/dom.js?v=29';
-import { safeUrl } from '../_shared/js/safe-link.js?v=29';
-import { fetchJsonWithRateLimitRetry } from './src/fetch.js?v=29';
+import Fuse from './third_party/fuse/7.5.0/fuse.min.mjs?v=30';
+import { normalizeJournal } from './src/normalize.js?v=30';
+import { joinByIssn } from './src/join.js?v=30';
+import { filterJournals, sortJournals } from './src/filters.js?v=30';
+import { toggleComparison, comparisonRows, MAX_COMPARE } from './src/compare.js?v=30';
+import { calculateBudget } from './src/budget.js?v=30';
+import { formatMoney } from './src/currency.js?v=30';
+import { toCsv, toJson } from './src/export.js?v=30';
+import { readCache, writeCache, clearCache } from './src/cache.js?v=30';
+import { safeTextElement } from '../_shared/js/dom.js?v=30';
+import { safeUrl } from '../_shared/js/safe-link.js?v=30';
+import { fetchJsonWithRateLimitRetry } from './src/fetch.js?v=30';
 
 const $ = id => document.getElementById(id);
 const state = {journals: [], compared: [], fuse: null};
