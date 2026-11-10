@@ -6,7 +6,7 @@
     if(m==='auto')root.removeAttribute('data-theme');else root.setAttribute('data-theme',m);
     var dark=m==='dark'||(m==='auto'&&matchMedia('(prefers-color-scheme: dark)').matches);
     var meta=document.querySelector('meta[name=theme-color]');
-    if(meta)meta.setAttribute('content',dark?'#0f1712':'#f7f8f4');
+    if(meta)meta.setAttribute('content',dark?'#000':'#fbfbfd');
   }
   apply(get());
   window.__setTheme=function(m){try{m==='auto'?localStorage.removeItem(KEY):localStorage.setItem(KEY,m)}catch(e){}apply(m);mark(m)};
@@ -17,7 +17,7 @@
     d.addEventListener('click',function(e){var b=e.target.closest('button');if(b)window.__setTheme(b.dataset.mode)});
     var home=document.createElement('a');home.className='site-brand';home.href='/';home.setAttribute('aria-label','smbajwa.com home');
     home.innerHTML='<img class="site-logo site-logo-light" src="/assets/logo/logo-horizontal.svg?v=25" alt="smbajwa.com"><img class="site-logo site-logo-dark" src="/assets/logo/logo-dark.svg?v=25" alt="smbajwa.com">';
-    inner.append(home,d);bar.append(inner);document.body.prepend(bar);mark(get());
+    var menu=document.createElement('nav');menu.className='site-menu';menu.setAttribute('aria-label','Main');menu.innerHTML='<a href="/#research">Research</a><a href="/#publications">Publications</a><a href="/#latest-posts">Latest</a><a href="/tools/">Tools</a>';if(location.pathname.indexOf('/tools')===0){var cur=menu.querySelector('a[href="/tools/"]');if(cur)cur.setAttribute('aria-current','page')}inner.append(home,menu,d);bar.append(inner);document.body.prepend(bar);mark(get());
   });
   matchMedia('(prefers-color-scheme: dark)').addEventListener('change',function(){if(get()==='auto')apply('auto')});
 })();
